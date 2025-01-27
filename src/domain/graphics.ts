@@ -26,7 +26,7 @@ export class Graphics {
 
             const didOverlap = line.split('').reduce((prev, pixel, index) => {
                 if (pixel === '1') {
-                    const { wasAlive } = this.switchOn(((y + i) * 63) + x + index)
+                    const { wasAlive } = this.switchOn((x + index) % 64 + ((y + i) % 32) * 64)
                     return prev || wasAlive
                 }
 

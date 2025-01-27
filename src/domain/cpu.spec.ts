@@ -311,10 +311,10 @@ describe('OpcodesInterpreter', () => {
 
             cpu.interpret(0xD012)
 
-            expect(graphics.getPixelAt(64)).equals(true)
             expect(graphics.getPixelAt(65)).equals(true)
-            expect(graphics.getPixelAt(127)).equals(true)
-            expect(graphics.getPixelAt(128)).equals(true)
+            expect(graphics.getPixelAt(66)).equals(true)
+            expect(graphics.getPixelAt(129)).equals(true)
+            expect(graphics.getPixelAt(130)).equals(true)
 
             expect(registers.getV(0xF)).to.equal(0)
         });
@@ -329,7 +329,7 @@ describe('OpcodesInterpreter', () => {
                 0xC0,
             ]
 
-            graphics.switchOn(64)
+            graphics.switchOn(65)
 
             registers.setV(0, 1)
             registers.setV(1, 1)
@@ -340,10 +340,10 @@ describe('OpcodesInterpreter', () => {
 
             cpu.interpret(0xD002)
 
-            expect(graphics.getPixelAt(64)).equals(true)
             expect(graphics.getPixelAt(65)).equals(true)
-            expect(graphics.getPixelAt(127)).equals(true)
-            expect(graphics.getPixelAt(128)).equals(true)
+            expect(graphics.getPixelAt(66)).equals(true)
+            expect(graphics.getPixelAt(129)).equals(true)
+            expect(graphics.getPixelAt(130)).equals(true)
             expect(registers.getV(0xF)).to.equal(1)
         });
 

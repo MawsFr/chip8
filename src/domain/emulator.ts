@@ -56,7 +56,6 @@ export class Emulator {
         }
 
         const intervalId = setInterval(() => {
-            debugger
             if (this.state !== State.RUNNING) {
                 clearInterval(intervalId);
                 return;

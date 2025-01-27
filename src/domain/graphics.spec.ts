@@ -60,7 +60,7 @@ describe('Graphics', () => {
 
             expect(graphics.getPixelAt(0)).equals(true)
             expect(graphics.getPixelAt(2)).equals(true)
-            expect(graphics.getPixelAt(64)).equals(true)
+            expect(graphics.getPixelAt(65)).equals(true)
             expect(wasOverlapping).toBeFalsy()
         });
 
@@ -76,7 +76,7 @@ describe('Graphics', () => {
 
             expect(graphics.getPixelAt(0)).equals(true)
             expect(graphics.getPixelAt(2)).equals(true)
-            expect(graphics.getPixelAt(64)).equals(true)
+            expect(graphics.getPixelAt(65)).equals(true)
             expect(wasOverlapping).toBeTruthy()
         });
     });

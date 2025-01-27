@@ -194,7 +194,7 @@ export class Cpu {
 
             this.registers.setV(0xF, Number(wasOverlapping))
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + " V" + y + " with height " + n)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at VX: " + this.registers.getV(x) + " VY: " + this.registers.getV(y) + " with height " + n)
         } else if ((number & 0xF0FF) === 0xE09E) {
             const x = (number & 0x0F00) >> 8
             const key = this.registers.getV(x)
