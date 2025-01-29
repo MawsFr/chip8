@@ -3,15 +3,15 @@ export default class Registers {
     public iSlot: Uint16Array = new Uint16Array(1);
 
     getV(index: number) {
-        return this.vSlots[index]
+        return this.vSlots[index] & 0xFF
     }
 
     setV(index: number, newValue: number) {
-        this.vSlots[index] = newValue
+        this.vSlots[index] = newValue & 0xFF
     }
 
     addV(index: number, newValue: number) {
-        this.vSlots[index] += newValue
+        this.vSlots[index] += newValue & 0xFF
     }
 
     getI() {
@@ -24,5 +24,10 @@ export default class Registers {
 
     getRange(start: number, end: number) {
         return this.vSlots.slice(start, end + 1)
+    }
+
+    clear() {
+        this.vSlots.fill(0)
+        this.iSlot.fill(0)
     }
 }

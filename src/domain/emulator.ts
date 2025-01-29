@@ -10,7 +10,7 @@ export enum State {
     OFF = 'OFF',
     ROM_LOADED = 'ROM_LOADED',
     RUNNING = 'RUNNING',
-    STOPPED = 'STOPPED'
+    PAUSED = 'PAUSED'
 }
 
 export class Emulator {
@@ -68,8 +68,6 @@ export class Emulator {
     public executeNextInstruction() {
         const opcode = this.readNextOpcode();
         this.cpu.interpret(opcode);
-        this.cpu.incrementProgramCounter()
-        this.cpu.incrementProgramCounter()
         this.updateTimers();
 
         this.lastOpcode = opcode
@@ -85,5 +83,21 @@ export class Emulator {
     updateTimers() {
         this.delayTimer.tick()
         this.soundTimer.tick()
+    }
+
+    restart(rom: Uint8Array) {
+        this.memory.clear()
+        this.graphics.clear()
+        this.stack.clear()
+        this.registers.clear()
+        this.cpu.clear()
+        this.input.clear()
+        this.delayTimer.stopCountDown()
+        this.soundTimer.stopCountDown()
+        this.delayTimer.write(0)
+        this.soundTimer.write(0)
+        this.state = State.OFF
+        this.lastOpcode = 0
+        this.loadROM(rom)
     }
 }

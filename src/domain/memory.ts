@@ -6,7 +6,11 @@ export default class Memory {
 
     constructor(registers: Registers) {
         this.registers = registers
-        this.load([
+        this.loadFontSet()
+    }
+
+    loadFontSet() {
+        this.load(new Uint8Array([
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
             0x20, 0x60, 0x20, 0x20, 0x70, // 1
             0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -23,7 +27,7 @@ export default class Memory {
             0xE0, 0x90, 0x90, 0x90, 0xE0, // D
             0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
             0xF0, 0x80, 0xF0, 0x80, 0x80  // F
-        ], 0x0)
+        ]), 0x0)
     }
 
     get length() {
@@ -42,5 +46,10 @@ export default class Memory {
 
     getSprite(length: number) {
         return this.addresses.slice(this.registers.getI(), this.registers.getI() + length)
+    }
+
+    clear() {
+        this.addresses.fill(0)
+        this.loadFontSet()
     }
 }

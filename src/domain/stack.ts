@@ -15,4 +15,8 @@ export default class Stack {
         return nextReturnAddress
     }
 
+    clear() {
+        this.slots.fill(0)
+        this.currentIndex = 0
+    }
 }

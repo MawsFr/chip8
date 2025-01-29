@@ -7,11 +7,11 @@ export class Timer {
     }
 
     read() {
-        return this.value
+        return this.value & 0xFF
     }
 
     write(newValue: number) {
-        this.value = newValue
+        this.value = newValue & 0xFF
     }
 
     tick() {

@@ -39,4 +39,16 @@ describe('Input', () => {
             expect(input.isPressed(0)).toBeTruthy()
         })
     });
+
+    describe('waitForPress()', () => {
+        it('should wait for a key', async () => {
+            setTimeout(() => {
+                input.press(0x1)
+            }, 100)
+
+            const key = await input.waitForPress()
+
+            expect(key).to.equal(0x1)
+        });
+    });
 });

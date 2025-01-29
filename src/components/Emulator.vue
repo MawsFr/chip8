@@ -24,6 +24,7 @@ const cpu = ref(new Cpu(graphics.value, stack.value, registers.value, memory.val
 const emulator = ref(new Emulator(cpu.value, graphics.value, stack.value, registers.value, memory.value, input.value, delayTimer.value, soundTimer.value))
 const manual = ref(true)
 const showGrid = ref(false)
+let loadedRom: Uint8Array | null = null
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
@@ -40,6 +41,8 @@ const loadFile = (event: HTMLInputEvent) => {
   reader.onload = () => {
     const arrayBuffer = reader.result as ArrayBuffer;
     const byteArray = new Uint8Array(arrayBuffer);
+
+    loadedRom = byteArray
 
     // Charger les données dans la mémoire
     emulator.value.loadROM(byteArray);
@@ -122,10 +125,121 @@ const drawGrid = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
   }
 }
 
+const mountKeyboardEvents = () => {
+  window.addEventListener('keydown', (event) => {
+    if (event.key === '0') {
+      input.value.press(0x0)
+    }
+    if (event.key === '1') {
+      input.value.press(0x7)
+    }
+    if (event.key === '2') {
+      input.value.press(0x8)
+    }
+    if (event.key === '3') {
+      input.value.press(0x9)
+    }
+    if (event.key === '4') {
+      input.value.press(0x4)
+    }
+    if (event.key === '5') {
+      input.value.press(0x5)
+    }
+    if (event.key === '6') {
+      input.value.press(0x6)
+    }
+    if (event.key === '7') {
+      input.value.press(0x1)
+    }
+    if (event.key === '8') {
+      input.value.press(0x2)
+    }
+    if (event.key === '9') {
+      input.value.press(0x3)
+    }
+    if (event.key === '/') {
+      input.value.press(0xC)
+    }
+    if (event.key === '*') {
+      input.value.press(0xD)
+    }
+    if (event.key === '-') {
+      input.value.press(0xE)
+    }
+    if (event.key === '+') {
+      input.value.press(0xB)
+    }
+    if (event.key === 'Enter') {
+      input.value.press(0xF)
+    }
+    if (event.key === ',') {
+      input.value.press(0xA)
+    }
+
+  })
+
+  window.addEventListener('keyup', (event) => {
+    if (event.key === '0') {
+      input.value.release(0x0)
+    }
+    if (event.key === '1') {
+      input.value.release(0x7)
+    }
+    if (event.key === '2') {
+      input.value.release(0x8)
+    }
+    if (event.key === '3') {
+      input.value.release(0x9)
+    }
+    if (event.key === '4') {
+      input.value.release(0x4)
+    }
+    if (event.key === '5') {
+      input.value.release(0x5)
+    }
+    if (event.key === '6') {
+      input.value.release(0x6)
+    }
+    if (event.key === '7') {
+      input.value.release(0x1)
+    }
+    if (event.key === '8') {
+      input.value.release(0x2)
+    }
+    if (event.key === '9') {
+      input.value.release(0x3)
+    }
+    if (event.key === '/') {
+      input.value.release(0xC)
+    }
+    if (event.key === '*') {
+      input.value.release(0xD)
+    }
+    if (event.key === '-') {
+      input.value.release(0xE)
+    }
+    if (event.key === '+') {
+      input.value.release(0xB)
+    }
+    if (event.key === 'Enter') {
+      input.value.release(0xF)
+    }
+    if (event.key === ',') {
+      input.value.release(0xA)
+    }
+  })
+}
+
 const play = () => {
   emulator.value.state = State.ROM_LOADED
   manual.value = false
   animate(canvas.value!, ctx)
+}
+
+const restart = () => {
+  if (!loadedRom) return
+
+  emulator.value.restart(loadedRom)
 }
 
 function convertUint_to_hexStr(uint8: Uint8Array | Uint16Array, join: string = ' ') {
@@ -139,12 +253,14 @@ onMounted(() => {
     ctx = canvas.value.getContext("2d")!
     canvas.value.width = 1280
     canvas.value.height = 640
+
+    mountKeyboardEvents()
   }
 })
 
 const isCurrentAddress = (index: number) => index === cpu.value.getProgramCounter() || index === cpu.value.getProgramCounter() + 1
-const toHexa = (n: number) => {
-  return n.toString(16).padStart(2, '0')
+const toHexa = (n: number, pad: number = 2) => {
+  return n.toString(16).padStart(pad, '0').toUpperCase()
 }
 </script>
 
@@ -153,14 +269,17 @@ const toHexa = (n: number) => {
     <canvas ref="canvas"/>
     <div ref="memoryDiv" class="memory">
       <div v-for="(address, index) in memory.addresses" :key="index" class="address"
-           :class="{'current-address': isCurrentAddress(index)}">{{ toHexa(address) }}
+           :class="{'current-address': isCurrentAddress(index)}">
+        <div class="address-index-hexa">0x{{ toHexa(index, 3) }} ({{ index }})</div>
+        <div class="address-value">{{ toHexa(address) }}</div>
       </div>
     </div>
   </div>
   <input type="file" @change="loadFile"/>
   <button :disabled="!isRomLoaded" @click="executeNextInstruction">Next Instruction</button>
-  <button :disabled="!isRomLoaded" @click="emulator.state = State.STOPPED">Stop</button>
   <button :disabled="!isRomLoaded" @click="play">Play</button>
+  <button :disabled="!isRomLoaded" @click="restart">Restart</button>
+  <button :disabled="!isRomLoaded" @click="emulator.state = State.PAUSED">Pause</button>
   Manual<input type="checkbox" v-model="manual">
   Grid<input type="checkbox" v-model="showGrid">
   PC: {{ cpu.getProgramCounter().toString(16).padStart(4, '0') }}
@@ -170,7 +289,8 @@ const toHexa = (n: number) => {
   | Stack : {{ convertUint_to_hexStr(stack.slots) }}
   | DelayTimer: {{ delayTimer.read() }}
   | SoundTimer: {{ soundTimer.read() }}
-
+  | Input: {{ input.keys }}
+  | AwaitingKey: {{ !!input.resolveKey }}
 
 </template>
 
@@ -201,6 +321,11 @@ const toHexa = (n: number) => {
   background-color: yellow;
   color: black;
   font-weight: bold;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
 }
 
 canvas {
