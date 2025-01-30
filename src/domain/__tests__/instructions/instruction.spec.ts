@@ -2,7 +2,7 @@ import { Instruction, type InstructionContext } from "../../instruction.ts";
 import { beforeEach, describe } from "vitest";
 import { useTestContext } from "../helpers/useTestContext.ts";
 
-class Mock$00E0 extends Instruction {
+class Mock$00E0 extends Instruction<undefined> {
     constructor(context: InstructionContext) {
         super(context, 0x00E0, 0xFFFF)
     }
