@@ -37,6 +37,7 @@ import { $ANNN } from "./instructions/$ANNN.ts";
 import { $BNNN } from "./instructions/$BNNN.ts";
 import { $CXNN } from "./instructions/$CXNN.ts";
 import { $DXYN } from "./instructions/$DXYN.ts";
+import { $EX9E } from "./instructions/$EX9E.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -100,6 +101,7 @@ export class Cpu {
             new $BNNN(this.context),
             new $CXNN(this.context),
             new $DXYN(this.context),
+            new $EX9E(this.context),
         ]
     }
 
@@ -133,17 +135,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xE09E) { // EX9E - Skip next instruction if key in VX is pressed
-            const x = (opcode & 0x0F00) >> 8
-            const key = this.registers.getV(x)
-
-            if (this.input.isPressed(key)) {
-                this.goToNextInstruction()
-            }
-
-            this.goToNextInstruction()
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if key in V" + x + " is pressed")
-        } else if ((opcode & 0xF0FF) === 0xE0A1) { // EXA1 - Skip next instruction if key in VX is not pressed
+        if ((opcode & 0xF0FF) === 0xE0A1) { // EXA1 - Skip next instruction if key in VX is not pressed
             const x = (opcode & 0x0F00) >> 8
             const key = this.registers.getV(x)
 

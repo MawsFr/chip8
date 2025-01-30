@@ -38,6 +38,10 @@ export abstract class Instruction<T extends InstructionParams> {
         return this.context.memory
     }
 
+    get input(): Input {
+        return this.context.input
+    }
+
     matches(opcode: Opcode): boolean {
         return (opcode & this.mask) === this.opcode
     }

@@ -41,6 +41,10 @@ describe('Instruction', () => {
         expect(instruction.memory).to.equal(context.memory)
     });
 
+    it('should return input', () => {
+        expect(instruction.input).to.equal(context.input)
+    });
+
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {
             // Given
