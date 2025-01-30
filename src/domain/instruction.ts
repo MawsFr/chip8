@@ -7,13 +7,15 @@ import type Memory from "./memory.ts";
 import type { Input } from "./input.ts";
 import type { Timer } from "./timers.ts";
 
-export abstract class Instruction<T extends InstructionContext | NNNInstructionParams | XNNInstructionParams | XYNInstructionParams | XYInstructionParams | XInstructionParams> {
+export abstract class Instruction<InstructionParams> {
     protected readonly opcode: Opcode
     protected readonly mask: number
+    protected readonly context: InstructionContext
 
-    protected constructor(opcode: Opcode, mask: number) {
+    protected constructor(opcode: Opcode, mask: number, context: InstructionContext) {
         this.opcode = opcode
         this.mask = mask
+        this.context = context
     }
 
     matches(opcode: Opcode): boolean {
@@ -21,12 +23,6 @@ export abstract class Instruction<T extends InstructionContext | NNNInstructionP
     }
 
     abstract execute(params?: T): void
-}
-
-export type OpcodeParams = {
-    opcode: {
-        value?: Opcode
-    }
 }
 
 export type InstructionContext = {
@@ -40,49 +36,37 @@ export type InstructionContext = {
     soundTimer: Timer,
 }
 
-export type NNNInstructionParams = InstructionContext & OpcodeParams & {
-    opcode: {
-        params: {
-            nnn: NNN
-        }
-    }
+export type NNNInstructionParams = {
+    nnn: NNN
 }
 
-export type XNNInstructionParams = InstructionContext & OpcodeParams & {
-    opcode: {
-        params: {
-            x: X
-            nn: NN
-        }
-    }
+export type XNNInstructionParams = {
+    x: X
+    nn: NN
 }
 
-export type XYNInstructionParams = InstructionContext & OpcodeParams & {
-    opcode: {
-        params: {
-            x: X
-            y: Y
-            n: N
-        }
-    }
+export type XYNInstructionParams = {
+    x: X
+    y: Y
+    n: N
 }
 
-export type XYInstructionParams = InstructionContext & OpcodeParams & {
-    opcode: {
-        params: {
-            x: X
-            y: Y
-        }
-    }
+export type XYInstructionParams = {
+    x: X
+    y: Y
 }
 
-export type XInstructionParams = InstructionContext & OpcodeParams & {
-    opcode: {
-        params: {
-            x: X
-        }
-    }
+export type XInstructionParams = {
+    x: X
 }
+
+export type InstructionParams =
+    InstructionContext
+    | NNNInstructionParams
+    | XNNInstructionParams
+    | XYNInstructionParams
+    | XYInstructionParams
+    | XInstructionParams
 
 export type NNN = number;  // Adresse sur 12 bits
 export type NN = number;   // Valeur sur 8 bits

@@ -9,7 +9,7 @@ describe('00E0 : Clear screen', () => {
 
     beforeEach(() => {
         context = useTestContext()
-        instruction = new $00E0()
+        instruction = new $00E0(context)
     })
 
     afterEach(() => {
@@ -24,9 +24,7 @@ describe('00E0 : Clear screen', () => {
         context.cpu.setProgramCounter(0x200)
 
         // When
-        instruction.execute({
-            ...context,
-        })
+        instruction.execute()
 
         // Then
         expect(context.graphics.clearScreen).toHaveBeenCalledOnce()

@@ -4,7 +4,15 @@ import type Registers from "./registers.ts";
 import type Memory from "./memory.ts";
 import type { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import { extractN, extractNN, extractNNN, extractX, extractY, type Instruction } from "./instruction.ts";
+import {
+    extractN,
+    extractNN,
+    extractNNN,
+    extractX,
+    extractY,
+    type Instruction,
+    type InstructionParams
+} from "./instruction.ts";
 import { $00E0 } from "./instructions/$00E0.ts";
 import { $00EE } from "./instructions/$00EE.ts";
 import { $1NNN } from "./instructions/$1NNN.ts";
@@ -19,7 +27,7 @@ export class Cpu {
     public delayTimer: Timer
     public soundTimer: Timer;
 
-    public instructions: Instruction[] = []
+    public instructions: Instruction<InstructionParams>[] = []
 
     constructor(graphics: Graphics, stack: Stack, registers: Registers, memory: Memory, input: Input, delayTimer: Timer, soundTimer: Timer) {
         this.graphics = graphics
@@ -33,11 +41,24 @@ export class Cpu {
         this.loadInstructions()
     }
 
+    get context() {
+        return {
+            cpu: this,
+            graphics: this.graphics,
+            stack: this.stack,
+            registers: this.registers,
+            memory: this.memory,
+            input: this.input,
+            delayTimer: this.delayTimer,
+            soundTimer: this.soundTimer,
+        }
+    }
+
     loadInstructions() {
         this.instructions = [
-            new $00E0(),
-            new $00EE(),
-            new $1NNN()
+            new $00E0(this.context),
+            new $00EE(this.context),
+            new $1NNN(this.context)
         ]
     }
 
@@ -62,24 +83,11 @@ export class Cpu {
         }
 
         instruction.execute({
-            cpu: this,
-            graphics: this.graphics,
-            stack: this.stack,
-            registers: this.registers,
-            memory: this.memory,
-            input: this.input,
-            delayTimer: this.delayTimer,
-            soundTimer: this.soundTimer,
-            opcode: {
-                value: opcode,
-                params: {
-                    x: extractX(opcode),
-                    y: extractY(opcode),
-                    n: extractN(opcode),
-                    nn: extractNN(opcode),
-                    nnn: extractNNN(opcode)
-                }
-            }
+            x: extractX(opcode),
+            y: extractY(opcode),
+            n: extractN(opcode),
+            nn: extractNN(opcode),
+            nnn: extractNNN(opcode)
         })
 
         if ((opcode & 0xF000) === 0x2000) { // 2NNN - Call subroutine

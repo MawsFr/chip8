@@ -9,18 +9,13 @@ describe('1NNN : Jump to address NNN', () => {
 
     beforeEach(() => {
         context = useTestContext()
-        instruction = new $1NNN()
+        instruction = new $1NNN(context)
     })
 
     it('should jump to address', () => {
         // When
         instruction.execute({
-            ...context,
-            opcode: {
-                params: {
-                    nnn: 0x20A
-                }
-            }
+            nnn: 0x20A
         })
 
         // Then

@@ -9,7 +9,7 @@ describe('00EE : Return from a subroutine', () => {
 
     beforeEach(() => {
         context = useTestContext()
-        instruction = new $00EE()
+        instruction = new $00EE(context)
     })
 
     it('should return from a subroutine', () => {
@@ -18,9 +18,7 @@ describe('00EE : Return from a subroutine', () => {
         context.cpu.setProgramCounter(0x400)
 
         // When
-        instruction.execute({
-            ...context,
-        })
+        instruction.execute()
 
         // Then
         expect(context.cpu.getProgramCounter()).equals(0x202)
