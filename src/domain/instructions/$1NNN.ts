@@ -6,7 +6,7 @@ export class $1NNN extends Instruction<NNNInstructionParams> {
     }
 
     execute({ nnn }: NNNInstructionParams): void {
-        this.context.cpu.setProgramCounter(nnn)
+        this.cpu.setProgramCounter(nnn)
         console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (nnn).toString(16))
     }
 }

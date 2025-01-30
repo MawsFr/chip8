@@ -1,9 +1,10 @@
-import { Instruction } from "../instruction.ts";
-import { describe } from "vitest";
+import { Instruction, type InstructionContext } from "../instruction.ts";
+import { beforeEach, describe } from "vitest";
+import { useTestContext } from "./helpers/useTestContext.ts";
 
 class Mock$00E0 extends Instruction {
-    constructor() {
-        super(0x00E0, 0xFFFF)
+    constructor(context: InstructionContext) {
+        super(0x00E0, 0xFFFF, context)
     }
 
     execute(): void {
@@ -12,6 +13,30 @@ class Mock$00E0 extends Instruction {
 }
 
 describe('Instruction', () => {
+    let context
+
+    beforeEach(() => {
+        context = useTestContext()
+    })
+
+    it('should return cpu', () => {
+        const instruction = new Mock$00E0(context)
+
+        expect(instruction.cpu).to.equal(context.cpu)
+    });
+
+    it('should return graphics', () => {
+        const instruction = new Mock$00E0(context)
+
+        expect(instruction.graphics).to.equal(context.graphics)
+    });
+
+    it('should return stack', () => {
+        const instruction = new Mock$00E0(context)
+
+        expect(instruction.stack).to.equal(context.stack)
+    });
+
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {
             const fetchedOpcode = 0x00E0

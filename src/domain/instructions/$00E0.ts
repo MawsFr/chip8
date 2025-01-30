@@ -6,8 +6,8 @@ export class $00E0 extends Instruction<InstructionContext> {
     }
 
     execute(): void {
-        this.context.graphics.clearScreen()
-        this.context.cpu.goToNextInstruction()
+        this.graphics.clearScreen()
+        this.cpu.goToNextInstruction()
         console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Clear screen")
     }
 }

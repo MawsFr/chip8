@@ -18,6 +18,18 @@ export abstract class Instruction<InstructionParams> {
         this.context = context
     }
 
+    get cpu(): Cpu {
+        return this.context.cpu
+    }
+
+    get graphics(): Graphics {
+        return this.context.graphics
+    }
+
+    get stack(): Stack {
+        return this.context.stack
+    }
+
     matches(opcode: Opcode): boolean {
         return (opcode & this.mask) === this.opcode
     }

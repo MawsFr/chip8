@@ -6,8 +6,8 @@ export class $00EE extends Instruction {
     }
 
     execute(): void {
-        this.context.cpu.setProgramCounter(this.context.stack.pop())
-        this.context.cpu.goToNextInstruction()
+        this.cpu.setProgramCounter(this.stack.pop())
+        this.cpu.goToNextInstruction()
         console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Returns from a subroutine")
     }
 }
