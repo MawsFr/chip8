@@ -1,6 +1,7 @@
 import type { Opcode } from "./opcode.ts";
 import type { Graphics } from "./graphics.ts";
 import type { Cpu } from "./cpu.ts";
+import type Stack from "./stack.ts";
 
 export abstract class Instruction {
     protected readonly opcode: Opcode
@@ -18,20 +19,20 @@ export abstract class Instruction {
     abstract execute(params?: InstructionParams): void
 }
 
-export type InstructionParams =
-    | InstructionContext
-    | (InstructionContext & (
+export type InstructionParams = InstructionContext & Partial<OpcodeParams>
+
+export type InstructionContext = {
+    graphics: Graphics
+    cpu: Cpu
+    stack: Stack
+}
+
+export type OpcodeParams =
     | NNNInstructionParams
     | XNNInstructionParams
     | XYNInstructionParams
     | XYInstructionParams
     | XInstructionParams
-    ))
-
-export type InstructionContext = {
-    graphics: Graphics
-    cpu: Cpu
-}
 
 export type NNNInstructionParams = {
     nnn: NNN

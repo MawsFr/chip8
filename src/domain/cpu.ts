@@ -18,6 +18,7 @@ import {
     type Y
 } from "./instruction.ts";
 import { $00E0 } from "./instructions/$00E0.ts";
+import { $00EE } from "./instructions/$00EE.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -46,6 +47,7 @@ export class Cpu {
     loadInstructions() {
         this.instructions = [
             new $00E0(),
+            new $00EE()
         ]
     }
 
@@ -69,13 +71,15 @@ export class Cpu {
         const nnn: NNN = extractNNN(opcode)
 
         const instruction = this.instructions.find((instruction) => instruction.matches(opcode))
-        instruction?.execute({ cpu: this, graphics: this.graphics, x, y, n, nn, nnn })
 
-        if ((opcode & 0xFFFF) === 0x00EE) { // 00EE - Return from subroutine
-            this.setProgramCounter(this.stack.pop())
-            this.goToNextInstruction()
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Returns from a subroutine")
-        } else if ((opcode & 0xF000) === 0x1000) { // 1NNN - Jump to address
+        if (!instruction) {
+            console.warn(opcode.toString(16).padStart(4, '0').toUpperCase() + " Unhandled opcode. Please verify.");
+            return
+        }
+
+        instruction.execute({ cpu: this, graphics: this.graphics, stack: this.stack, x, y, n, nn, nnn })
+
+        if ((opcode & 0xF000) === 0x1000) { // 1NNN - Jump to address
             this.setProgramCounter(opcode & 0x0FFF)
             console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (opcode & 0x0FFF).toString(16))
         } else if ((opcode & 0xF000) === 0x2000) { // 2NNN - Call subroutine
@@ -362,8 +366,6 @@ export class Cpu {
             this.goToNextInstruction()
 
             console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Fill V0 to V" + x + " with memory values")
-        } else { // Unhandled opcode
-            console.warn(opcode.toString(16).padStart(4, '0').toUpperCase() + " Unhandled opcode. Please verify.");
         }
     }
 

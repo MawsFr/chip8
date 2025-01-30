@@ -71,7 +71,6 @@ describe('OpcodesInterpreter', () => {
         });
 
         it('"00EE" should return from a subroutine', () => {
-            // should pop last value of the stack to PC ?
             // Given
             stack.push(0x200)
             cpu.setProgramCounter(0x400)
