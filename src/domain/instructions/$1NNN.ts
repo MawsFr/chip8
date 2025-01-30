@@ -1,4 +1,4 @@
-import { Instruction, type NNNInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionContext, type NNNInstructionParams } from "../instruction.ts";
 
 export class $1NNN extends Instruction<NNNInstructionParams> {
     constructor(context: InstructionContext) {
