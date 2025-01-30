@@ -24,6 +24,7 @@ import { $5XY0 } from "./instructions/$5XY0.ts";
 import { $6XNN } from "./instructions/$6XNN.ts";
 import { $7XNN } from "./instructions/$7XNN.ts";
 import { $8XY0 } from "./instructions/$8XY0.ts";
+import { $8XY1 } from "./instructions/$8XY1.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -74,7 +75,7 @@ export class Cpu {
             new $6XNN(this.context),
             new $7XNN(this.context),
             new $8XY0(this.context),
-        ]
+            new $8XY1(this.context), ]
     }
 
     getProgramCounter() {
@@ -107,15 +108,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF00F) === 0x8001) { // 8XY1 - Set VX = VX | VY
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-            this.registers.setV(x, this.registers.getV(x) | this.registers.getV(y))
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x + " = V" + x + " | V" + y)
-        } else if ((opcode & 0xF00F) === 0x8002) { // 8XY2 - Set VX = VX & VY
+        if ((opcode & 0xF00F) === 0x8002) { // 8XY2 - Set VX = VX & VY
             const x = (opcode & 0x0F00) >> 8
             const y = (opcode & 0x00F0) >> 4
             this.registers.setV(x, this.registers.getV(x) & this.registers.getV(y))
