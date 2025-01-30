@@ -36,6 +36,7 @@ import { $9XY0 } from "./instructions/$9XY0.ts";
 import { $ANNN } from "./instructions/$ANNN.ts";
 import { $BNNN } from "./instructions/$BNNN.ts";
 import { $CXNN } from "./instructions/$CXNN.ts";
+import { $DXYN } from "./instructions/$DXYN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -98,6 +99,7 @@ export class Cpu {
             new $ANNN(this.context),
             new $BNNN(this.context),
             new $CXNN(this.context),
+            new $DXYN(this.context),
         ]
     }
 
@@ -131,21 +133,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF000) === 0xD000) { // DXYN - Draw sprite at VX, VY with height N
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-            const n = (opcode & 0x000F)
-
-            const sprite = this.memory.getSprite(n)
-
-            const { wasOverlapping } = this.graphics.drawSprite(this.registers.getV(x), this.registers.getV(y), sprite)
-
-            this.registers.setV(0xF, Number(wasOverlapping))
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + ": " + this.registers.getV(x).toString(16) + " V" + y + ": " + this.registers.getV(y).toString(16) + " with height " + n)
-        } else if ((opcode & 0xF0FF) === 0xE09E) { // EX9E - Skip next instruction if key in VX is pressed
+        if ((opcode & 0xF0FF) === 0xE09E) { // EX9E - Skip next instruction if key in VX is pressed
             const x = (opcode & 0x0F00) >> 8
             const key = this.registers.getV(x)
 

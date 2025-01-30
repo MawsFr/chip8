@@ -34,6 +34,10 @@ export abstract class Instruction<T extends InstructionParams> {
         return this.context.registers
     }
 
+    get memory(): Memory {
+        return this.context.memory
+    }
+
     matches(opcode: Opcode): boolean {
         return (opcode & this.mask) === this.opcode
     }
