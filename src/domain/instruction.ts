@@ -46,6 +46,10 @@ export abstract class Instruction<T extends InstructionParams> {
         return this.context.delayTimer
     }
 
+    get soundTimer(): Timer {
+        return this.context.soundTimer
+    }
+
     matches(opcode: Opcode): boolean {
         return (opcode & this.mask) === this.opcode
     }

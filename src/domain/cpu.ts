@@ -42,6 +42,7 @@ import { $EXA1 } from "./instructions/$EXA1.ts";
 import { $FX07 } from "./instructions/$FX07.ts";
 import { $FX0A } from "./instructions/$FX0A.ts";
 import { $FX15 } from "./instructions/$FX15.ts";
+import { $FX18 } from "./instructions/$FX18.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -109,7 +110,8 @@ export class Cpu {
             new $EXA1(this.context),
             new $FX07(this.context),
             new $FX0A(this.context),
-            new $FX15(this.context)
+            new $FX15(this.context),
+            new $FX18(this.context)
         ]
     }
 
@@ -143,15 +145,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xF018) { // FX18 - Set sound timer = VX
-            const x = (opcode & 0x0F00) >> 8
-
-            this.soundTimer.write(this.registers.getV(x))
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set sound timer = V" + x)
-        } else if ((opcode & 0xF0FF) === 0xF01E) { // FX1E - Set I = I + VX
+        if ((opcode & 0xF0FF) === 0xF01E) { // FX1E - Set I = I + VX
             const x = (opcode & 0x0F00) >> 8
 
             this.registers.setI(this.registers.getI() + this.registers.getV(x))
