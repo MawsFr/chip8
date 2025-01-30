@@ -22,6 +22,7 @@ import { $3XNN } from "./instructions/$3XNN.ts";
 import { $4XNN } from "./instructions/$4XNN.ts";
 import { $5XY0 } from "./instructions/$5XY0.ts";
 import { $6XNN } from "./instructions/$6XNN.ts";
+import { $7XNN } from "./instructions/$7XNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -70,6 +71,7 @@ export class Cpu {
             new $4XNN(this.context),
             new $5XY0(this.context),
             new $6XNN(this.context),
+            new $7XNN(this.context),
         ]
     }
 
@@ -93,6 +95,7 @@ export class Cpu {
             return
         }
 
+        // if (instruction) {
         instruction.execute({
             x: extractX(opcode),
             y: extractY(opcode),
@@ -100,16 +103,9 @@ export class Cpu {
             nn: extractNN(opcode),
             nnn: extractNNN(opcode)
         })
+        // }
 
-        if ((opcode & 0xF000) === 0x7000) { // 7XNN - Add NN to VX
-            const address = opcode & 0x00FF
-            const register = (opcode & 0x0F00) >> 8
-            this.registers.addV(register, address)
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Add " + address.toString(16) + " to V" + register.toString(16))
-        } else if ((opcode & 0xF00F) === 0x8000) { // 8XY0 - Set VX = VY
+        if ((opcode & 0xF00F) === 0x8000) { // 8XY0 - Set VX = VY
             const x = (opcode & 0x0F00) >> 8
             const y = (opcode & 0x00F0) >> 4
             this.registers.setV(x, this.registers.getV(y))
