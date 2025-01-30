@@ -9,7 +9,7 @@ export class Cpu {
     public graphics: Graphics;
     public stack: Stack;
     public registers: Registers;
-    public programCounter: number = 0x0;
+    public programCounter: number = 0x0; // TODO: cleanup
     public memory: Memory;
     public input: Input
     public delayTimer: Timer
@@ -39,7 +39,6 @@ export class Cpu {
 
     interpret(number: number) {
         if ((number & 0xFFFF) === 0x00E0) { // 0NNN - Clear screen
-            debugger
             this.graphics.clearScreen()
             this.goToNextInstruction()
             console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Clear screen")

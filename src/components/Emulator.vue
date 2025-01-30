@@ -22,7 +22,7 @@ const delayTimer = ref(new Timer())
 const soundTimer = ref(new Timer())
 const cpu = ref(new Cpu(graphics.value, stack.value, registers.value, memory.value, input.value, delayTimer.value, soundTimer.value))
 const emulator = ref(new Emulator(cpu.value, graphics.value, stack.value, registers.value, memory.value, input.value, delayTimer.value, soundTimer.value))
-const manual = ref(true)
+const manual = ref(false)
 const showGrid = ref(false)
 let loadedRom: Uint8Array | null = null
 
@@ -67,6 +67,7 @@ const executeNextInstruction = () => {
   scrollToCurrentAddress()
 
   if (emulator.value.state !== State.RUNNING && canvas.value) {
+    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
     draw(canvas.value, ctx);
   }
 }
@@ -84,11 +85,12 @@ const animate = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
   }
 
   if (emulator.value.state === State.RUNNING) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    draw(canvas, ctx);
-    requestAnimationFrame(() => animate(canvas, ctx))
+    requestAnimationFrame(() => {
+      ctx.clearRect(0, 0, 64 * 20, 32 * 20)
+      draw(canvas, ctx);
+      animate(canvas, ctx)
+    })
   }
-
 }
 
 const draw = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
@@ -107,7 +109,7 @@ const drawScreen = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) =>
 }
 
 const drawGrid = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => {
-  ctx.strokeStyle = 'red'
+  ctx.strokeStyle = 'rgb(100, 100, 100)'
   ctx.lineWidth = 1
 
   for (let x = 0; x < canvas.width; x += 20) {
@@ -292,6 +294,9 @@ const toHexa = (n: number, pad: number = 2) => {
   | Input: {{ input.keys }}
   | AwaitingKey: {{ !!input.resolveKey }}
 
+  <br><span v-for="(pixel, index) in graphics.pixels" :key="index">{{ pixel ? '1' : '0' }} <br
+    v-if="(index + 1) % 64 === 0">
+  </span>
 </template>
 
 <style scoped>

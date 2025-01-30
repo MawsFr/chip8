@@ -406,7 +406,7 @@ describe('OpcodesInterpreter', () => {
             ]
 
             cpu.setProgramCounter(0x200)
-            graphics.switchOn(65)
+            graphics.drawPixel(65, 1)
 
             registers.setV(0, 1)
             registers.setV(1, 1)
@@ -417,7 +417,7 @@ describe('OpcodesInterpreter', () => {
 
             cpu.interpret(0xD002)
 
-            expect(graphics.getPixelAt(65)).equals(true)
+            expect(graphics.getPixelAt(65)).equals(false)
             expect(graphics.getPixelAt(66)).equals(true)
             expect(graphics.getPixelAt(129)).equals(true)
             expect(graphics.getPixelAt(130)).equals(true)

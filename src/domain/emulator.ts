@@ -62,6 +62,9 @@ export class Emulator {
             }
 
             this.executeNextInstruction();
+            this.executeNextInstruction();
+            this.executeNextInstruction();
+            this.executeNextInstruction();
         }, fpsInterval);
     }
 

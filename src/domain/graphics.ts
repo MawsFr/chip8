@@ -5,10 +5,10 @@ export class Graphics {
         return this.pixels[index]
     }
 
-    switchOn(index: number) {
+    drawPixel(index: number, pixel: 0 | 1) {
         const oldPixel = this.getPixelAt(index)
 
-        this.pixels[index] = true
+        this.pixels[index] = Boolean(Number(this.pixels[index]) ^ pixel)
 
         return { wasAlive: oldPixel }
     }
@@ -25,12 +25,8 @@ export class Graphics {
             const line = sprite[i].toString(2).padStart(8, '0')
 
             const didOverlap = line.split('').reduce((prev, pixel, index) => {
-                if (pixel === '1') {
-                    const { wasAlive } = this.switchOn((x + index) % 64 + ((y + i) % 32) * 64)
-                    return prev || wasAlive
-                }
-
-                return prev
+                const { wasAlive } = this.drawPixel((x + index) % 64 + ((y + i) % 32) * 64, Number(pixel) as 0 | 1)
+                return prev || wasAlive
             }, false)
 
             wasOverlapping = wasOverlapping || didOverlap
