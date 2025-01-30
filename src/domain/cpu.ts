@@ -26,6 +26,7 @@ import { $7XNN } from "./instructions/$7XNN.ts";
 import { $8XY0 } from "./instructions/$8XY0.ts";
 import { $8XY1 } from "./instructions/$8XY1.ts";
 import { $8XY2 } from "./instructions/$8XY2.ts";
+import { $8XY3 } from "./instructions/$8XY3.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -78,6 +79,7 @@ export class Cpu {
             new $8XY0(this.context),
             new $8XY1(this.context),
             new $8XY2(this.context),
+            new $8XY3(this.context),
         ]
     }
 
@@ -111,15 +113,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF00F) === 0x8003) { // 8XY3 - Set VX = VX ^ VY
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-            this.registers.setV(x, this.registers.getV(x) ^ this.registers.getV(y))
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x + " = V" + x + " ^ V" + y)
-        } else if ((opcode & 0xF00F) === 0x8004) { // 8XY4 - Add VY to VX
+        if ((opcode & 0xF00F) === 0x8004) { // 8XY4 - Add VY to VX
             const x = (opcode & 0x0F00) >> 8
             const y = (opcode & 0x00F0) >> 4
 

@@ -13,8 +13,8 @@ class Mock$00E0 extends Instruction<undefined> {
 }
 
 describe('Instruction', () => {
-    let context
-    let instruction
+    let context: InstructionContext
+    let instruction: Mock$00E0
 
     beforeEach(() => {
         context = useTestContext()
