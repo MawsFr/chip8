@@ -1,6 +1,6 @@
-import { Instruction, type InstructionContext } from "../instruction.ts";
+import { Instruction, type InstructionContext } from "../../instruction.ts";
 import { beforeEach, describe } from "vitest";
-import { useTestContext } from "./helpers/useTestContext.ts";
+import { useTestContext } from "../helpers/useTestContext.ts";
 
 class Mock$00E0 extends Instruction {
     constructor(context: InstructionContext) {
@@ -14,45 +14,45 @@ class Mock$00E0 extends Instruction {
 
 describe('Instruction', () => {
     let context
+    let instruction
 
     beforeEach(() => {
         context = useTestContext()
+        instruction = new Mock$00E0(context)
     })
 
     it('should return cpu', () => {
-        const instruction = new Mock$00E0(context)
-
         expect(instruction.cpu).to.equal(context.cpu)
     });
 
     it('should return graphics', () => {
-        const instruction = new Mock$00E0(context)
-
         expect(instruction.graphics).to.equal(context.graphics)
     });
 
     it('should return stack', () => {
-        const instruction = new Mock$00E0(context)
-
         expect(instruction.stack).to.equal(context.stack)
     });
 
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {
+            // Given
             const fetchedOpcode = 0x00E0
-            const instruction = new Mock$00E0()
 
+            // When
             const result = instruction.matches(fetchedOpcode)
 
+            // Then
             expect(result).toBeTruthy()
         });
 
         it("should return false if the instruction does not match the fetched opcode", () => {
+            // Given
             const fetchedOpcode = 0x00A0
-            const instruction: Instruction = new Mock$00E0()
 
+            // When
             const result = instruction.matches(fetchedOpcode)
 
+            // Then
             expect(result).toBeFalsy()
         });
     });

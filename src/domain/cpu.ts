@@ -16,6 +16,7 @@ import {
 import { $00E0 } from "./instructions/$00E0.ts";
 import { $00EE } from "./instructions/$00EE.ts";
 import { $1NNN } from "./instructions/$1NNN.ts";
+import { $2NNN } from "./instructions/$2NNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -58,7 +59,8 @@ export class Cpu {
         this.instructions = [
             new $00E0(this.context),
             new $00EE(this.context),
-            new $1NNN(this.context)
+            new $1NNN(this.context),
+            new $2NNN(this.context)
         ]
     }
 
@@ -90,11 +92,7 @@ export class Cpu {
             nnn: extractNNN(opcode)
         })
 
-        if ((opcode & 0xF000) === 0x2000) { // 2NNN - Call subroutine
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Calls subroutine at " + (opcode & 0x0FFF).toString(16) + " and saves return address " + this.getProgramCounter().toString(16))
-            this.stack.push(this.getProgramCounter())
-            this.setProgramCounter(opcode & 0x0FFF)
-        } else if ((opcode & 0xF000) === 0x3000) { // 3XNN - Skip next instruction if VX = NN
+        if ((opcode & 0xF000) === 0x3000) { // 3XNN - Skip next instruction if VX = NN
             const address = opcode & 0x00FF
             const register = (opcode & 0x0F00) >> 8
 
