@@ -29,7 +29,7 @@ describe('FX0A : VY is subtracted from VX. Underflow is managed in VF', () => {
             context.input.press(0x1)
         }, 100)
 
-        context.cpu.interpret(0xF00A)
+        instruction.execute({ x: 0 })
 
         await new Promise((resolve) => setTimeout(resolve, 200));
 
