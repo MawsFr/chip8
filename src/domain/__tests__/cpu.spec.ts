@@ -1,11 +1,11 @@
-import { Cpu } from "./cpu.ts";
-import { Graphics } from "./graphics.ts";
-import Stack from "./stack.ts";
+import { Cpu } from "../cpu.ts";
+import { Graphics } from "../graphics.ts";
+import Stack from "../stack.ts";
 import { afterEach, expect } from "vitest";
-import Registers from "./registers.ts";
-import Memory from "./memory.ts";
-import { Input } from "./input.ts";
-import { Timer } from "./timers.ts";
+import Registers from "../registers.ts";
+import Memory from "../memory.ts";
+import { Input } from "../input.ts";
+import { Timer } from "../timers.ts";
 
 describe('OpcodesInterpreter', () => {
     let cpu: Cpu;

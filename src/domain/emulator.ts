@@ -5,6 +5,7 @@ import Registers from "./registers.ts";
 import Memory from "./memory.ts";
 import { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
+import { BinaryOperations } from "./binary-operations.ts";
 
 export enum State {
     OFF = 'OFF',
@@ -80,7 +81,7 @@ export class Emulator {
         const left = this.memory.getDataAt(this.cpu.getProgramCounter())
         const right = this.memory.getDataAt(this.cpu.getProgramCounter() + 1)
 
-        return (left << 8) + right
+        return BinaryOperations.concatBytes(left, right)
     }
 
     updateTimers() {
@@ -95,8 +96,6 @@ export class Emulator {
         this.registers.clear()
         this.cpu.clear()
         this.input.clear()
-        this.delayTimer.stopCountDown()
-        this.soundTimer.stopCountDown()
         this.delayTimer.write(0)
         this.soundTimer.write(0)
         this.state = State.OFF

@@ -1,4 +1,4 @@
-import { Graphics } from "./graphics.ts";
+import { Graphics } from "../graphics.ts";
 import { expect } from "vitest";
 
 describe('Graphics', () => {

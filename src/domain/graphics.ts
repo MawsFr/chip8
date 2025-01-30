@@ -23,7 +23,6 @@ export class Graphics {
 
         for (let i = 0; i < spriteHeight; ++i) {
             const line = sprite[i].toString(2).padStart(8, '0')
-
             const didOverlap = line.split('').reduce((prev, pixel, index) => {
                 const { wasAlive } = this.drawPixel((x + index) % 64 + ((y + i) % 32) * 64, Number(pixel) as 0 | 1)
                 return prev || wasAlive

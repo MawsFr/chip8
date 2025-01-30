@@ -1,12 +1,12 @@
-import { Emulator } from "./emulator.ts";
+import { Emulator } from "../emulator.ts";
 import { beforeEach, expect } from "vitest";
-import { Cpu } from "./cpu.ts";
-import { Graphics } from "./graphics.ts";
-import Stack from "./stack.ts";
-import Registers from "./registers.ts";
-import Memory from "./memory.ts";
-import { Input } from "./input.ts";
-import { Timer } from "./timers.ts";
+import { Cpu } from "../cpu.ts";
+import { Graphics } from "../graphics.ts";
+import Stack from "../stack.ts";
+import Registers from "../registers.ts";
+import Memory from "../memory.ts";
+import { Input } from "../input.ts";
+import { Timer } from "../timers.ts";
 
 describe('Emulator', () => {
     let cpu: Cpu;

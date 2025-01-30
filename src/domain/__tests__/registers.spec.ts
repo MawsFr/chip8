@@ -1,4 +1,4 @@
-import Registers from "./registers.ts";
+import Registers from "../registers.ts";
 import { expect } from "vitest";
 
 describe('Registers', () => {

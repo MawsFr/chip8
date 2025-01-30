@@ -1,4 +1,4 @@
-import { Input } from "./input.ts";
+import { Input } from "../input.ts";
 
 describe('Input', () => {
     let input: Input

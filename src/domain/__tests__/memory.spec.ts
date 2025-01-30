@@ -1,5 +1,5 @@
-import Memory from "./memory.ts";
-import Registers from "./registers.ts";
+import Memory from "../memory.ts";
+import Registers from "../registers.ts";
 import { expect } from "vitest";
 
 describe('Memory', () => {

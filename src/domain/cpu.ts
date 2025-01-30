@@ -48,9 +48,9 @@ export class Cpu {
             console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Returns from a subroutine")
         } else if ((number & 0xF000) === 0x1000) { // 1NNN - Jump to address
             this.setProgramCounter(number & 0x0FFF)
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (number & 0x0FFF))
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (number & 0x0FFF).toString(16))
         } else if ((number & 0xF000) === 0x2000) { // 2NNN - Call subroutine
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Calls subroutine at " + (number & 0x0FFF) + " and saves return address " + this.getProgramCounter())
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Calls subroutine at " + (number & 0x0FFF).toString(16) + " and saves return address " + this.getProgramCounter().toString(16))
             this.stack.push(this.getProgramCounter())
             this.setProgramCounter(number & 0x0FFF)
         } else if ((number & 0xF000) === 0x3000) { // 3XNN - Skip next instruction if VX = NN
@@ -63,7 +63,7 @@ export class Cpu {
             }
 
             this.goToNextInstruction()
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + register + " = " + address)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + register.toString(16) + " = " + address.toString(16))
         } else if ((number & 0xF000) === 0x4000) { // 4XNN - Skip next instruction if VX != NN
             const address = number & 0x00FF
             const register = (number & 0x0F00) >> 8
@@ -74,7 +74,7 @@ export class Cpu {
             }
 
             this.goToNextInstruction()
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + register + " != " + address)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + register.toString(16) + " != " + address.toString(16))
         } else if ((number & 0xF00F) === 0x5000) { // 5XY0 - Skip next instruction if VX = VY
             const x = (number & 0x0F00) >> 8
             const y = (number & 0x00F0) >> 4
@@ -92,7 +92,7 @@ export class Cpu {
 
             this.goToNextInstruction()
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set V" + register + " = " + address)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set V" + register.toString(16) + " = " + address.toString(16))
         } else if ((number & 0xF000) === 0x7000) { // 7XNN - Add NN to VX
             const address = number & 0x00FF
             const register = (number & 0x0F00) >> 8
@@ -100,7 +100,7 @@ export class Cpu {
 
             this.goToNextInstruction()
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Add " + address + " to V" + register)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Add " + address.toString(16) + " to V" + register.toString(16))
         } else if ((number & 0xF00F) === 0x8000) { // 8XY0 - Set VX = VY
             const x = (number & 0x0F00) >> 8
             const y = (number & 0x00F0) >> 4
@@ -202,13 +202,13 @@ export class Cpu {
 
             this.goToNextInstruction()
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set I = " + address)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set I = " + address.toString(16))
         } else if ((number & 0xF000) === 0xB000) { // BNNN - Jump to address NNN + V0
             const address = number & 0x0FFF
 
             this.setProgramCounter(address + this.registers.getV(0))
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address + " + V0")
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address.toString(16) + " + V0")
         } else if ((number & 0xF000) === 0xC000) { // CXNN - Set VX = random byte & NN
             const randomNumber = Math.floor(Math.random() * 256)
             const address = number & 0x00FF
@@ -218,7 +218,7 @@ export class Cpu {
 
             this.goToNextInstruction()
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set V" + register + " = " + address + " & " + randomNumber)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Set V" + register.toString(16) + " = " + address.toString(16) + " & " + randomNumber)
         } else if ((number & 0xF000) === 0xD000) { // DXYN - Draw sprite at VX, VY with height N
             const x = (number & 0x0F00) >> 8
             const y = (number & 0x00F0) >> 4
@@ -232,7 +232,7 @@ export class Cpu {
 
             this.goToNextInstruction()
 
-            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + ": " + this.registers.getV(x) + " V" + y + ": " + this.registers.getV(y) + " with height " + n)
+            console.log(number.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + ": " + this.registers.getV(x).toString(16) + " V" + y + ": " + this.registers.getV(y).toString(16) + " with height " + n)
         } else if ((number & 0xF0FF) === 0xE09E) { // EX9E - Skip next instruction if key in VX is pressed
             const x = (number & 0x0F00) >> 8
             const key = this.registers.getV(x)

@@ -8,7 +8,6 @@ export class Input {
             this.resolveKey(key)
             this.resolveKey = null
         }
-
     }
 
     release(key: number) {

@@ -1,4 +1,4 @@
-import Stack from "./stack.ts";
+import Stack from "../stack.ts";
 import { expect } from "vitest";
 
 describe('Stack', () => {
