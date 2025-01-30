@@ -7,7 +7,7 @@ import type Memory from "./memory.ts";
 import type { Input } from "./input.ts";
 import type { Timer } from "./timers.ts";
 
-export abstract class Instruction<InstructionParams> {
+export abstract class Instruction<T extends InstructionParams> {
     protected readonly context: InstructionContext
     protected readonly opcode: Opcode
     protected readonly mask: number
@@ -28,6 +28,10 @@ export abstract class Instruction<InstructionParams> {
 
     get stack(): Stack {
         return this.context.stack
+    }
+
+    get registers(): Registers {
+        return this.context.registers
     }
 
     matches(opcode: Opcode): boolean {
@@ -73,12 +77,12 @@ export type XInstructionParams = {
 }
 
 export type InstructionParams =
-    InstructionContext
     | NNNInstructionParams
     | XNNInstructionParams
     | XYNInstructionParams
     | XYInstructionParams
     | XInstructionParams
+    | undefined
 
 export type NNN = number;  // Adresse sur 12 bits
 export type NN = number;   // Valeur sur 8 bits

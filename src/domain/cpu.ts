@@ -11,12 +11,14 @@ import {
     extractX,
     extractY,
     type Instruction,
+    type InstructionContext,
     type InstructionParams
 } from "./instruction.ts";
 import { $00E0 } from "./instructions/$00E0.ts";
 import { $00EE } from "./instructions/$00EE.ts";
 import { $1NNN } from "./instructions/$1NNN.ts";
 import { $2NNN } from "./instructions/$2NNN.ts";
+import { $3XNN } from "./instructions/$3XNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -42,7 +44,7 @@ export class Cpu {
         this.loadInstructions()
     }
 
-    get context() {
+    get context(): InstructionContext {
         return {
             cpu: this,
             graphics: this.graphics,
@@ -60,7 +62,8 @@ export class Cpu {
             new $00E0(this.context),
             new $00EE(this.context),
             new $1NNN(this.context),
-            new $2NNN(this.context)
+            new $2NNN(this.context),
+            new $3XNN(this.context),
         ]
     }
 
@@ -92,18 +95,7 @@ export class Cpu {
             nnn: extractNNN(opcode)
         })
 
-        if ((opcode & 0xF000) === 0x3000) { // 3XNN - Skip next instruction if VX = NN
-            const address = opcode & 0x00FF
-            const register = (opcode & 0x0F00) >> 8
-
-            if (address === this.registers.getV(register)) {
-                this.goToNextInstruction()
-                console.log("Next instruction skipped")
-            }
-
-            this.goToNextInstruction()
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + register.toString(16) + " = " + address.toString(16))
-        } else if ((opcode & 0xF000) === 0x4000) { // 4XNN - Skip next instruction if VX != NN
+        if ((opcode & 0xF000) === 0x4000) { // 4XNN - Skip next instruction if VX != NN
             const address = opcode & 0x00FF
             const register = (opcode & 0x0F00) >> 8
 

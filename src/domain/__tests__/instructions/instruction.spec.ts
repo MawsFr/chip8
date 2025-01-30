@@ -33,6 +33,10 @@ describe('Instruction', () => {
         expect(instruction.stack).to.equal(context.stack)
     });
 
+    it('should return registers', () => {
+        expect(instruction.registers).to.equal(context.registers)
+    });
+
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {
             // Given
