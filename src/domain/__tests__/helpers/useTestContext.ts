@@ -5,8 +5,9 @@ import Memory from "../../memory.ts";
 import { Input } from "../../input.ts";
 import { Timer } from "../../timers.ts";
 import { Cpu } from "../../cpu.ts";
+import type { InstructionContext } from "../../instruction.ts";
 
-export const useTestContext = () => {
+export const useTestContext = (): InstructionContext => {
     const graphics = new Graphics()
     const stack = new Stack()
     const registers = new Registers()

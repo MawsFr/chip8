@@ -1,11 +1,11 @@
 import { afterEach, expect, vi } from "vitest";
-import { Instruction, type InstructionContext } from "../../instruction.ts";
+import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $00E0 } from "../../instructions/$00E0.ts";
 
 describe('00E0 : Clear screen', () => {
     let context: InstructionContext;
-    let instruction: Instruction
+    let instruction: $00E0
 
     beforeEach(() => {
         context = useTestContext()
@@ -17,14 +17,18 @@ describe('00E0 : Clear screen', () => {
     })
 
     it('should clear the screen', () => {
+        // Given
         vi.spyOn(context.graphics, 'clearScreen').mockImplementation(() => {
         });
 
         context.cpu.setProgramCounter(0x200)
+
+        // When
         instruction.execute({
             ...context,
         })
 
+        // Then
         expect(context.graphics.clearScreen).toHaveBeenCalledOnce()
         expect(context.cpu.getProgramCounter()).to.equal(0x202)
     })

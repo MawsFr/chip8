@@ -4,21 +4,10 @@ import type Registers from "./registers.ts";
 import type Memory from "./memory.ts";
 import type { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import {
-    extractN,
-    extractNN,
-    extractNNN,
-    extractX,
-    extractY,
-    type Instruction,
-    type N,
-    type NN,
-    type NNN,
-    type X,
-    type Y
-} from "./instruction.ts";
+import { extractN, extractNN, extractNNN, extractX, extractY, type Instruction } from "./instruction.ts";
 import { $00E0 } from "./instructions/$00E0.ts";
 import { $00EE } from "./instructions/$00EE.ts";
+import { $1NNN } from "./instructions/$1NNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -47,7 +36,8 @@ export class Cpu {
     loadInstructions() {
         this.instructions = [
             new $00E0(),
-            new $00EE()
+            new $00EE(),
+            new $1NNN()
         ]
     }
 
@@ -64,12 +54,6 @@ export class Cpu {
     }
 
     interpret(opcode: number) {
-        const x: X = extractX(opcode)
-        const y: Y = extractY(opcode)
-        const n: N = extractN(opcode)
-        const nn: NN = extractNN(opcode)
-        const nnn: NNN = extractNNN(opcode)
-
         const instruction = this.instructions.find((instruction) => instruction.matches(opcode))
 
         if (!instruction) {
@@ -77,12 +61,28 @@ export class Cpu {
             return
         }
 
-        instruction.execute({ cpu: this, graphics: this.graphics, stack: this.stack, x, y, n, nn, nnn })
+        instruction.execute({
+            cpu: this,
+            graphics: this.graphics,
+            stack: this.stack,
+            registers: this.registers,
+            memory: this.memory,
+            input: this.input,
+            delayTimer: this.delayTimer,
+            soundTimer: this.soundTimer,
+            opcode: {
+                value: opcode,
+                params: {
+                    x: extractX(opcode),
+                    y: extractY(opcode),
+                    n: extractN(opcode),
+                    nn: extractNN(opcode),
+                    nnn: extractNNN(opcode)
+                }
+            }
+        })
 
-        if ((opcode & 0xF000) === 0x1000) { // 1NNN - Jump to address
-            this.setProgramCounter(opcode & 0x0FFF)
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (opcode & 0x0FFF).toString(16))
-        } else if ((opcode & 0xF000) === 0x2000) { // 2NNN - Call subroutine
+        if ((opcode & 0xF000) === 0x2000) { // 2NNN - Call subroutine
             console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Calls subroutine at " + (opcode & 0x0FFF).toString(16) + " and saves return address " + this.getProgramCounter().toString(16))
             this.stack.push(this.getProgramCounter())
             this.setProgramCounter(opcode & 0x0FFF)
