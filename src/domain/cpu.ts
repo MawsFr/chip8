@@ -40,6 +40,7 @@ import { $DXYN } from "./instructions/$DXYN.ts";
 import { $EX9E } from "./instructions/$EX9E.ts";
 import { $EXA1 } from "./instructions/$EXA1.ts";
 import { $FX07 } from "./instructions/$FX07.ts";
+import { $FX0A } from "./instructions/$FX0A.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -105,7 +106,8 @@ export class Cpu {
             new $DXYN(this.context),
             new $EX9E(this.context),
             new $EXA1(this.context),
-            new $FX07(this.context)
+            new $FX07(this.context),
+            new $FX0A(this.context)
         ]
     }
 
@@ -139,16 +141,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xF00A) { // FX0A - Wait for key press and store in VX
-            const x = (opcode & 0x0F00) >> 8
-
-            this.input.waitForPress().then((key) => {
-                this.registers.setV(x, key)
-                this.goToNextInstruction()
-            })
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Wait for key press and store in V" + x)
-        } else if ((opcode & 0xF0FF) === 0xF015) { // FX15 - Set delay timer = VX
+        if ((opcode & 0xF0FF) === 0xF015) { // FX15 - Set delay timer = VX
             const x = (opcode & 0x0F00) >> 8
 
             this.delayTimer.write(this.registers.getV(x))
