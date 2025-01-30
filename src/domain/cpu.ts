@@ -20,6 +20,7 @@ import { $1NNN } from "./instructions/$1NNN.ts";
 import { $2NNN } from "./instructions/$2NNN.ts";
 import { $3XNN } from "./instructions/$3XNN.ts";
 import { $4XNN } from "./instructions/$4XNN.ts";
+import { $5XY0 } from "./instructions/$5XY0.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -66,6 +67,7 @@ export class Cpu {
             new $2NNN(this.context),
             new $3XNN(this.context),
             new $4XNN(this.context),
+            new $5XY0(this.context),
         ]
     }
 
@@ -97,17 +99,7 @@ export class Cpu {
             nnn: extractNNN(opcode)
         })
 
-        if ((opcode & 0xF00F) === 0x5000) { // 5XY0 - Skip next instruction if VX = VY
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-
-            if (this.registers.getV(x) === this.registers.getV(y)) {
-                this.goToNextInstruction()
-            }
-
-            this.goToNextInstruction()
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x + " = V" + y)
-        } else if ((opcode & 0xF000) === 0x6000) { // 6XNN - Set VX = NN
+        if ((opcode & 0xF000) === 0x6000) { // 6XNN - Set VX = NN
             const address = opcode & 0x00FF
             const register = (opcode & 0x0F00) >> 8
             this.registers.setV(register, address)
