@@ -145,7 +145,6 @@ export class Cpu {
             return
         }
 
-        // if (instruction) {
         instruction.execute({
             x: extractX(opcode),
             y: extractY(opcode),
@@ -153,7 +152,6 @@ export class Cpu {
             nn: extractNN(opcode),
             nnn: extractNNN(opcode)
         })
-        // }
     }
 
     clear() {
