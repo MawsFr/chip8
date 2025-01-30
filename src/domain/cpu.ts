@@ -45,6 +45,7 @@ import { $FX15 } from "./instructions/$FX15.ts";
 import { $FX18 } from "./instructions/$FX18.ts";
 import { $FX1E } from "./instructions/$FX1E.ts";
 import { $FX29 } from "./instructions/$FX29.ts";
+import { $FX33 } from "./instructions/$FX33.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -116,6 +117,7 @@ export class Cpu {
             new $FX18(this.context),
             new $FX1E(this.context),
             new $FX29(this.context),
+            new $FX33(this.context),
         ]
     }
 
@@ -149,20 +151,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xF033) { // FX33 - Store BCD representation of VX in memory
-            const x = (opcode & 0x0F00) >> 8
-            const value = this.registers.getV(x)
-
-            const hundreds = Math.floor(value / 100)
-            const tens = Math.floor((value % 100) / 10)
-            const ones = (value % 10)
-
-            this.memory.load([ hundreds, tens, ones ])
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Store BCD representation of V" + x + " in memory")
-        } else if ((opcode & 0xF0FF) === 0xF055) { // FX55 - Store V0 to VX in memory
+        if ((opcode & 0xF0FF) === 0xF055) { // FX55 - Store V0 to VX in memory
             const x = (opcode & 0x0F00) >> 8
 
             this.memory.load(this.registers.getRange(0, x))
