@@ -46,6 +46,7 @@ import { $FX18 } from "./instructions/$FX18.ts";
 import { $FX1E } from "./instructions/$FX1E.ts";
 import { $FX29 } from "./instructions/$FX29.ts";
 import { $FX33 } from "./instructions/$FX33.ts";
+import { $FX55 } from "./instructions/$FX55.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -118,6 +119,7 @@ export class Cpu {
             new $FX1E(this.context),
             new $FX29(this.context),
             new $FX33(this.context),
+            new $FX55(this.context),
         ]
     }
 
@@ -151,15 +153,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xF055) { // FX55 - Store V0 to VX in memory
-            const x = (opcode & 0x0F00) >> 8
-
-            this.memory.load(this.registers.getRange(0, x))
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Store V0 to V" + x + " in memory")
-        } else if ((opcode & 0xF0FF) === 0xF065) { // FX65 - Fill V0 to VX with memory values
+        if ((opcode & 0xF0FF) === 0xF065) { // FX65 - Fill V0 to VX with memory values
             const x = (opcode & 0x0F00) >> 8
 
             for (let i = 0; i <= x; ++i) {
