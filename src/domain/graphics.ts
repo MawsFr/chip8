@@ -33,8 +33,4 @@ export class Graphics {
 
         return { wasOverlapping }
     }
-
-    clear() {
-        this.pixels.fill(false)
-    }
 }

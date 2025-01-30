@@ -91,7 +91,7 @@ export class Emulator {
 
     restart(rom: Uint8Array) {
         this.memory.clear()
-        this.graphics.clear()
+        this.graphics.clearScreen()
         this.stack.clear()
         this.registers.clear()
         this.cpu.clear()
