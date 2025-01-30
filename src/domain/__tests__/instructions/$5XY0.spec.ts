@@ -12,6 +12,17 @@ describe('5XY0 : Skips the next instruction if VX equals VY', () => {
         instruction = new $5XY0(context)
     })
 
+    it('should match 5XY0', () => {
+        // Given
+        const fetchedOpcode = 0x5120
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    })
+
     it('"5XY0" should skip next instruction if VX equals VY', () => {
         context.cpu.setProgramCounter(0x400)
         context.registers.setV(0, 0x40)

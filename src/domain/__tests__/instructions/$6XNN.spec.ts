@@ -12,6 +12,17 @@ describe('6XNN : Sets VX to NN', () => {
         instruction = new $6XNN(context)
     })
 
+    it('should match 6XNN', () => {
+        // Given
+        const fetchedOpcode = 0x6120
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    });
+
     it('"6XNN" should set VX to NN', () => {
         // Given
         context.cpu.setProgramCounter(0x200)

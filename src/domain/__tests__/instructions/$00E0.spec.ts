@@ -16,6 +16,17 @@ describe('00E0 : Clear screen', () => {
         vi.restoreAllMocks()
     })
 
+    it('should match 00E0', () => {
+        // Given
+        const fetchedOpcode = 0x00E0
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    });
+
     it('should clear the screen', () => {
         // Given
         vi.spyOn(context.graphics, 'clearScreen').mockImplementation(() => {

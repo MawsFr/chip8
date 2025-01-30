@@ -12,6 +12,17 @@ describe('3XNN : Skips the next instruction if VX equals NN', () => {
         instruction = new $3XNN(context)
     })
 
+    it('should match 3XNN', () => {
+        // Given
+        const fetchedOpcode = 0x3200
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    })
+
     it('"3XNN" should skip next instruction if VX equals NN', () => {
         context.registers.setV(0, 0x20)
         context.cpu.setProgramCounter(0x400)

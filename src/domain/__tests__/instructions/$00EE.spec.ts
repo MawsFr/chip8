@@ -12,6 +12,17 @@ describe('00EE : Return from a subroutine', () => {
         instruction = new $00EE(context)
     })
 
+    it('should match 00EE', () => {
+        // Given
+        const fetchedOpcode = 0x00EE
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    })
+
     it('should return from a subroutine', () => {
         // Given
         context.stack.push(0x200)

@@ -1,20 +1,20 @@
 import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
-import { $7XNN } from "../../instructions/$7XNN.ts";
+import { $8XY0 } from "../../instructions/$8XY0.ts";
 
-describe('7XNN : Adds NN to VX', () => {
+describe('8XY0 : Sets VX to the value of VY', () => {
     let context: InstructionContext;
-    let instruction: $7XNN
+    let instruction: $8XY0
 
     beforeEach(() => {
         context = useTestContext()
-        instruction = new $7XNN(context)
+        instruction = new $8XY0(context)
     })
 
-    it('should match 7XNN', () => {
+    it('should match 8XY0', () => {
         // Given
-        const fetchedOpcode = 0x7120
+        const fetchedOpcode = 0x8120
 
         // When
         const result = instruction.matches(fetchedOpcode)
@@ -23,13 +23,14 @@ describe('7XNN : Adds NN to VX', () => {
         expect(result).toBeTruthy()
     })
 
-    it('"7XNN" should add NN to VX', () => {
+    it('"8XY0" should set VX to the value of VY', () => {
         context.cpu.setProgramCounter(0x200)
         context.registers.setV(0, 0x20)
+        context.registers.setV(1, 0x40)
 
-        instruction.execute({ x: 0, nn: 0x10 })
+        instruction.execute({ x: 0, y: 1 })
 
-        expect(context.registers.getV(0)).to.equal(0x30)
+        expect(context.registers.getV(0)).to.equal(0x40)
         expect(context.cpu.getProgramCounter()).to.equal(0x202)
     });
 });

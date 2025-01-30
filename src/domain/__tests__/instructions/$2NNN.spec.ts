@@ -12,6 +12,17 @@ describe('2NNN : Calls subroutine at NNN', () => {
         instruction = new $2NNN(context)
     })
 
+    it('should match 2NNN', () => {
+        // Given
+        const fetchedOpcode = 0x220A
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    })
+
     it('should call a subroutine', () => {
         // Given
         context.cpu.setProgramCounter(0x400)

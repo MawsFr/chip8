@@ -12,6 +12,17 @@ describe('4XNN : Skips the next instruction if VX equals NN', () => {
         instruction = new $4XNN(context)
     })
 
+    it('should match 4XNN', () => {
+        // Given
+        const fetchedOpcode = 0x40FF
+
+        // When
+        const result = instruction.matches(fetchedOpcode)
+
+        // Then
+        expect(result).toBeTruthy()
+    });
+
     it('"4XNN" should skip next instruction if VX is different from NN', () => {
         context.cpu.setProgramCounter(0x400)
         context.registers.setV(0, 0x40)
