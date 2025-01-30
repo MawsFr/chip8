@@ -47,6 +47,7 @@ import { $FX1E } from "./instructions/$FX1E.ts";
 import { $FX29 } from "./instructions/$FX29.ts";
 import { $FX33 } from "./instructions/$FX33.ts";
 import { $FX55 } from "./instructions/$FX55.ts";
+import { $FX65 } from "./instructions/$FX65.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -120,6 +121,7 @@ export class Cpu {
             new $FX29(this.context),
             new $FX33(this.context),
             new $FX55(this.context),
+            new $FX65(this.context),
         ]
     }
 
@@ -152,18 +154,6 @@ export class Cpu {
             nnn: extractNNN(opcode)
         })
         // }
-
-        if ((opcode & 0xF0FF) === 0xF065) { // FX65 - Fill V0 to VX with memory values
-            const x = (opcode & 0x0F00) >> 8
-
-            for (let i = 0; i <= x; ++i) {
-                this.registers.setV(i, this.memory.getDataAt(this.registers.getI() + i)) // TODO : cleanup
-            }
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Fill V0 to V" + x + " with memory values")
-        }
     }
 
     clear() {
