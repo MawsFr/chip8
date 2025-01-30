@@ -34,6 +34,7 @@ import { $8XY7 } from "./instructions/$8XY7.ts";
 import { $8XYE } from "./instructions/$8XYE.ts";
 import { $9XY0 } from "./instructions/$9XY0.ts";
 import { $ANNN } from "./instructions/$ANNN.ts";
+import { $BNNN } from "./instructions/$BNNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -94,6 +95,7 @@ export class Cpu {
             new $8XYE(this.context),
             new $9XY0(this.context),
             new $ANNN(this.context),
+            new $BNNN(this.context),
         ]
     }
 
@@ -127,13 +129,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF000) === 0xB000) { // BNNN - Jump to address NNN + V0
-            const address = opcode & 0x0FFF
-
-            this.setProgramCounter(address + this.registers.getV(0))
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address.toString(16) + " + V0")
-        } else if ((opcode & 0xF000) === 0xC000) { // CXNN - Set VX = random byte & NN
+        if ((opcode & 0xF000) === 0xC000) { // CXNN - Set VX = random byte & NN
             const randomNumber = Math.floor(Math.random() * 256)
             const address = opcode & 0x00FF
             const register = (opcode & 0x0F00) >> 8
