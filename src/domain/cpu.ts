@@ -32,6 +32,7 @@ import { $8XY5 } from "./instructions/$8XY5.ts";
 import { $8XY6 } from "./instructions/$8XY6.ts";
 import { $8XY7 } from "./instructions/$8XY7.ts";
 import { $8XYE } from "./instructions/$8XYE.ts";
+import { $9XY0 } from "./instructions/$9XY0.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -90,6 +91,7 @@ export class Cpu {
             new $8XY6(this.context),
             new $8XY7(this.context),
             new $8XYE(this.context),
+            new $9XY0(this.context),
         ]
     }
 
@@ -123,18 +125,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF00F) === 0x9000) { // 9XY0 - Skip next instruction if VX != VY
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-
-            if (this.registers.getV(x) !== this.registers.getV(y)) {
-                this.goToNextInstruction()
-            }
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x + " != V" + y)
-        } else if ((opcode & 0xF000) === 0xA000) { // ANNN - Set I = NNN
+        if ((opcode & 0xF000) === 0xA000) { // ANNN - Set I = NNN
             const address = opcode & 0x0FFF
 
             this.registers.setI(address)
