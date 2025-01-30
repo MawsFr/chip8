@@ -8,14 +8,14 @@ import type { Input } from "./input.ts";
 import type { Timer } from "./timers.ts";
 
 export abstract class Instruction<InstructionParams> {
+    protected readonly context: InstructionContext
     protected readonly opcode: Opcode
     protected readonly mask: number
-    protected readonly context: InstructionContext
 
-    protected constructor(opcode: Opcode, mask: number, context: InstructionContext) {
+    protected constructor(context: InstructionContext, opcode: Opcode, mask: number) {
+        this.context = context
         this.opcode = opcode
         this.mask = mask
-        this.context = context
     }
 
     get cpu(): Cpu {

@@ -2,7 +2,7 @@ import { Instruction, type NNNInstructionParams } from "../instruction.ts";
 
 export class $1NNN extends Instruction<NNNInstructionParams> {
     constructor(context: InstructionContext) {
-        super(0x1000, 0xF000, context)
+        super(context, 0x1000, 0xF000)
     }
 
     execute({ nnn }: NNNInstructionParams): void {

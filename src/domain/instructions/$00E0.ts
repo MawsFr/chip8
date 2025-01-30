@@ -2,7 +2,7 @@ import { Instruction, type InstructionContext } from "../instruction.ts";
 
 export class $00E0 extends Instruction<InstructionContext> {
     constructor(context: InstructionContext) {
-        super(0x00E0, 0xFFFF, context)
+        super(context, 0x00E0, 0xFFFF)
     }
 
     execute(): void {

@@ -4,7 +4,7 @@ import { useTestContext } from "./helpers/useTestContext.ts";
 
 class Mock$00E0 extends Instruction {
     constructor(context: InstructionContext) {
-        super(0x00E0, 0xFFFF, context)
+        super(context, 0x00E0, 0xFFFF)
     }
 
     execute(): void {
