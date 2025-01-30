@@ -31,6 +31,7 @@ import { $8XY4 } from "./instructions/$8XY4.ts";
 import { $8XY5 } from "./instructions/$8XY5.ts";
 import { $8XY6 } from "./instructions/$8XY6.ts";
 import { $8XY7 } from "./instructions/$8XY7.ts";
+import { $8XYE } from "./instructions/$8XYE.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -88,6 +89,7 @@ export class Cpu {
             new $8XY5(this.context),
             new $8XY6(this.context),
             new $8XY7(this.context),
+            new $8XYE(this.context),
         ]
     }
 
@@ -121,16 +123,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF00F) === 0x800E) { // 8XYE - Shift VX left by 1
-            const x = (opcode & 0x0F00) >> 8
-
-            this.registers.setV(0xF, (this.registers.getV(x) & 0x80) >> 7)
-            this.registers.setV(x, this.registers.getV(x) << 0x1)
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x + " = V" + x + " << 1")
-        } else if ((opcode & 0xF00F) === 0x9000) { // 9XY0 - Skip next instruction if VX != VY
+        if ((opcode & 0xF00F) === 0x9000) { // 9XY0 - Skip next instruction if VX != VY
             const x = (opcode & 0x0F00) >> 8
             const y = (opcode & 0x00F0) >> 4
 
