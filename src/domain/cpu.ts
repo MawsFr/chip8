@@ -28,6 +28,7 @@ import { $8XY1 } from "./instructions/$8XY1.ts";
 import { $8XY2 } from "./instructions/$8XY2.ts";
 import { $8XY3 } from "./instructions/$8XY3.ts";
 import { $8XY4 } from "./instructions/$8XY4.ts";
+import { $8XY5 } from "./instructions/$8XY5.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -82,6 +83,7 @@ export class Cpu {
             new $8XY2(this.context),
             new $8XY3(this.context),
             new $8XY4(this.context),
+            new $8XY5(this.context),
         ]
     }
 
@@ -115,18 +117,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF00F) === 0x8005) { // 8XY5 - Subtract VY from VX
-            const x = (opcode & 0x0F00) >> 8
-            const y = (opcode & 0x00F0) >> 4
-
-            const subtractResult = this.registers.getV(x) - this.registers.getV(y)
-            this.registers.setV(0xF, Number(this.registers.getV(x) >= this.registers.getV(y)))
-            this.registers.setV(x, subtractResult & 0x00FF)
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x + " = V" + x + " - V" + y)
-        } else if ((opcode & 0xF00F) === 0x8006) { // 8XY6 - Shift VX right by 1
+        if ((opcode & 0xF00F) === 0x8006) { // 8XY6 - Shift VX right by 1
             const x = (opcode & 0x0F00) >> 8
 
             this.registers.setV(0xF, this.registers.getV(x) & 0x01)
