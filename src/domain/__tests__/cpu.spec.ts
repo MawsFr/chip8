@@ -105,8 +105,8 @@ describe('OpcodesInterpreter', () => {
         });
 
         it('"3XNN" should skip next instruction if VX equals NN', () => {
-            registers.setV(0, 0x20)
             cpu.setProgramCounter(0x400)
+            registers.setV(0, 0x20)
 
             cpu.interpret(0x3020)
 
