@@ -35,6 +35,7 @@ import { $8XYE } from "./instructions/$8XYE.ts";
 import { $9XY0 } from "./instructions/$9XY0.ts";
 import { $ANNN } from "./instructions/$ANNN.ts";
 import { $BNNN } from "./instructions/$BNNN.ts";
+import { $CXNN } from "./instructions/$CXNN.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -96,6 +97,7 @@ export class Cpu {
             new $9XY0(this.context),
             new $ANNN(this.context),
             new $BNNN(this.context),
+            new $CXNN(this.context),
         ]
     }
 
@@ -129,17 +131,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF000) === 0xC000) { // CXNN - Set VX = random byte & NN
-            const randomNumber = Math.floor(Math.random() * 256)
-            const address = opcode & 0x00FF
-            const register = (opcode & 0x0F00) >> 8
-
-            this.registers.setV(register, address & randomNumber)
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + register.toString(16) + " = " + address.toString(16) + " & " + randomNumber)
-        } else if ((opcode & 0xF000) === 0xD000) { // DXYN - Draw sprite at VX, VY with height N
+        if ((opcode & 0xF000) === 0xD000) { // DXYN - Draw sprite at VX, VY with height N
             const x = (opcode & 0x0F00) >> 8
             const y = (opcode & 0x00F0) >> 4
             const n = (opcode & 0x000F)
