@@ -45,6 +45,10 @@ describe('Instruction', () => {
         expect(instruction.input).to.equal(context.input)
     });
 
+    it('should return delayTimer', () => {
+        expect(instruction.delayTimer).to.equal(context.delayTimer)
+    });
+
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {
             // Given

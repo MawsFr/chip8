@@ -39,6 +39,7 @@ import { $CXNN } from "./instructions/$CXNN.ts";
 import { $DXYN } from "./instructions/$DXYN.ts";
 import { $EX9E } from "./instructions/$EX9E.ts";
 import { $EXA1 } from "./instructions/$EXA1.ts";
+import { $FX07 } from "./instructions/$FX07.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -104,6 +105,7 @@ export class Cpu {
             new $DXYN(this.context),
             new $EX9E(this.context),
             new $EXA1(this.context),
+            new $FX07(this.context)
         ]
     }
 
@@ -137,15 +139,7 @@ export class Cpu {
         })
         // }
 
-        if ((opcode & 0xF0FF) === 0xF007) { // FX07 - Set VX = delay timer
-            const x = (opcode & 0x0F00) >> 8
-
-            this.registers.setV(x, this.delayTimer.read())
-
-            this.goToNextInstruction()
-
-            console.log(opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x + " = delay timer")
-        } else if ((opcode & 0xF0FF) === 0xF00A) { // FX0A - Wait for key press and store in VX
+        if ((opcode & 0xF0FF) === 0xF00A) { // FX0A - Wait for key press and store in VX
             const x = (opcode & 0x0F00) >> 8
 
             this.input.waitForPress().then((key) => {
