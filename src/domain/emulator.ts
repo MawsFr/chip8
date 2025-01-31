@@ -15,6 +15,8 @@ export enum State {
     PAUSED = 'PAUSED'
 }
 
+export const MAX_CYCLES_PER_FRAME = 10
+
 export class Emulator {
     public graphics: Graphics
     public stack: Stack
@@ -27,6 +29,7 @@ export class Emulator {
 
     public lastOpcode: Opcode | null = null
     public state: State = State.OFF
+    public intervalId: number | null = null
 
 
     constructor(cpu: Cpu, graphics: Graphics, stack: Stack, registers: Registers, memory: Memory, input: Input, delayTimer: Timer, soundTimer: Timer) {
@@ -58,16 +61,15 @@ export class Emulator {
             return
         }
 
-        const intervalId = setInterval(() => {
-            if (this.state !== State.RUNNING) {
-                clearInterval(intervalId);
+        this.intervalId = setInterval(() => {
+            if (this.state !== State.RUNNING && this.intervalId) {
+                clearInterval(this.intervalId);
                 return;
             }
 
-            this.executeNextInstruction();
-            this.executeNextInstruction();
-            this.executeNextInstruction();
-            this.executeNextInstruction();
+            for (let i = 0; i < MAX_CYCLES_PER_FRAME; i++) {
+                this.executeNextInstruction()
+            }
         }, fpsInterval);
     }
 
@@ -102,5 +104,8 @@ export class Emulator {
         this.soundTimer.write(0)
         this.state = State.OFF
         this.lastOpcode = null
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 }
