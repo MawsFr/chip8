@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $FX33 } from "../../instructions/$FX33.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('FX33 : Sets I to the location of the sprite for the character in VX', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('FX33 : Sets I to the location of the sprite for the character in VX', 
         const fetchedOpcode = 0xF133
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

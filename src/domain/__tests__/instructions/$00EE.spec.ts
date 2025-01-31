@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $00EE } from "../../instructions/$00EE.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('00EE : Return from a subroutine', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('00EE : Return from a subroutine', () => {
         const fetchedOpcode = 0x00EE
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

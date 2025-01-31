@@ -6,6 +6,7 @@ import Memory from "./memory.ts";
 import { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
 import { concatBytes } from "./binary-operations.ts";
+import { Opcode } from "./opcode.ts";
 
 export enum State {
     OFF = 'OFF',
@@ -24,7 +25,7 @@ export class Emulator {
     public soundTimer: Timer
     public cpu: Cpu;
 
-    public lastOpcode: number = 0
+    public lastOpcode: Opcode | null = null
     public state: State = State.OFF
 
 
@@ -78,11 +79,11 @@ export class Emulator {
         this.lastOpcode = opcode
     }
 
-    readNextOpcode() {
+    readNextOpcode(): Opcode {
         const left = this.memory.getDataAt(this.cpu.getProgramCounter())
         const right = this.memory.getDataAt(this.cpu.getProgramCounter() + 1)
 
-        return concatBytes(left, right)
+        return new Opcode(concatBytes(left, right))
     }
 
     updateTimers() {
@@ -100,6 +101,6 @@ export class Emulator {
         this.delayTimer.write(0)
         this.soundTimer.write(0)
         this.state = State.OFF
-        this.lastOpcode = 0
+        this.lastOpcode = null
     }
 }

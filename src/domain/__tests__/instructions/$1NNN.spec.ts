@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $1NNN } from "../../instructions/$1NNN.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('1NNN : Jump to address NNN', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('1NNN : Jump to address NNN', () => {
         const fetchedOpcode = 0x120A
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

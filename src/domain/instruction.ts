@@ -1,4 +1,4 @@
-import type { Opcode } from "./opcode.ts";
+import type { N, NN, NNN, Opcode, X, Y } from "./opcode.ts";
 import type { Graphics } from "./graphics.ts";
 import type { Cpu } from "./cpu.ts";
 import type Stack from "./stack.ts";
@@ -9,10 +9,10 @@ import type { Timer } from "./timers.ts";
 
 export abstract class Instruction<T extends InstructionParams> {
     protected readonly context: InstructionContext
-    protected readonly opcode: Opcode
+    protected readonly opcode: OpcodeIdentifier
     protected readonly mask: number
 
-    protected constructor(context: InstructionContext, opcode: Opcode, mask: number) {
+    protected constructor(context: InstructionContext, opcode: OpcodeIdentifier, mask: number) {
         this.context = context
         this.opcode = opcode
         this.mask = mask
@@ -51,11 +51,13 @@ export abstract class Instruction<T extends InstructionParams> {
     }
 
     matches(opcode: Opcode): boolean {
-        return (opcode & this.mask) === this.opcode
+        return (opcode.value & this.mask) === this.opcode
     }
 
     abstract execute(params?: T): void
 }
+
+export type OpcodeIdentifier = number;
 
 export type InstructionContext = {
     graphics: Graphics
@@ -99,32 +101,6 @@ export type InstructionParams =
     | XYInstructionParams
     | XInstructionParams
     | undefined
-
-export type NNN = number;  // Adresse sur 12 bits
-export type NN = number;   // Valeur sur 8 bits
-export type N = number;    // Valeur sur 4 bits
-export type X = number;    // Index de registre (4 bits)
-export type Y = number;    // Index de registre (4 bits)
-
-export function extractNNN(value: number): NNN {
-    return value & 0x0FFF;
-}
-
-export function extractNN(value: number): NN {
-    return value & 0x00FF;
-}
-
-export function extractN(value: number): N {
-    return value & 0x000F;
-}
-
-export function extractX(value: number): X {
-    return (value & 0x0F00) >> 8;
-}
-
-export function extractY(value: number): Y {
-    return (value & 0x00F0) >> 4;
-}
 
 
 

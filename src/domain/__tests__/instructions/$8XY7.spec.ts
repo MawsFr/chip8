@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $8XY7 } from "../../instructions/$8XY7.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('8XY7 : VY is subtracted from VX. Underflow is managed in VF', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('8XY7 : VY is subtracted from VX. Underflow is managed in VF', () => {
         const fetchedOpcode = 0x8127
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

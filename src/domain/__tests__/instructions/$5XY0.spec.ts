@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $5XY0 } from "../../instructions/$5XY0.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('5XY0 : Skips the next instruction if VX equals VY', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('5XY0 : Skips the next instruction if VX equals VY', () => {
         const fetchedOpcode = 0x5120
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

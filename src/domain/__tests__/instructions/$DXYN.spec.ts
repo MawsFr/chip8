@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $DXYN } from "../../instructions/$DXYN.ts";
+import { Opcode } from "../../opcode.ts";
 
 const ALIVE_PIXEL = 1
 const DEAD_PIXEL = 0
@@ -20,7 +21,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
         const fetchedOpcode = 0xD12E
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

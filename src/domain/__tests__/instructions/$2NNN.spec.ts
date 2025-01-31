@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $2NNN } from "../../instructions/$2NNN.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('2NNN : Calls subroutine at NNN', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('2NNN : Calls subroutine at NNN', () => {
         const fetchedOpcode = 0x220A
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

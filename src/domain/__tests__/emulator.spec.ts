@@ -51,7 +51,7 @@ describe('Emulator', () => {
 
             const opcode = emulator.readNextOpcode()
 
-            expect(opcode).to.equal(0x10E0)
+            expect(opcode.value).to.equal(0x10E0)
         });
     });
 

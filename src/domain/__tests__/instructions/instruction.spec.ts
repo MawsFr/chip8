@@ -1,6 +1,7 @@
 import { Instruction, type InstructionContext } from "../../instruction.ts";
 import { beforeEach, describe } from "vitest";
 import { useTestContext } from "../helpers/useTestContext.ts";
+import { Opcode } from "../../opcode.ts";
 
 class Mock$00E0 extends Instruction<undefined> {
     constructor(context: InstructionContext) {
@@ -59,7 +60,7 @@ describe('Instruction', () => {
             const fetchedOpcode = 0x00E0
 
             // When
-            const result = instruction.matches(fetchedOpcode)
+            const result = instruction.matches(new Opcode(fetchedOpcode))
 
             // Then
             expect(result).toBeTruthy()
@@ -70,7 +71,7 @@ describe('Instruction', () => {
             const fetchedOpcode = 0x00A0
 
             // When
-            const result = instruction.matches(fetchedOpcode)
+            const result = instruction.matches(new Opcode(fetchedOpcode))
 
             // Then
             expect(result).toBeFalsy()

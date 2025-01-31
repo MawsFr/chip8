@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $4XNN } from "../../instructions/$4XNN.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('4XNN : Skips the next instruction if VX equals NN', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('4XNN : Skips the next instruction if VX equals NN', () => {
         const fetchedOpcode = 0x40FF
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

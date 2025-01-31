@@ -4,16 +4,7 @@ import type Registers from "./registers.ts";
 import type Memory from "./memory.ts";
 import type { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import {
-    extractN,
-    extractNN,
-    extractNNN,
-    extractX,
-    extractY,
-    type Instruction,
-    type InstructionContext,
-    type InstructionParams
-} from "./instruction.ts";
+import { type Instruction, type InstructionContext, type InstructionParams } from "./instruction.ts";
 import { $00E0 } from "./instructions/$00E0.ts";
 import { $00EE } from "./instructions/$00EE.ts";
 import { $1NNN } from "./instructions/$1NNN.ts";
@@ -48,6 +39,7 @@ import { $FX29 } from "./instructions/$FX29.ts";
 import { $FX33 } from "./instructions/$FX33.ts";
 import { $FX55 } from "./instructions/$FX55.ts";
 import { $FX65 } from "./instructions/$FX65.ts";
+import { Opcode } from "./opcode.ts";
 
 export class Cpu {
     public graphics: Graphics;
@@ -137,20 +129,20 @@ export class Cpu {
         this.programCounter += 2 & 0x0FFF
     }
 
-    interpret(opcode: number) {
+    interpret(opcode: Opcode) {
         const instruction = this.instructions.find((instruction) => instruction.matches(opcode))
 
         if (!instruction) {
-            console.warn(opcode.toString(16).padStart(4, '0').toUpperCase() + " Unhandled opcode. Please verify.");
+            console.warn(opcode.toString() + " Unhandled opcode. Please verify.");
             return
         }
 
         instruction.execute({
-            x: extractX(opcode),
-            y: extractY(opcode),
-            n: extractN(opcode),
-            nn: extractNN(opcode),
-            nnn: extractNNN(opcode)
+            x: opcode.extractX(),
+            y: opcode.extractY(),
+            n: opcode.extractN(),
+            nn: opcode.extractNN(),
+            nnn: opcode.extractNNN(),
         })
     }
 

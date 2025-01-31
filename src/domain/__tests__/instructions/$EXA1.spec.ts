@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $EXA1 } from "../../instructions/$EXA1.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('EXA1 : VY is subtracted from VX. Underflow is managed in VF', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('EXA1 : VY is subtracted from VX. Underflow is managed in VF', () => {
         const fetchedOpcode = 0xE1A1
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()
@@ -39,7 +40,7 @@ describe('EXA1 : VY is subtracted from VX. Underflow is managed in VF', () => {
         context.input.press(0x8)
 
         instruction.execute({ x: 0 })
-        
+
         expect(context.cpu.getProgramCounter()).to.equal(0x202)
     });
 });

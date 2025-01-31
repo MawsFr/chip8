@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $9XY0 } from "../../instructions/$9XY0.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('9XY0 : Sets VX to the value of VY', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('9XY0 : Sets VX to the value of VY', () => {
         const fetchedOpcode = 0x9120
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()
@@ -39,7 +40,7 @@ describe('9XY0 : Sets VX to the value of VY', () => {
         context.registers.setV(1, 0x40)
 
         instruction.execute({ x: 0, y: 1 })
-        
+
         expect(context.cpu.getProgramCounter()).to.equal(0x402)
     });
 });

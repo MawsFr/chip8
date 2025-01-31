@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $FX1E } from "../../instructions/$FX1E.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('FX1E : Adds VX to I. VF is not affected', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('FX1E : Adds VX to I. VF is not affected', () => {
         const fetchedOpcode = 0xF11E
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

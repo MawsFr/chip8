@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $FX55 } from "../../instructions/$FX55.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('FX55 : Stores from V0 to VX (including VX) in memory, starting at address I.', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('FX55 : Stores from V0 to VX (including VX) in memory, starting at addr
         const fetchedOpcode = 0xF155
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

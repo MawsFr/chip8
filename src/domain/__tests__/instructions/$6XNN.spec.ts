@@ -2,6 +2,7 @@ import { expect } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $6XNN } from "../../instructions/$6XNN.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('6XNN : Sets VX to NN', () => {
     let context: InstructionContext;
@@ -17,7 +18,7 @@ describe('6XNN : Sets VX to NN', () => {
         const fetchedOpcode = 0x6120
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()

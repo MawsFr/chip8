@@ -2,6 +2,7 @@ import { afterEach, expect, vi } from "vitest";
 import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $00E0 } from "../../instructions/$00E0.ts";
+import { Opcode } from "../../opcode.ts";
 
 describe('00E0 : Clear screen', () => {
     let context: InstructionContext;
@@ -21,7 +22,7 @@ describe('00E0 : Clear screen', () => {
         const fetchedOpcode = 0x00E0
 
         // When
-        const result = instruction.matches(fetchedOpcode)
+        const result = instruction.matches(new Opcode(fetchedOpcode))
 
         // Then
         expect(result).toBeTruthy()
