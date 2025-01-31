@@ -6,7 +6,9 @@ export class $FX1E extends Instruction<XInstructionParams> {
     }
 
     execute({ x }: XInstructionParams): void {
-        this.registers.setI(this.registers.getI() + this.registers.getV(x))
+        const value = this.registers.getV(x)
+        
+        this.registers.addI(value)
 
         this.cpu.goToNextInstruction()
 

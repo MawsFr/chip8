@@ -63,20 +63,38 @@ describe('Memory', () => {
         });
     });
 
-    describe('getSprite()', () => {
-        it('should return the sprite of length n', () => {
+    describe('getSpriteData()', () => {
+        it('should return the sprite data at I position', () => {
             registers.setI(0x200)
             memory.load([
                 0xC0,
                 0x20,
             ])
 
-            const sprite = memory.getSprite(2)
+            const sprite = memory.getSpriteData(2)
 
             expect(sprite).to.deep.equal(Uint8Array.from([
                 0xC0,
                 0x20,
             ]))
+        });
+    });
+
+    describe('entries()', () => {
+        it('should return range of entries', () => {
+            registers.setI(0)
+            memory.load([
+                0xC0,
+                0x20,
+            ])
+
+            const entries = memory.entries(0, 1)
+
+            expect(entries).to.deep.equal(Uint8Array.from([
+                0xC0,
+                0x20,
+            ]))
+
         });
     });
 })

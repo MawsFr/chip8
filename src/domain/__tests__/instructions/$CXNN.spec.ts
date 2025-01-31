@@ -26,11 +26,11 @@ describe('CXNN : Jump to address NNN', () => {
 
     it('"CXNN" should set VX to a random number & NN', () => {
         vi.spyOn(Math, 'random').mockReturnValue(0.1)
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
 
         instruction.execute({ x: 0, nn: 0x10 })
 
         expect(context.registers.getV(0)).to.equal(0x10)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

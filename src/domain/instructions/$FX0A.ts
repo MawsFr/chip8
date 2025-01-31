@@ -8,6 +8,7 @@ export class $FX0A extends Instruction<XInstructionParams> {
     execute({ x }: XInstructionParams): void {
         this.input.waitForPress().then((key) => {
             this.registers.setV(x, key)
+
             this.cpu.goToNextInstruction()
         })
 

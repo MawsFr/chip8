@@ -37,7 +37,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
             0xC0,
         ]
 
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.registers.setV(0, 1)
         context.registers.setV(1, 1)
 
@@ -54,7 +54,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
 
         expect(context.registers.getV(0xF)).to.equal(0)
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 
     it('"DXYN" should draw an overlapping sprite of width of 8, height of N at (VX, VY)', () => {
@@ -67,7 +67,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
             0xC0,
         ]
 
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.graphics.drawPixel(ALIVE_PIXEL, { x: 1, y: 1 })
 
         context.registers.setV(0, 1)
@@ -86,6 +86,6 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
 
         expect(context.registers.getV(0xF)).to.equal(1)
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

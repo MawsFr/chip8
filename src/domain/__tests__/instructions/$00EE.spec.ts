@@ -26,13 +26,16 @@ describe('00EE : Return from a subroutine', () => {
 
     it('should return from a subroutine', () => {
         // Given
-        context.stack.push(0x200)
-        context.cpu.setProgramCounter(0x400)
+        vi.spyOn(context.cpu, 'returnFromSubroutine').mockImplementation(() => {
+        });
+
+        context.cpu.jumpToAddress(0x200)
 
         // When
         instruction.execute()
 
         // Then
-        expect(context.cpu.getProgramCounter()).equals(0x202)
+        expect(context.cpu.returnFromSubroutine).toHaveBeenCalledOnce()
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     })
 });

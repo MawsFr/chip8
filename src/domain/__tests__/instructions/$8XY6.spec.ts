@@ -25,13 +25,13 @@ describe('8XY6 : VY is subtracted from VX. Underflow is managed in VF', () => {
     })
 
     it('"8XY6" should shift VX to the right. VF is set to the least significant bit of VX prior to the shift into VF.', () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.registers.setV(0, 0x23)
 
         instruction.execute({ x: 0, y: 1 })
 
         expect(context.registers.getV(0)).to.equal(0x11)
         expect(context.registers.getV(0xF)).to.equal(0x1)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

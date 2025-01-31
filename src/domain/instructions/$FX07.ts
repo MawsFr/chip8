@@ -6,7 +6,9 @@ export class $FX07 extends Instruction<XInstructionParams> {
     }
 
     execute({ x }: XInstructionParams): void {
-        this.registers.setV(x, this.delayTimer.read())
+        const value = this.delayTimer.read()
+
+        this.registers.setV(x, value)
 
         this.cpu.goToNextInstruction()
 

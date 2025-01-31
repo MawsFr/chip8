@@ -26,15 +26,16 @@ describe('2NNN : Calls subroutine at NNN', () => {
 
     it('should call a subroutine', () => {
         // Given
-        context.cpu.setProgramCounter(0x400)
+        vi.spyOn(context.cpu, 'callSubroutine').mockImplementation(() => {
+        });
+
+        context.cpu.jumpToAddress(0x200)
 
         // When
-        instruction.execute({
-            nnn: 0x200
-        })
+        instruction.execute({ nnn: 0x400 })
 
         // Then
-        expect(context.stack.pop()).to.equal(0x400)
-        expect(context.cpu.getProgramCounter()).to.equal(0x200)
+        expect(context.cpu.callSubroutine).toHaveBeenCalledWith(0x400)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x200)
     })
 });

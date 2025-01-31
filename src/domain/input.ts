@@ -1,5 +1,5 @@
 export class Input {
-    public keys: Boolean[] = Array(16).fill(false)
+    public keys: boolean[] = Array(16).fill(false)
     public resolveKey: Function | null = null
 
     press(key: number) {

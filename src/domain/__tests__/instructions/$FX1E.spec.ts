@@ -25,13 +25,13 @@ describe('FX1E : Adds VX to I. VF is not affected', () => {
     })
 
     it('"FX1E" should add VX to I', () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.registers.setV(0, 0x20)
         context.registers.setI(0x20)
 
         instruction.execute({ x: 0 })
 
         expect(context.registers.getI()).to.equal(0x40)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

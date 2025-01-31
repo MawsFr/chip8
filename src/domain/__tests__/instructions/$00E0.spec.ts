@@ -33,13 +33,13 @@ describe('00E0 : Clear screen', () => {
         vi.spyOn(context.graphics, 'clearScreen').mockImplementation(() => {
         });
 
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
 
         // When
         instruction.execute()
 
         // Then
         expect(context.graphics.clearScreen).toHaveBeenCalledOnce()
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     })
 });

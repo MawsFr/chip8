@@ -25,12 +25,12 @@ describe('FX15 : VY is subtracted from VX. Underflow is managed in VF', () => {
     })
 
     it('"FX15" should set the delay timer to VX', () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.registers.setV(0, 0x30)
 
         instruction.execute({ x: 0 })
 
         expect(context.delayTimer.read()).to.equal(0x30)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

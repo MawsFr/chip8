@@ -39,17 +39,27 @@ export default class Memory {
     }
 
     load(data: Uint8Array | number[], start: number = this.registers.getI()) {
-        for (let i = 0; i < data.length; ++i) {
-            this.addresses[start + i] = data[i]
+        for (const [ i, value ] of Array.from(data).entries()) {
+            this.addresses[start + i] = value
         }
     }
 
-    getSprite(length: number) {
-        return this.addresses.slice(this.registers.getI(), this.registers.getI() + length)
+    getSpriteData(height: number) {
+        return this.addresses.slice(this.registers.getI(), this.registers.getI() + height)
+    }
+
+    entries(start: number, end: number) {
+        return this.addresses.slice(start, end + 1)
     }
 
     reset() {
         this.addresses.fill(0)
         this.loadFontSet()
+    }
+
+    * [Symbol.iterator]() {
+        for (let i = 0; i < this.addresses.length; ++i) {
+            yield this.addresses[i]
+        }
     }
 }

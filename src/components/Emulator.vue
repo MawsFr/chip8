@@ -260,7 +260,7 @@ onMounted(() => {
   }
 })
 
-const isCurrentAddress = (index: number) => index === cpu.getProgramCounter() || index === cpu.getProgramCounter() + 1
+const isCurrentAddress = (index: number) => index === cpu.getCurrentAddress() || index === cpu.getCurrentAddress() + 1
 const toHexa = (n: number, pad: number = 2) => {
   return n.toString(16).padStart(pad, '0').toUpperCase()
 }
@@ -284,10 +284,10 @@ const toHexa = (n: number, pad: number = 2) => {
   <button :disabled="!isRomLoaded" @click="emulator.state = State.PAUSED">Pause</button>
   Manual<input type="checkbox" v-model="manual">
   Grid<input type="checkbox" v-model="showGrid">
-  PC: {{ emulator.cpu.getProgramCounter().toString(16).padStart(4, '0') }}
+  PC: {{ emulator.cpu.getCurrentAddress().toString(16).padStart(4, '0') }}
   | I: {{ emulator.registers.getI().toString(16).padStart(4, '0') }}
   | Last OPCODE : {{ emulator.lastOpcode.toString(16).padStart(4, '0') }}
-  | Regs: {{ convertUint_to_hexStr(emulator.registers.getRange(0x0, 0xF)) }}
+  | Regs: {{ convertUint_to_hexStr(emulator.registers.entries(0x0, 0xF)) }}
   | Stack : {{ convertUint_to_hexStr(emulator.stack.slots) }}
   | DelayTimer: {{ emulator.delayTimer.read() }}
   | SoundTimer: {{ emulator.soundTimer.read() }}

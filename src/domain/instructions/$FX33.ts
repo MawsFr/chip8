@@ -1,4 +1,5 @@
 import { Instruction, type InstructionContext, type XInstructionParams } from "../instruction.ts";
+import { extractHundreds, extractOnes, extractTens } from "../math.helper.ts";
 
 export class $FX33 extends Instruction<XInstructionParams> {
     constructor(context: InstructionContext) {
@@ -8,9 +9,9 @@ export class $FX33 extends Instruction<XInstructionParams> {
     execute({ x }: XInstructionParams): void {
         const value = this.registers.getV(x)
 
-        const hundreds = Math.floor(value / 100)
-        const tens = Math.floor((value % 100) / 10)
-        const ones = (value % 10)
+        const hundreds = extractHundreds(value)
+        const tens = extractTens(value)
+        const ones = extractOnes(value)
 
         this.memory.load([ hundreds, tens, ones ])
 

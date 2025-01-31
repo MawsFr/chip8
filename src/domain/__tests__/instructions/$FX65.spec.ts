@@ -25,8 +25,8 @@ describe('FX65 : Stores from V0 to VX (including VX) in memory, starting at addr
     })
 
     it('"FX65" should fill from V0 to VX (included) from memory starting at I', () => {
-        context.cpu.setProgramCounter(0x200)
-        context.registers.setI(0x300)
+        context.cpu.jumpToAddress(0x200)
+        context.registers.setI(0)
         context.memory.load([ 0x12, 0x34, 0x56, 0x78 ])
 
         instruction.execute({ x: 3 })
@@ -36,6 +36,6 @@ describe('FX65 : Stores from V0 to VX (including VX) in memory, starting at addr
         expect(context.registers.getV(0x2)).to.equal(0x56)
         expect(context.registers.getV(0x3)).to.equal(0x78)
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x202);
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202);
     });
 });

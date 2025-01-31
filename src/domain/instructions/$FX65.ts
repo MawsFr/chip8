@@ -6,9 +6,10 @@ export class $FX65 extends Instruction<XInstructionParams> {
     }
 
     execute({ x }: XInstructionParams): void {
-        for (let i = 0; i <= x; ++i) {
-            this.registers.setV(i, this.memory.getDataAt(this.registers.getI() + i)) // TODO : cleanup
-        }
+        const start = this.registers.getI()
+        const entries = this.memory.entries(start, x)
+
+        this.registers.load(entries)
 
         this.cpu.goToNextInstruction()
 

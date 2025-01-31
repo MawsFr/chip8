@@ -1,4 +1,5 @@
 import { Instruction, type InstructionContext, type XYInstructionParams } from "../instruction.ts";
+import { bitwiseAnd } from "../binary-operations.ts";
 
 export class $8XY2 extends Instruction<XYInstructionParams> {
     constructor(context: InstructionContext) {
@@ -6,7 +7,9 @@ export class $8XY2 extends Instruction<XYInstructionParams> {
     }
 
     execute({ x, y }: XYInstructionParams): void {
-        this.registers.setV(x, this.registers.getV(x) & this.registers.getV(y))
+        const xAndY = bitwiseAnd(this.registers.getV(x), this.registers.getV(y))
+
+        this.registers.setV(x, xAndY)
 
         this.cpu.goToNextInstruction()
 

@@ -26,13 +26,13 @@ describe('6XNN : Sets VX to NN', () => {
 
     it('"6XNN" should set VX to NN', () => {
         // Given
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
 
         // When
         instruction.execute({ x: 0, nn: 0x20 })
 
         // Then
         expect(context.registers.getV(0)).to.equal(0x20)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

@@ -6,7 +6,9 @@ export class $FX18 extends Instruction<XInstructionParams> {
     }
 
     execute({ x }: XInstructionParams): void {
-        this.soundTimer.write(this.registers.getV(x))
+        const value = this.registers.getV(x)
+        
+        this.soundTimer.write(value)
 
         this.cpu.goToNextInstruction()
 

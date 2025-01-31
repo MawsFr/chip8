@@ -6,11 +6,9 @@ export class $9XY0 extends Instruction<XYInstructionParams> {
     }
 
     execute({ x, y }: XYInstructionParams): void {
-        if (this.registers.getV(x) !== this.registers.getV(y)) {
-            this.cpu.goToNextInstruction()
-        }
+        const skipNextInstruction = this.registers.getV(x) !== this.registers.getV(y)
 
-        this.cpu.goToNextInstruction()
+        this.cpu.goToNextInstruction({ skipNextInstruction })
 
         console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x + " != V" + y)
     }

@@ -6,6 +6,7 @@ export class $8XY5 extends Instruction<XYInstructionParams> {
     }
 
     execute({ x, y }: XYInstructionParams): void {
+        // TODO: Refactor to use a register.subtract method
         const subtractResult = this.registers.getV(x) - this.registers.getV(y)
         this.registers.setV(0xF, Number(this.registers.getV(x) >= this.registers.getV(y)))
         this.registers.setV(x, subtractResult)

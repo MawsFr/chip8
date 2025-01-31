@@ -39,7 +39,13 @@ import { $FX29 } from "./instructions/$FX29.ts";
 import { $FX33 } from "./instructions/$FX33.ts";
 import { $FX55 } from "./instructions/$FX55.ts";
 import { $FX65 } from "./instructions/$FX65.ts";
-import { Opcode } from "./opcode.ts";
+import { type NNN, Opcode } from "./opcode.ts";
+
+type GoToNextInstructionParams = {
+    skipNextInstruction: boolean
+};
+
+export const NB_OPCODE_BYTES = 2
 
 export class Cpu {
     public graphics: Graphics;
@@ -117,16 +123,26 @@ export class Cpu {
         ]
     }
 
-    getProgramCounter() {
+    getCurrentAddress() {
         return this.programCounter
     }
 
-    setProgramCounter(address: number) {
+    jumpToAddress(address: number) {
         this.programCounter = address & 0x0FFF
     }
 
-    goToNextInstruction() {
-        this.programCounter += 2 & 0x0FFF
+    goToNextInstruction({ skipNextInstruction }: GoToNextInstructionParams = { skipNextInstruction: false }) {
+        const skip = Number(skipNextInstruction) * NB_OPCODE_BYTES
+        this.programCounter += NB_OPCODE_BYTES + skip
+    }
+
+    callSubroutine(address: NNN) {
+        this.stack.push(this.programCounter)
+        this.jumpToAddress(address)
+    }
+
+    returnFromSubroutine() {
+        this.programCounter = this.stack.pop()
     }
 
     interpret(opcode: Opcode) {
@@ -149,6 +165,4 @@ export class Cpu {
     reset() {
         this.programCounter = 0x0
     }
-
-
 }

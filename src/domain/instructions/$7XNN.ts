@@ -5,11 +5,11 @@ export class $7XNN extends Instruction<XNNInstructionParams> {
         super(context, 0x7000, 0xF000)
     }
 
-    execute({ x, nn }: XNNInstructionParams): void {
-        this.registers.addV(x, nn)
+    execute({ x, nn: value }: XNNInstructionParams): void {
+        this.registers.addV(x, value)
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Add " + nn.toString(16) + " to V" + x.toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Add " + value.toString(16) + " to V" + x.toString(16))
     }
 }

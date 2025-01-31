@@ -6,7 +6,9 @@ export class $8XY0 extends Instruction<XYInstructionParams> {
     }
 
     execute({ x, y }: XYInstructionParams): void {
-        this.registers.setV(x, this.registers.getV(y))
+        const value = this.registers.getV(y)
+
+        this.registers.setV(x, value)
 
         this.cpu.goToNextInstruction()
 

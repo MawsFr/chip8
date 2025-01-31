@@ -61,16 +61,35 @@ describe('Registers', () => {
         });
     });
 
+    describe('addI()', () => {
+        it('should add a value to I slot', () => {
+            registers.setI(0x20)
+            registers.addI(0x10)
+
+            expect(registers.getI()).to.equal(0x30)
+        });
+    });
+
     describe('getRange()', () => {
         it('should return values between VX and VY (included)', () => {
             registers.setV(0, 0x123)
             registers.setV(1, 0x456)
             registers.setV(2, 0x789)
 
-            const values = registers.getRange(0, 2)
+            const values = registers.entries(0, 2)
 
             expect(values).to.deep.equal(Uint8Array.from([ 0x123, 0x456, 0x789 ]))
         });
 
+    });
+
+    describe('load()', () => {
+        it('should load values into registers', () => {
+            registers.load([ 0x20, 0x30, 0x40 ])
+
+            expect(registers.getV(0)).to.equal(0x20)
+            expect(registers.getV(1)).to.equal(0x30)
+            expect(registers.getV(2)).to.equal(0x40)
+        });
     });
 })

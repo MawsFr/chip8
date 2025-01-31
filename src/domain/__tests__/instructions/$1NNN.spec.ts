@@ -31,6 +31,6 @@ describe('1NNN : Jump to address NNN', () => {
         })
 
         // Then
-        expect(context.cpu.getProgramCounter()).to.equal(0x20A)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x20A)
     })
 });

@@ -25,22 +25,22 @@ describe('5XY0 : Skips the next instruction if VX equals VY', () => {
     })
 
     it('"5XY0" should skip next instruction if VX equals VY', () => {
-        context.cpu.setProgramCounter(0x400)
+        context.cpu.jumpToAddress(0x400)
         context.registers.setV(0, 0x40)
         context.registers.setV(1, 0x40)
 
         instruction.execute({ x: 0, y: 1 })
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x404)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x404)
     });
 
     it('"5XY0" should not skip next instruction if VX is different from VY', () => {
-        context.cpu.setProgramCounter(0x400)
+        context.cpu.jumpToAddress(0x400)
         context.registers.setV(0, 0x50)
         context.registers.setV(1, 0x40)
 
         instruction.execute({ x: 0, y: 1 })
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x402)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x402)
     });
 });

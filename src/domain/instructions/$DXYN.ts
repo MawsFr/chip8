@@ -6,8 +6,8 @@ export class $DXYN extends Instruction<XYNInstructionParams> {
         super(context, 0xD000, 0xF000)
     }
 
-    execute({ x, y, n }: XYNInstructionParams): void {
-        const spriteData = this.memory.getSprite(n)
+    execute({ x, y, n: height }: XYNInstructionParams): void {
+        const spriteData = this.memory.getSpriteData(height)
         const position: Position = {
             x: this.registers.getV(x),
             y: this.registers.getV(y)
@@ -19,6 +19,6 @@ export class $DXYN extends Instruction<XYNInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + ": " + this.registers.getV(x).toString(16) + " V" + y + ": " + this.registers.getV(y).toString(16) + " with height " + n)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Draw sprite at V" + x + ": " + this.registers.getV(x).toString(16) + " V" + y + ": " + this.registers.getV(y).toString(16) + " with height " + height)
     }
 }

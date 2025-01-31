@@ -5,13 +5,11 @@ export class $4XNN extends Instruction<XNNInstructionParams> {
         super(context, 0x4000, 0xF000)
     }
 
-    execute({ x, nn }: XNNInstructionParams): void {
-        if (this.registers.getV(x) !== nn) {
-            this.cpu.goToNextInstruction()
-            console.log("Next instruction skipped")
-        }
+    execute({ x, nn: value }: XNNInstructionParams): void {
+        const skipNextInstruction = this.registers.getV(x) !== value
 
-        this.cpu.goToNextInstruction()
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x.toString(16) + " != " + nn.toString(16))
+        this.cpu.goToNextInstruction({ skipNextInstruction })
+
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x.toString(16) + " != " + value.toString(16))
     }
 }

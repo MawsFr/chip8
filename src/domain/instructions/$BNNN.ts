@@ -5,9 +5,11 @@ export class $BNNN extends Instruction<NNNInstructionParams> {
         super(context, 0xB000, 0xF000)
     }
 
-    execute({ nnn }: NNNInstructionParams): void {
-        this.cpu.setProgramCounter(nnn + this.registers.getV(0))
+    execute({ nnn: address }: NNNInstructionParams): void {
+        const addressToJumpTo = this.registers.getV(0) + address
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + nnn.toString(16) + " + V0")
+        this.cpu.jumpToAddress(addressToJumpTo)
+
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address.toString(16) + " + V0")
     }
 }

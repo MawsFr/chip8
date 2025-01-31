@@ -25,7 +25,7 @@ describe('FX33 : Sets I to the location of the sprite for the character in VX', 
     })
 
     it('"FX33" should store the BCD representation of VX in memory at location', () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         context.registers.setV(0, 123);
         context.registers.setI(0x300);
 
@@ -35,6 +35,6 @@ describe('FX33 : Sets I to the location of the sprite for the character in VX', 
         expect(context.memory.getDataAt(0x301)).to.equal(2);
         expect(context.memory.getDataAt(0x302)).to.equal(3);
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x202);
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202);
     });
 });

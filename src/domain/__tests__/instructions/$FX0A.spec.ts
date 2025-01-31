@@ -25,7 +25,7 @@ describe('FX0A : VY is subtracted from VX. Underflow is managed in VF', () => {
     })
 
     it('"FX0A" should await for a key press', async () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
         setTimeout(() => {
             context.input.press(0x1)
         }, 100)
@@ -35,6 +35,6 @@ describe('FX0A : VY is subtracted from VX. Underflow is managed in VF', () => {
         await new Promise((resolve) => setTimeout(resolve, 200));
 
         expect(context.registers.getV(0)).to.equal(0x1)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

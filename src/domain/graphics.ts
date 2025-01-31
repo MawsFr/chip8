@@ -1,4 +1,4 @@
-import { xor } from "./binary-operations.ts";
+import { bitwiseXor } from "./binary-operations.ts";
 import type { Position, Sprite } from "./sprite.ts";
 
 export const DEAD_PIXEL = 0
@@ -25,7 +25,7 @@ export class Graphics {
     }
 
     mergePixels(oldPixel: Pixel, pixel: Pixel) {
-        return xor(oldPixel, pixel) as Pixel;
+        return bitwiseXor(oldPixel, pixel) as Pixel;
     }
 
     clearScreen() {
@@ -38,7 +38,7 @@ export class Graphics {
 
     drawSprite(sprite: Sprite) {
         let wasOverlapping = false
-        
+
         for (const { position, pixel } of sprite) {
             const { wasAlive } = this.drawPixel(pixel, position)
             wasOverlapping = wasOverlapping || wasAlive

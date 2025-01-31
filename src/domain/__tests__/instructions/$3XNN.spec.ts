@@ -26,19 +26,19 @@ describe('3XNN : Skips the next instruction if VX equals NN', () => {
 
     it('"3XNN" should skip next instruction if VX equals NN', () => {
         context.registers.setV(0, 0x20)
-        context.cpu.setProgramCounter(0x400)
+        context.cpu.jumpToAddress(0x400)
 
         instruction.execute({ x: 0, nn: 0x20 })
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x404)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x404)
     });
 
     it('"3XNN" should not skip next instruction if VX different NN', () => {
-        context.cpu.setProgramCounter(0x400)
+        context.cpu.jumpToAddress(0x400)
         context.registers.setV(0, 0x20)
 
         instruction.execute({ x: 0, nn: 0x30 })
 
-        expect(context.cpu.getProgramCounter()).to.equal(0x402)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x402)
     });
 });

@@ -25,11 +25,11 @@ describe('ANNN : Jump to address NNN', () => {
     })
 
     it('"ANNN" should set I to NNN', () => {
-        context.cpu.setProgramCounter(0x200)
+        context.cpu.jumpToAddress(0x200)
 
         instruction.execute({ nnn: 0x200 })
 
         expect(context.registers.getI()).to.equal(0x200)
-        expect(context.cpu.getProgramCounter()).to.equal(0x202)
+        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
     });
 });

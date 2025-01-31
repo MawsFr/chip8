@@ -47,7 +47,7 @@ export class Emulator {
     loadROM(data: Uint8Array) {
         this.reset()
         this.memory.load(data, 0x200)
-        this.cpu.setProgramCounter(0x200)
+        this.cpu.jumpToAddress(0x200)
         this.lastOpcode = this.readNextOpcode()
         this.state = State.ROM_LOADED
     }
@@ -82,8 +82,8 @@ export class Emulator {
     }
 
     readNextOpcode(): Opcode {
-        const left = this.memory.getDataAt(this.cpu.getProgramCounter())
-        const right = this.memory.getDataAt(this.cpu.getProgramCounter() + 1)
+        const left = this.memory.getDataAt(this.cpu.getCurrentAddress())
+        const right = this.memory.getDataAt(this.cpu.getCurrentAddress() + 1)
 
         return new Opcode(concatBytes(left, right))
     }
