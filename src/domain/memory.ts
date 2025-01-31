@@ -48,7 +48,7 @@ export default class Memory {
         return this.addresses.slice(this.registers.getI(), this.registers.getI() + length)
     }
 
-    clear() {
+    reset() {
         this.addresses.fill(0)
         this.loadFontSet()
     }

@@ -5,7 +5,7 @@ import Registers from "./registers.ts";
 import Memory from "./memory.ts";
 import { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import { BinaryOperations } from "./binary-operations.ts";
+import { concatBytes } from "./binary-operations.ts";
 
 export enum State {
     OFF = 'OFF',
@@ -41,6 +41,7 @@ export class Emulator {
     }
 
     loadROM(data: Uint8Array) {
+        this.reset()
         this.memory.load(data, 0x200)
         this.cpu.setProgramCounter(0x200)
         this.lastOpcode = this.readNextOpcode()
@@ -81,7 +82,7 @@ export class Emulator {
         const left = this.memory.getDataAt(this.cpu.getProgramCounter())
         const right = this.memory.getDataAt(this.cpu.getProgramCounter() + 1)
 
-        return BinaryOperations.concatBytes(left, right)
+        return concatBytes(left, right)
     }
 
     updateTimers() {
@@ -89,17 +90,16 @@ export class Emulator {
         this.soundTimer.tick()
     }
 
-    restart(rom: Uint8Array) {
-        this.memory.clear()
+    reset() {
+        this.memory.reset()
         this.graphics.clearScreen()
-        this.stack.clear()
-        this.registers.clear()
-        this.cpu.clear()
-        this.input.clear()
+        this.stack.reset()
+        this.registers.reset()
+        this.cpu.reset()
+        this.input.reset()
         this.delayTimer.write(0)
         this.soundTimer.write(0)
         this.state = State.OFF
         this.lastOpcode = 0
-        this.loadROM(rom)
     }
 }

@@ -3,6 +3,9 @@ import { type InstructionContext } from "../../instruction.ts";
 import { useTestContext } from "../helpers/useTestContext.ts";
 import { $DXYN } from "../../instructions/$DXYN.ts";
 
+const ALIVE_PIXEL = 1
+const DEAD_PIXEL = 0
+
 describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
     let context: InstructionContext;
     let instruction: $DXYN
@@ -43,10 +46,10 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
 
         instruction.execute({ x: 0, y: 1, n: 2 })
 
-        expect(context.graphics.getPixelAt(65)).equals(true)
-        expect(context.graphics.getPixelAt(66)).equals(true)
-        expect(context.graphics.getPixelAt(129)).equals(true)
-        expect(context.graphics.getPixelAt(130)).equals(true)
+        expect(context.graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
 
         expect(context.registers.getV(0xF)).to.equal(0)
 
@@ -64,7 +67,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
         ]
 
         context.cpu.setProgramCounter(0x200)
-        context.graphics.drawPixel(65, 1)
+        context.graphics.drawPixel(ALIVE_PIXEL, { x: 1, y: 1 })
 
         context.registers.setV(0, 1)
         context.registers.setV(1, 1)
@@ -75,10 +78,10 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
 
         instruction.execute({ x: 0, y: 1, n: 2 })
 
-        expect(context.graphics.getPixelAt(65)).equals(false)
-        expect(context.graphics.getPixelAt(66)).equals(true)
-        expect(context.graphics.getPixelAt(129)).equals(true)
-        expect(context.graphics.getPixelAt(130)).equals(true)
+        expect(context.graphics.getPixelAt({ x: 1, y: 1 })).equals(DEAD_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
 
         expect(context.registers.getV(0xF)).to.equal(1)
 

@@ -154,7 +154,7 @@ export class Cpu {
         })
     }
 
-    clear() {
+    reset() {
         this.programCounter = 0x0
     }
 

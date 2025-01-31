@@ -24,7 +24,7 @@ export class Input {
         })
     }
 
-    clear() {
+    reset() {
         this.keys.fill(false)
         this.resolveKey = null
     }

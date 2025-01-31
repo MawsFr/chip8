@@ -26,7 +26,7 @@ export default class Registers {
         return this.vSlots.slice(start, end + 1)
     }
 
-    clear() {
+    reset() {
         this.vSlots.fill(0)
         this.iSlot.fill(0)
     }

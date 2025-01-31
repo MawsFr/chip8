@@ -1,4 +1,5 @@
 import { Instruction, type InstructionContext, type XYNInstructionParams } from "../instruction.ts";
+import { type Position, Sprite } from "../sprite.ts";
 
 export class $DXYN extends Instruction<XYNInstructionParams> {
     constructor(context: InstructionContext) {
@@ -6,9 +7,13 @@ export class $DXYN extends Instruction<XYNInstructionParams> {
     }
 
     execute({ x, y, n }: XYNInstructionParams): void {
-        const sprite = this.memory.getSprite(n)
+        const spriteData = this.memory.getSprite(n)
+        const position: Position = {
+            x: this.registers.getV(x),
+            y: this.registers.getV(y)
+        }
 
-        const { wasOverlapping } = this.graphics.drawSprite(this.registers.getV(x), this.registers.getV(y), sprite)
+        const { wasOverlapping } = this.graphics.drawSprite(new Sprite(spriteData, position))
 
         this.registers.setV(0xF, Number(wasOverlapping))
 

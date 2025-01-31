@@ -7,6 +7,9 @@ import Memory from "../memory.ts";
 import { Input } from "../input.ts";
 import { Timer } from "../timers.ts";
 
+const ALIVE_PIXEL = 1
+const DEAD_PIXEL = 0
+
 describe('OpcodesInterpreter', () => {
     let cpu: Cpu;
     let graphics: Graphics;
@@ -384,10 +387,10 @@ describe('OpcodesInterpreter', () => {
 
             cpu.interpret(0xD012)
 
-            expect(graphics.getPixelAt(65)).equals(true)
-            expect(graphics.getPixelAt(66)).equals(true)
-            expect(graphics.getPixelAt(129)).equals(true)
-            expect(graphics.getPixelAt(130)).equals(true)
+            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
 
             expect(registers.getV(0xF)).to.equal(0)
 
@@ -405,7 +408,7 @@ describe('OpcodesInterpreter', () => {
             ]
 
             cpu.setProgramCounter(0x200)
-            graphics.drawPixel(65, 1)
+            graphics.drawPixel(ALIVE_PIXEL, { x: 1, y: 1 })
 
             registers.setV(0, 1)
             registers.setV(1, 1)
@@ -416,10 +419,10 @@ describe('OpcodesInterpreter', () => {
 
             cpu.interpret(0xD002)
 
-            expect(graphics.getPixelAt(65)).equals(false)
-            expect(graphics.getPixelAt(66)).equals(true)
-            expect(graphics.getPixelAt(129)).equals(true)
-            expect(graphics.getPixelAt(130)).equals(true)
+            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(DEAD_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
 
             expect(registers.getV(0xF)).to.equal(1)
 

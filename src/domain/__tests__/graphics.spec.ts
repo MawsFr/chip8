@@ -1,5 +1,9 @@
 import { Graphics } from "../graphics.ts";
 import { expect } from "vitest";
+import { Sprite } from "../sprite.ts";
+
+export const DEAD_PIXEL = 0
+export const ALIVE_PIXEL = 1
 
 describe('Graphics', () => {
     let graphics: Graphics;
@@ -11,73 +15,90 @@ describe('Graphics', () => {
     it('should have a size of 64 x 32', () => {
         expect(graphics).to.have.property('pixels').which
             .is.instanceof(Array)
-            .and.has.length(2048)
     });
 
     describe('getPixelAt()', () => {
-        it('should get pixel state at index', () => {
-            graphics.drawPixel(0, 1)
-            expect(graphics.getPixelAt(0)).toBeTruthy()
+        it('should get pixel state at x and y', () => {
+            graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(ALIVE_PIXEL)
         })
     });
 
-    describe('toggle()', () => {
-        it('should toggle on a dead pixel', () => {
-            const { wasAlive } = graphics.drawPixel(0, 1)
+    describe('drawPixel()', () => {
+        it('should draw a pixel', () => {
+            graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
+            const { wasAlive } = graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
 
-            expect(graphics.getPixelAt(0)).toBeTruthy()
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(ALIVE_PIXEL)
             expect(wasAlive).toBeFalsy()
         })
 
-        it('should toggle off an alive pixel', () => {
-            graphics.drawPixel(0, 1)
-            const { wasAlive } = graphics.drawPixel(0, 0)
+        it('should leave alive pixel alive', () => {
+            graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+            const { wasAlive } = graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
 
-            expect(graphics.getPixelAt(0)).toBeTruthy()
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(ALIVE_PIXEL)
             expect(wasAlive).toBeTruthy()
         })
     });
 
     describe('clearScreen()', () => {
         it('should clear screen', () => {
-            Array.from(Array(2048).keys())
-                .forEach(i => graphics.drawPixel(i, 1))
+            graphics.fillScreen(ALIVE_PIXEL)
 
             graphics.clearScreen()
 
-            expect(graphics).property('pixels').deep.equals(Array.from(Array(2048).fill(false)))
+            expect(graphics.pixels).to.deep.equal(Array.from({ length: 32 }, () => Array.from({ length: 64 }, () => DEAD_PIXEL)))
+
+        });
+    });
+
+    describe('fillScreen()', () => {
+        it('should fill screen with pixel', () => {
+            graphics.fillScreen(ALIVE_PIXEL)
+
+            expect(graphics.pixels).to.deep.equal(Array.from({ length: 32 }, () => Array.from({ length: 64 }, () => ALIVE_PIXEL)))
         });
     });
 
     describe('drawSprite()', () => {
         it('should draw the sprite without overlapping', () => {
-            const sprite = Uint8Array.from([
+            const sprite = new Sprite(Uint8Array.from([
                 0xA0,
                 0x40,
-            ])
+            ]), { x: 0, y: 0 })
 
-            const { wasOverlapping } = graphics.drawSprite(0, 0, sprite)
+            const { wasOverlapping } = graphics.drawSprite(sprite)
 
-            expect(graphics.getPixelAt(0)).equals(true)
-            expect(graphics.getPixelAt(2)).equals(true)
-            expect(graphics.getPixelAt(65)).equals(true)
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 0 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
             expect(wasOverlapping).toBeFalsy()
         });
 
         it('should draw the sprite with overlapping', () => {
-            graphics.drawPixel(0, 1)
-            graphics.drawPixel(2, 1)
-            const sprite = Uint8Array.from([
+            graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+            graphics.drawPixel(ALIVE_PIXEL, { x: 2, y: 0 })
+            const sprite = new Sprite(Uint8Array.from([
                 0xA0,
                 0x40,
-            ])
+            ]), { x: 0, y: 0 })
 
-            const { wasOverlapping } = graphics.drawSprite(0, 0, sprite)
+            const { wasOverlapping } = graphics.drawSprite(sprite)
 
-            expect(graphics.getPixelAt(0)).equals(false)
-            expect(graphics.getPixelAt(2)).equals(false)
-            expect(graphics.getPixelAt(65)).equals(true)
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).equals(DEAD_PIXEL)
+            expect(graphics.getPixelAt({ x: 2, y: 0 })).equals(DEAD_PIXEL)
+            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
             expect(wasOverlapping).toBeTruthy()
+        });
+    });
+
+    describe('mergePixels()', () => {
+        it('should merge pixels', () => {
+            expect(graphics.mergePixels(DEAD_PIXEL, ALIVE_PIXEL)).equals(ALIVE_PIXEL)
+            expect(graphics.mergePixels(ALIVE_PIXEL, ALIVE_PIXEL)).equals(DEAD_PIXEL)
+            expect(graphics.mergePixels(DEAD_PIXEL, DEAD_PIXEL)).equals(DEAD_PIXEL)
+            expect(graphics.mergePixels(ALIVE_PIXEL, DEAD_PIXEL)).equals(ALIVE_PIXEL)
         });
     });
 });
