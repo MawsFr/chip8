@@ -37,11 +37,19 @@ describe('Registers', () => {
     });
 
     describe('addV()', () => {
-        it('should add a value to a V slot', () => {
+        it('should add a value to a V slot without carry flag', () => {
             registers.setV(0, 0x20)
             registers.addV(0, 0x10)
 
             expect(registers.getV(0)).to.equal(0x30)
+        });
+
+        it('should add a value to a V slot with carry flag', () => {
+            registers.setV(0, 0xFF)
+            registers.addV(0, 0x2, { carryFlag: true })
+
+            expect(registers.getV(0)).to.equal(0x01)
+            expect(registers.getV(0xF)).to.equal(1)
         });
     });
 

@@ -1,15 +1,48 @@
 import { Cpu } from "../cpu.ts";
 import { Graphics } from "../graphics.ts";
 import Stack from "../stack.ts";
-import { afterEach, expect } from "vitest";
+import { afterEach, beforeEach, expect } from "vitest";
 import Registers from "../registers.ts";
 import Memory from "../memory.ts";
 import { Input } from "../input.ts";
 import { Timer } from "../timers.ts";
 import { Opcode } from "../opcode.ts";
-
-const ALIVE_PIXEL = 1
-const DEAD_PIXEL = 0
+import { useTestContext } from "./helpers/useTestContext.ts";
+import { $00E0 } from "../instructions/$00E0.ts";
+import { type InstructionContext } from "../instruction.ts";
+import { $00EE } from "../instructions/$00EE.ts";
+import { $1NNN } from "../instructions/$1NNN.ts";
+import { $2NNN } from "../instructions/$2NNN.ts";
+import { $3XNN } from "../instructions/$3XNN.ts";
+import { $4XNN } from "../instructions/$4XNN.ts";
+import { $5XY0 } from "../instructions/$5XY0.ts";
+import { $6XNN } from "../instructions/$6XNN.ts";
+import { $7XNN } from "../instructions/$7XNN.ts";
+import { $8XY0 } from "../instructions/$8XY0.ts";
+import { $8XY1 } from "../instructions/$8XY1.ts";
+import { $8XY2 } from "../instructions/$8XY2.ts";
+import { $8XY3 } from "../instructions/$8XY3.ts";
+import { $8XY4 } from "../instructions/$8XY4.ts";
+import { $8XY5 } from "../instructions/$8XY5.ts";
+import { $8XY6 } from "../instructions/$8XY6.ts";
+import { $8XY7 } from "../instructions/$8XY7.ts";
+import { $8XYE } from "../instructions/$8XYE.ts";
+import { $9XY0 } from "../instructions/$9XY0.ts";
+import { $ANNN } from "../instructions/$ANNN.ts";
+import { $BNNN } from "../instructions/$BNNN.ts";
+import { $CXNN } from "../instructions/$CXNN.ts";
+import { $DXYN } from "../instructions/$DXYN.ts";
+import { $EX9E } from "../instructions/$EX9E.ts";
+import { $EXA1 } from "../instructions/$EXA1.ts";
+import { $FX07 } from "../instructions/$FX07.ts";
+import { $FX0A } from "../instructions/$FX0A.ts";
+import { $FX15 } from "../instructions/$FX15.ts";
+import { $FX18 } from "../instructions/$FX18.ts";
+import { $FX1E } from "../instructions/$FX1E.ts";
+import { $FX29 } from "../instructions/$FX29.ts";
+import { $FX33 } from "../instructions/$FX33.ts";
+import { $FX55 } from "../instructions/$FX55.ts";
+import { $FX65 } from "../instructions/$FX65.ts";
 
 describe('OpcodesInterpreter', () => {
     let cpu: Cpu;
@@ -108,523 +141,61 @@ describe('OpcodesInterpreter', () => {
     });
 
     describe('interpret()', () => {
-        it('"00E0" should clean screen', () => {
-            vi.spyOn(graphics, 'clearScreen').mockImplementation(() => {
-            });
+        let context: InstructionContext;
+
+        beforeEach(() => {
+            context = useTestContext()
+
+            cpu.instructions.forEach((instruction) => {
+                vi.spyOn(instruction, 'execute')
+            })
+        })
+
+        it.each([
+            [ 0x00E0, $00E0 ],
+            [ 0x00EE, $00EE ],
+            [ 0x1000, $1NNN ],
+            [ 0x2000, $2NNN ],
+            [ 0x3000, $3XNN ],
+            [ 0x4000, $4XNN ],
+            [ 0x5000, $5XY0 ],
+            [ 0x6000, $6XNN ],
+            [ 0x7000, $7XNN ],
+            [ 0x8000, $8XY0 ],
+            [ 0x8001, $8XY1 ],
+            [ 0x8002, $8XY2 ],
+            [ 0x8003, $8XY3 ],
+            [ 0x8004, $8XY4 ],
+            [ 0x8005, $8XY5 ],
+            [ 0x8006, $8XY6 ],
+            [ 0x8007, $8XY7 ],
+            [ 0x800E, $8XYE ],
+            [ 0x9000, $9XY0 ],
+            [ 0xA000, $ANNN ],
+            [ 0xB000, $BNNN ],
+            [ 0xC000, $CXNN ],
+            [ 0xD000, $DXYN ],
+            [ 0xE09E, $EX9E ],
+            [ 0xE0A1, $EXA1 ],
+            [ 0xF007, $FX07 ],
+            [ 0xF00A, $FX0A ],
+            [ 0xF015, $FX15 ],
+            [ 0xF018, $FX18 ],
+            [ 0xF01E, $FX1E ],
+            [ 0xF029, $FX29 ],
+            [ 0xF033, $FX33 ],
+            [ 0xF055, $FX55 ],
+            [ 0xF065, $FX65 ],
+        ])("Opcode 0x%s should be interpreted by %s", (opcode, instructionClass) => {
+            const instruction = new instructionClass(context)
+            vi.spyOn(instruction, 'execute')
+
+            cpu.instructions = [ instruction ]
+
+            cpu.interpret(new Opcode(opcode))
+
+            expect(instruction.execute).toHaveBeenCalledTimes(1)
 
-            cpu.jumpToAddress(0x200)
-            cpu.interpret(new Opcode(0x00E0))
-
-            expect(graphics.clearScreen).toHaveBeenCalledOnce()
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"00EE" should return from a subroutine', () => {
-            // Given
-            stack.push(0x200)
-            cpu.jumpToAddress(0x400)
-
-            // When
-            cpu.interpret(new Opcode(0x00EE))
-
-            // Then
-            expect(cpu.getCurrentAddress()).equals(0x202)
-        });
-
-        it('"0NNN" should be ignored', () => {
-            const oldInterpreter: Cpu = structuredClone(cpu)
-
-            cpu.interpret(new Opcode(0x0111))
-
-            expect(cpu).to.deep.equal(oldInterpreter)
-        });
-
-        it('"1NNN" should jump to address NNN', () => {
-            cpu.interpret(new Opcode(0x120A))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x20A)
-        });
-
-        it('"2NNN" should execute subroutine at NNN', () => {
-            cpu.jumpToAddress(0x400)
-            cpu.interpret(new Opcode(0x2200))
-
-            expect(stack.pop()).to.equal(0x400)
-            expect(cpu.getCurrentAddress()).to.equal(0x200)
-        });
-
-        it('"3XNN" should skip next instruction if VX equals NN', () => {
-            cpu.jumpToAddress(0x400)
-            registers.setV(0, 0x20)
-
-            cpu.interpret(new Opcode(0x3020))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x404)
-        });
-
-        it('"3XNN" should not skip next instruction if VX different NN', () => {
-            cpu.jumpToAddress(0x400)
-            registers.setV(0, 0x20)
-
-            cpu.interpret(new Opcode(0x3030))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x402)
-        });
-
-        it('"4XNN" should ignore next instruction if VX is different from NN', () => {
-            cpu.jumpToAddress(0x400)
-            registers.setV(0, 0x40)
-
-            cpu.interpret(new Opcode(0x4020))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x404)
-        });
-
-        it('"4XNN" should not ignore next instruction if VX is equal to NN', () => {
-            registers.setV(0, 0x40)
-            cpu.jumpToAddress(0x400)
-
-            cpu.interpret(new Opcode(0x4040))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x402)
-        });
-
-        it('"5XY0" should ignore next instruction if VX equals VY', () => {
-            registers.setV(0, 0x40)
-            registers.setV(1, 0x40)
-            cpu.jumpToAddress(0x400)
-
-            cpu.interpret(new Opcode(0x5010))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x404)
-        });
-
-        it('"5XY0" should not ignore next instruction if VX is different from VY', () => {
-            registers.setV(0, 0x40)
-            registers.setV(1, 0x50)
-            cpu.jumpToAddress(0x400)
-
-            cpu.interpret(new Opcode(0x5010))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x402)
-        });
-
-        it('"6XNN" should set VX to NN', () => {
-            cpu.jumpToAddress(0x200)
-            cpu.interpret(new Opcode(0x6020))
-
-            expect(registers.getV(0)).to.equal(0x20)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"7XNN" should add NN to VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-
-            cpu.interpret(new Opcode(0x7010))
-
-            expect(registers.getV(0)).to.equal(0x30)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY0" should set VX to VY value', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x40)
-
-            cpu.interpret(new Opcode(0x8010))
-
-            expect(registers.getV(0)).to.equal(0x40)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY1" should set VX to VX OR VY', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x40)
-
-            cpu.interpret(new Opcode(0x8011))
-
-            expect(registers.getV(0)).to.equal(0x60)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY2" should set VX to VX AND VY', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x40)
-
-            cpu.interpret(new Opcode(0x8012))
-
-            expect(registers.getV(0)).to.equal(0x0)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY3" should set VX to VX XOR VY', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x40)
-
-            cpu.interpret(new Opcode(0x8013))
-
-            expect(registers.getV(0)).to.equal(0x60)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY4" should add VY to VX. VF is set to 1 if overflow', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0xFF)
-            registers.setV(1, 0xFF)
-
-            cpu.interpret(new Opcode(0x8014))
-
-            expect(registers.getV(0)).to.equal(0xFE)
-            expect(registers.getV(0xF)).to.equal(1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY4" should add VY to VX. VF is set to 0 if no overflow', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x30)
-            registers.setV(0xF, 1)
-
-            cpu.interpret(new Opcode(0x8014))
-
-            expect(registers.getV(0)).to.equal(0x50)
-            expect(registers.getV(0xF)).to.equal(0)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY5" should subtract VY from VX. VF is set to 1 if VX >= VY', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x30)
-            registers.setV(1, 0x20)
-
-            cpu.interpret(new Opcode(0x8015))
-
-            expect(registers.getV(0)).to.equal(0x10)
-            expect(registers.getV(0xF)).to.equal(1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY5" should subtract VY from VX. VF is set to 0 if VX < VY', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x10)
-            registers.setV(1, 0x20)
-
-            cpu.interpret(new Opcode(0x8015))
-
-            expect(registers.getV(0)).to.equal(0xF0)
-            expect(registers.getV(0xF)).to.equal(0)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY6" should shift VX to the right. VF is set to the least significant bit of VX prior to the shift into VF.', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x23)
-
-            cpu.interpret(new Opcode(0x8016))
-
-            expect(registers.getV(0)).to.equal(0x11)
-            expect(registers.getV(0xF)).to.equal(0x1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY7" should set VX to VY minus VX. VF is set to 1 if VY >= VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setV(1, 0x30)
-
-            cpu.interpret(new Opcode(0x8017))
-
-            expect(registers.getV(0)).to.equal(0x10)
-            expect(registers.getV(0xF)).to.equal(1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XY7" should set VX to VY minus VX. VF is set to 0 if VY < VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x30)
-            registers.setV(1, 0x20)
-
-            cpu.interpret(new Opcode(0x8017))
-
-            expect(registers.getV(0)).to.equal(0xF0)
-            expect(registers.getV(0xF)).to.equal(0)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"8XYE" should shift VX to the left. VF is set to the most significant bit of VX prior to the shift into VF.', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x88)
-
-            cpu.interpret(new Opcode(0x801E))
-
-            expect(registers.getV(0)).to.equal(0x10)
-            expect(registers.getV(0xF)).to.equal(0x1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"9XY0" should skip the next instruction if VX is different of VY', () => {
-            registers.setV(0, 0x40)
-            registers.setV(1, 0x41)
-            cpu.jumpToAddress(0x400)
-
-            cpu.interpret(new Opcode(0x9010))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x404)
-        });
-
-        it('"9XY0" should not skip the next instruction if VX is equal to VY', () => {
-            cpu.jumpToAddress(0x400)
-            registers.setV(0, 0x40)
-            registers.setV(1, 0x40)
-
-            cpu.interpret(new Opcode(0x9010))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x402)
-        });
-
-        it('"ANNN" should set I to NNN', () => {
-            cpu.jumpToAddress(0x200)
-            cpu.interpret(new Opcode(0xA200))
-
-            expect(registers.getI()).to.equal(0x200)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"BNNN" should jump to the address NNN + V0', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-
-            cpu.interpret(new Opcode(0xB200))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x220)
-        });
-
-        it('"CXNN" should set VX to a random number & NN', () => {
-            vi.spyOn(Math, 'random').mockReturnValue(0.1)
-            cpu.jumpToAddress(0x200)
-
-            cpu.interpret(new Opcode(0xC010))
-
-            expect(registers.getV(0)).to.equal(0x10)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"DXYN" should draw a non overlapping sprite of width of 8, height of N at (VX, VY)', () => {
-            /*
-                11000000
-                11000000
-             */
-            const spriteData = [
-                0xC0,
-                0xC0,
-            ]
-
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 1)
-            registers.setV(1, 1)
-
-            registers.setI(0x200)
-
-            memory.load(spriteData)
-
-            cpu.interpret(new Opcode(0xD012))
-
-            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
-            expect(graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
-            expect(graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
-            expect(graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
-
-            expect(registers.getV(0xF)).to.equal(0)
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"DXYN" should draw an overlapping sprite of width of 8, height of N at (VX, VY)', () => {
-            /*
-                11000000
-                11000000
-             */
-            const spriteData = [
-                0xC0,
-                0xC0,
-            ]
-
-            cpu.jumpToAddress(0x200)
-            graphics.drawPixel(ALIVE_PIXEL, { x: 1, y: 1 })
-
-            registers.setV(0, 1)
-            registers.setV(1, 1)
-
-            registers.setI(0x200)
-
-            memory.load(spriteData)
-
-            cpu.interpret(new Opcode(0xD002))
-
-            expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(DEAD_PIXEL)
-            expect(graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
-            expect(graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
-            expect(graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
-
-            expect(registers.getV(0xF)).to.equal(1)
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"EX9E" should skip the next instruction if the key in VX is pressed', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x8)
-            input.press(0x8)
-
-            cpu.interpret(new Opcode(0xE09E))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x204)
-        });
-
-        it('"EX9E" should not skip the next instruction if the key in VX is not pressed', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x8)
-            input.release(0x8)
-
-            cpu.interpret(new Opcode(0xE09E))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"EXA1" should skip the next instruction if the key in VX is not pressed', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x8)
-            input.release(0x8)
-
-            cpu.interpret(new Opcode(0xE0A1))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x204)
-        });
-
-        it('"EXA1" should not skip the next instruction if the key in VX is pressed', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x8)
-            input.press(0x8)
-
-            cpu.interpret(new Opcode(0xE0A1))
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX07" should set VX to the value of the delay timer', () => {
-            cpu.jumpToAddress(0x200)
-            delayTimer.write(0x30)
-
-            cpu.interpret(new Opcode(0xF007))
-
-            expect(registers.getV(0)).to.equal(0x30)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX0A" should await for a key press', async () => {
-            cpu.jumpToAddress(0x200)
-            setTimeout(() => {
-                input.press(0x1)
-            }, 100)
-
-            cpu.interpret(new Opcode(0xF00A))
-
-            await new Promise((resolve) => setTimeout(resolve, 200));
-
-            expect(registers.getV(0)).to.equal(0x1)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX15" should set the delay timer to VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x30)
-
-            cpu.interpret(new Opcode(0xF015))
-
-            expect(delayTimer.read()).to.equal(0x30)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX18" should set the sound timer to VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x30)
-
-            cpu.interpret(new Opcode(0xF018))
-
-            expect(soundTimer.read()).to.equal(0x30)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX1E" should add VX to I', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x20)
-            registers.setI(0x20)
-
-            cpu.interpret(new Opcode(0xF01E))
-
-            expect(registers.getI()).to.equal(0x40)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX29" should set I to the address of the character stored in VX', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 0x5)
-
-            cpu.interpret(new Opcode(0xF029))
-
-            expect(registers.getI()).to.equal(0x19)
-            expect(cpu.getCurrentAddress()).to.equal(0x202)
-        });
-
-        it('"FX33" should store the BCD representation of VX in memory at location', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0, 123);
-            registers.setI(0x300);
-
-            cpu.interpret(new Opcode(0xF033));
-
-            expect(memory.getDataAt(0x300)).to.equal(1);
-            expect(memory.getDataAt(0x301)).to.equal(2);
-            expect(memory.getDataAt(0x302)).to.equal(3);
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202);
-        });
-
-        it('"FX55" should store from V0 to VX (included) into memory starting at I', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setV(0x0, 0x12);
-            registers.setV(0x1, 0x34);
-            registers.setV(0x2, 0x56);
-            registers.setV(0x3, 0x78);
-            registers.setI(0x300);
-
-            cpu.interpret(new Opcode(0xF355));
-
-            expect(memory.getDataAt(0x300)).to.equal(0x12);
-            expect(memory.getDataAt(0x301)).to.equal(0x34);
-            expect(memory.getDataAt(0x302)).to.equal(0x56);
-            expect(memory.getDataAt(0x303)).to.equal(0x78);
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202);
-        });
-
-        it('"FX65" should fill from V0 to VX (included) from memory starting at I', () => {
-            cpu.jumpToAddress(0x200)
-            registers.setI(0)
-            memory.load([ 0x12, 0x34, 0x56, 0x78 ])
-
-            cpu.interpret(new Opcode(0xF365))
-
-            expect(registers.getV(0x0)).to.equal(0x12)
-            expect(registers.getV(0x1)).to.equal(0x34)
-            expect(registers.getV(0x2)).to.equal(0x56)
-            expect(registers.getV(0x3)).to.equal(0x78)
-
-            expect(cpu.getCurrentAddress()).to.equal(0x202);
         });
     });
 });

@@ -97,4 +97,23 @@ describe('Memory', () => {
 
         });
     });
+
+    describe('Iterator()', () => {
+        it('should iterate over memory addresses', () => {
+            registers.setI(0)
+            memory.addresses.fill(0)
+            memory.load([
+                0xC0,
+                0x20,
+            ])
+
+            const entries = Array.from(memory)
+
+            expect(entries.slice(0, 2)).to.deep.equal([
+                0xC0,
+                0x20,
+            ])
+
+        });
+    });
 })

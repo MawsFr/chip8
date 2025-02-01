@@ -29,11 +29,7 @@ export default class Memory {
             0xF0, 0x80, 0xF0, 0x80, 0x80  // F
         ]), 0x0)
     }
-
-    get length() {
-        return this.addresses.length
-    }
-
+    
     getDataAt(index: number) {
         return this.addresses[index]
     }
