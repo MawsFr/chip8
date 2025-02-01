@@ -1,21 +1,37 @@
+import type { RegisterIndex } from "./opcode.ts";
+
 export type AddVParams = { carryFlag: boolean };
 
 export default class Registers {
     public vSlots: Uint8Array = new Uint8Array(16);
     public iSlot: Uint16Array = new Uint16Array(1);
 
-    getV(index: number) {
+    getV(index: RegisterIndex) {
         return this.vSlots[index] & 0xFF
     }
 
-    setV(index: number, newValue: number) {
+    setV(index: RegisterIndex, newValue: number) {
         this.vSlots[index] = newValue & 0xFF
     }
 
-    addV(index: number, addValue: number, { carryFlag = false }: AddVParams = { carryFlag: false }) {
-        const addResult = this.vSlots[index] + addValue
-        this.vSlots[index] = addResult & 0xFF
-        this.vSlots[0xF] = carryFlag && addResult > 0xFF ? 1 : 0
+    addV(x: RegisterIndex, addValue: number, { carryFlag = false }: AddVParams = { carryFlag: false }) {
+        const addResult = this.getV(x) + addValue
+        this.setV(x, addResult)
+        this.setV(0xF,
+            carryFlag
+            && addResult > 0xFF
+                ? 1
+                : 0
+        )
+    }
+
+    subtractVXByVY(x: RegisterIndex, y: RegisterIndex) {
+        const minuend = this.getV(x)
+        const subtrahend = this.getV(y)
+        const subtractResult = minuend - subtrahend
+
+        this.setV(x, subtractResult)
+        this.setV(0xF, minuend > subtrahend ? 1 : 0)
     }
 
     getI() {

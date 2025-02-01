@@ -39,7 +39,7 @@ import { $FX29 } from "./instructions/$FX29.ts";
 import { $FX33 } from "./instructions/$FX33.ts";
 import { $FX55 } from "./instructions/$FX55.ts";
 import { $FX65 } from "./instructions/$FX65.ts";
-import { type NNN, Opcode } from "./opcode.ts";
+import { type NNNAddress, Opcode } from "./opcode.ts";
 
 type GoToNextInstructionParams = {
     skipNextInstruction: boolean
@@ -136,7 +136,7 @@ export class Cpu {
         this.programCounter += NB_OPCODE_BYTES + skip
     }
 
-    callSubroutine(address: NNN) {
+    callSubroutine(address: NNNAddress) {
         this.stack.push(this.programCounter)
         this.jumpToAddress(address)
     }

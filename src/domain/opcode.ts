@@ -5,7 +5,7 @@ export class Opcode {
         this.value = value;
     }
 
-    extractNNN(): NNN {
+    extractNNN(): NNNAddress {
         return this.value & 0x0FFF;
     }
 
@@ -17,11 +17,11 @@ export class Opcode {
         return this.value & 0x000F;
     }
 
-    extractX(): X {
+    extractX(): RegisterIndex {
         return (this.value & 0x0F00) >> 8;
     }
 
-    extractY(): Y {
+    extractY(): RegisterIndex {
         return (this.value & 0x00F0) >> 4;
     }
 
@@ -31,8 +31,7 @@ export class Opcode {
 
 }
 
-export type NNN = number;
+export type NNNAddress = number;
 export type NN = number;
 export type N = number;
-export type X = number;
-export type Y = number;
+export type RegisterIndex = number;

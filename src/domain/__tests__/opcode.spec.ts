@@ -1,11 +1,11 @@
-import { type N, type NN, type NNN, Opcode, type X, type Y } from "../opcode.ts";
+import { type N, type NN, type NNNAddress, Opcode, type RegisterIndex, type Y } from "../opcode.ts";
 
 describe('Opcode', () => {
     describe('extractX()', () => {
         it('should extract X from opcode', () => {
             const opcode = new Opcode(0x0C00)
 
-            const x: X = opcode.extractX()
+            const x: RegisterIndex = opcode.extractX()
 
             expect(x).toBe(0x0C)
         });
@@ -25,7 +25,7 @@ describe('Opcode', () => {
         it('should extract NNN from opcode', () => {
             const opcode = new Opcode(0x0FFF)
 
-            const nnn: NNN = opcode.extractNNN()
+            const nnn: NNNAddress = opcode.extractNNN()
 
             expect(nnn).toBe(0x0FFF)
         });

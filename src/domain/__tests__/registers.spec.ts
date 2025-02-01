@@ -70,6 +70,17 @@ describe('Registers', () => {
         });
     });
 
+    describe('substractVXByVY()', () => {
+        it('should substract a V slot value from another', () => {
+            registers.setV(0, 0x20)
+            registers.setV(1, 0x10)
+
+            registers.subtractVXByVY(0, 1)
+
+            expect(registers.getV(0)).to.equal(0x10)
+        });
+    });
+
     describe('getRange()', () => {
         it('should return values between VX and VY (included)', () => {
             registers.setV(0, 0x123)

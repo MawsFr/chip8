@@ -54,13 +54,14 @@ export class Emulator {
 
     run(manual: boolean) {
         this.state = State.RUNNING
-        const fps = 60;
-        const fpsInterval = 1000 / fps;
 
         if (manual) {
             return
         }
 
+        const fps = 60;
+        const fpsInterval = 1000 / fps;
+        
         this.intervalId = setInterval(() => {
             if (this.state !== State.RUNNING && this.intervalId) {
                 clearInterval(this.intervalId);
