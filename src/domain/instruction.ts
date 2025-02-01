@@ -1,4 +1,4 @@
-import type { N, NN, NNNAddress, Opcode, RegisterIndex, Y } from "./opcode.ts";
+import type { N, NN, NNNAddress, Opcode, RegisterIndex } from "./opcode.ts";
 import type { Graphics } from "./graphics.ts";
 import type { Cpu } from "./cpu.ts";
 import type Stack from "./stack.ts";
@@ -81,13 +81,13 @@ export type XNNInstructionParams = {
 
 export type XYNInstructionParams = {
     x: RegisterIndex
-    y: Y
+    y: RegisterIndex
     n: N
 }
 
 export type XYInstructionParams = {
     x: RegisterIndex
-    y: Y
+    y: RegisterIndex
 }
 
 export type XInstructionParams = {
