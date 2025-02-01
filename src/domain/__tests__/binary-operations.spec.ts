@@ -1,4 +1,4 @@
-import { bitIterator, bitwiseAnd, bitwiseOr, bitwiseXor, concatBytes } from "../binary-operations.ts";
+import { bitwiseAnd, bitwiseOr, bitwiseXor, concatBytes } from "../binary-operations.ts";
 
 describe('BinaryOperations', () => {
     describe('concatBytes()', () => {
@@ -29,7 +29,7 @@ describe('BinaryOperations', () => {
             const num2 = 0b1100
 
             const result = bitwiseAnd(num1, num2)
-            
+
             expect(result).to.equal(0b1000)
         });
     });
@@ -44,15 +44,4 @@ describe('BinaryOperations', () => {
             expect(result).to.equal(0b1110)
         });
     });
-
-    describe('bitIterator()', () => {
-        it('should generate an iterator of each bits of a number', () => {
-            const num = 0x88
-
-            const bits = Array.from(bitIterator(num))
-
-            expect(bits).to.deep.equal([ 0, 0, 0, 1, 0, 0, 0, 1 ]);
-        });
-    });
-
 });
