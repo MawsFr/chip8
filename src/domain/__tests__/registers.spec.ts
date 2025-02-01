@@ -85,6 +85,16 @@ describe('Registers', () => {
         });
     });
 
+    describe('randomize()', () => {
+        it('should randomize a V slot value', () => {
+            vi.spyOn(Math, 'random').mockReturnValue(0.1)
+
+            registers.randomize(0, 0x10)
+
+            expect(registers.getV(0)).to.equal(0x10)
+        });
+    });
+
     describe('shiftRight()', () => {
         it('should shift a V slot value to the right', () => {
             registers.setV(0, 0b1011)

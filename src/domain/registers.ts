@@ -1,4 +1,5 @@
 import type { RegisterIndex } from "./opcode.ts";
+import { bitwiseAnd } from "./binary-operations.ts";
 
 export type AddVParams = { carryFlag: boolean };
 
@@ -61,6 +62,13 @@ export default class Registers {
 
         this.setV(resultDestinationIndex, subtractResult)
         this.setV(0xF, minuend > subtrahend ? 1 : 0)
+    }
+
+    randomize(x: RegisterIndex, nn: number) {
+        const randomNumber = Math.floor(Math.random() * 256)
+        const value = bitwiseAnd(nn, randomNumber)
+
+        this.setV(x, value)
     }
 
     shiftRight(x: RegisterIndex) {
