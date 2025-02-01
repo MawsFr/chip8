@@ -6,8 +6,7 @@ export class $8XYE extends Instruction<XInstructionParams> {
     }
 
     execute({ x }: XInstructionParams): void {
-        this.registers.setV(0xF, (this.registers.getV(x) & 0x80) >> 7)
-        this.registers.setV(x, this.registers.getV(x) << 0x1)
+        this.registers.shiftLeft(x)
 
         this.cpu.goToNextInstruction()
 

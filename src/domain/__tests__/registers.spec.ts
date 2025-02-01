@@ -70,14 +70,36 @@ describe('Registers', () => {
         });
     });
 
-    describe('substractVXByVY()', () => {
-        it('should substract a V slot value from another', () => {
+    describe('subtractVXByVY()', () => {
+        it('should subtract a V slot value from another', () => {
             registers.setV(0, 0x20)
             registers.setV(1, 0x10)
 
             registers.subtractVXByVY(0, 1)
 
             expect(registers.getV(0)).to.equal(0x10)
+        });
+    });
+
+    describe('shiftRight()', () => {
+        it('should shift a V slot value to the right', () => {
+            registers.setV(0, 0b1011)
+
+            registers.shiftRight(0)
+
+            expect(registers.getV(0)).to.equal(0b0101)
+            expect(registers.getV(0xF)).to.equal(1)
+        });
+    });
+
+    describe('shiftLeft()', () => {
+        it('should shift a V slot value to the left', () => {
+            registers.setV(0, 0xFF)
+
+            registers.shiftLeft(0)
+
+            expect(registers.getV(0)).to.equal(0xFE)
+            expect(registers.getV(0xF)).to.equal(1)
         });
     });
 

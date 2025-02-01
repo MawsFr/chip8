@@ -14,8 +14,27 @@ export default class Registers {
         this.vSlots[index] = newValue & 0xFF
     }
 
-    addV(x: RegisterIndex, addValue: number, { carryFlag = false }: AddVParams = { carryFlag: false }) {
+    getI() {
+        return this.iSlot[0] & 0xFFF
+    }
+
+    setI(newValue: number) {
+        this.iSlot[0] = newValue & 0xFFF
+    }
+
+    entries(start: number, end: number) {
+        return this.vSlots.slice(start, end + 1)
+    }
+
+    load(entries: Uint8Array | number[]) {
+        for (const [ i, value ] of Array.from(entries).entries()) {
+            this.setV(i, value)
+        }
+    }
+
+    addV(x: RegisterIndex, addValue: number, { carryFlag }: AddVParams = { carryFlag: false }) {
         const addResult = this.getV(x) + addValue
+
         this.setV(x, addResult)
         this.setV(0xF,
             carryFlag
@@ -23,6 +42,12 @@ export default class Registers {
                 ? 1
                 : 0
         )
+    }
+
+    addI(addValue: number) {
+        const addResult = this.getI() + addValue
+
+        this.setI(addResult)
     }
 
     subtractVXByVY(x: RegisterIndex, y: RegisterIndex) {
@@ -34,27 +59,18 @@ export default class Registers {
         this.setV(0xF, minuend > subtrahend ? 1 : 0)
     }
 
-    getI() {
-        return this.iSlot[0] & 0xFFF
+    shiftRight(x: RegisterIndex) {
+        const value = this.getV(x)
+
+        this.setV(x, value >> 1)
+        this.setV(0xF, value & 0x1)
     }
 
-    setI(newValue: number) {
-        this.iSlot[0] = newValue & 0xFFF
-    }
+    shiftLeft(x: RegisterIndex) {
+        const value = this.getV(x)
 
-    addI(addValue: number) {
-        const addResult = this.iSlot[0] + addValue
-        this.iSlot[0] = addResult & 0xFFF
-    }
-
-    entries(start: number, end: number) {
-        return this.vSlots.slice(start, end + 1)
-    }
-
-    load(entries: Uint8Array | number[]) {
-        for (const [ i, value ] of Array.from(entries).entries()) {
-            this.setV(i, value)
-        }
+        this.setV(x, value << 1)
+        this.setV(0xF, (value & 0x80) >> 7)
     }
 
     reset() {
