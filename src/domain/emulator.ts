@@ -15,7 +15,7 @@ export enum State {
     PAUSED = 'PAUSED'
 }
 
-export const MAX_CYCLES_PER_FRAME = 10
+export const MAX_CYCLES_PER_FRAME = 4
 
 export class Emulator {
     public graphics: Graphics
@@ -52,7 +52,7 @@ export class Emulator {
         this.state = State.ROM_LOADED
     }
 
-    run(manual: boolean) {
+    run(manual: boolean = false) {
         this.state = State.RUNNING
 
         if (manual) {
@@ -61,7 +61,7 @@ export class Emulator {
 
         const fps = 60;
         const fpsInterval = 1000 / fps;
-        
+
         this.intervalId = setInterval(() => {
             if (this.state !== State.RUNNING && this.intervalId) {
                 clearInterval(this.intervalId);
@@ -101,12 +101,13 @@ export class Emulator {
         this.registers.reset()
         this.cpu.reset()
         this.input.reset()
-        this.delayTimer.write(0)
-        this.soundTimer.write(0)
+        this.delayTimer.reset()
+        this.soundTimer.reset()
         this.state = State.OFF
         this.lastOpcode = null
         if (this.intervalId) {
             clearInterval(this.intervalId);
+            this.intervalId = null;
         }
     }
 }

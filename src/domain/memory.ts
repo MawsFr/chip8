@@ -58,8 +58,8 @@ export default class Memory {
     }
 
     * [Symbol.iterator]() {
-        for (let i = 0; i < this.addresses.length; ++i) {
-            yield this.addresses[i]
+        for (const address of this.addresses) {
+            yield address
         }
     }
 }

@@ -41,4 +41,12 @@ describe('Timer', () => {
         })
     });
 
+    describe('reset()', () => {
+        it('should reset the timer', () => {
+            timer.tick()
+            timer.reset()
+
+            expect(timer).property('value').to.equal(0)
+        });
+    });
 })

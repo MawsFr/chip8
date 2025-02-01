@@ -16,4 +16,8 @@ export class Timer {
 
         this.value--
     }
+
+    reset() {
+        this.value = 0
+    }
 }

@@ -133,6 +133,7 @@ export class Cpu {
 
     goToNextInstruction({ skipNextInstruction }: GoToNextInstructionParams = { skipNextInstruction: false }) {
         const skip = Number(skipNextInstruction) * NB_OPCODE_BYTES
+
         this.programCounter += NB_OPCODE_BYTES + skip
     }
 

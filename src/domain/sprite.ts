@@ -18,6 +18,7 @@ export class Sprite {
         for (let line = 0; line < this.data.length; ++line) {
             for (let col = 0; col < SPRITE_WIDTH; ++col) {
                 const pixel = this.extractPixel(line, col)
+
                 yield {
                     pixel,
                     position: {
@@ -29,6 +30,7 @@ export class Sprite {
         }
     }
 
+    // TODO: make more readable
     private extractPixel(line: number, col: number): Pixel {
         return this.data[line] & (0x80 >> col) ? 1 : 0
     }
