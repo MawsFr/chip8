@@ -6,9 +6,11 @@ export class $8XY7 extends Instruction<XYInstructionParams> {
     }
 
     execute({ x, y }: XYInstructionParams): void {
-        const subtractResult = this.registers.getV(y) - this.registers.getV(x)
-        this.registers.setV(0xF, Number(this.registers.getV(y) >= this.registers.getV(x)))
-        this.registers.setV(x, subtractResult)
+        this.registers.subtract({
+            resultDestinationIndex: x,
+            minuendIndex: y,
+            subtrahendIndex: x
+        })
 
         this.cpu.goToNextInstruction()
 

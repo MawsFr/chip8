@@ -70,12 +70,16 @@ describe('Registers', () => {
         });
     });
 
-    describe('subtractVXByVY()', () => {
+    describe('subtract()', () => {
         it('should subtract a V slot value from another', () => {
             registers.setV(0, 0x20)
             registers.setV(1, 0x10)
 
-            registers.subtractVXByVY(0, 1)
+            registers.subtract({
+                resultDestinationIndex: 0,
+                minuendIndex: 0,
+                subtrahendIndex: 1
+            })
 
             expect(registers.getV(0)).to.equal(0x10)
         });

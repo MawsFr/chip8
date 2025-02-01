@@ -50,12 +50,16 @@ export default class Registers {
         this.setI(addResult)
     }
 
-    subtractVXByVY(x: RegisterIndex, y: RegisterIndex) {
-        const minuend = this.getV(x)
-        const subtrahend = this.getV(y)
+    subtract({ resultDestinationIndex, minuendIndex, subtrahendIndex }: {
+        resultDestinationIndex: RegisterIndex,
+        minuendIndex: RegisterIndex,
+        subtrahendIndex: RegisterIndex
+    }) {
+        const minuend = this.getV(minuendIndex)
+        const subtrahend = this.getV(subtrahendIndex)
         const subtractResult = minuend - subtrahend
 
-        this.setV(x, subtractResult)
+        this.setV(resultDestinationIndex, subtractResult)
         this.setV(0xF, minuend > subtrahend ? 1 : 0)
     }
 
