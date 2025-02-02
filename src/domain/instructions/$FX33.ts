@@ -1,9 +1,9 @@
-import { Instruction, type InstructionContext, type XInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XInstructionParams } from "../instruction.ts";
 import { extractHundreds, extractOnes, extractTens } from "../math.helper.ts";
 
 export class $FX33 extends Instruction<XInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0xF033, 0xF0FF)
+    constructor(context: InstructionConfig) {
+        super(0xF033, 0xF0FF, context)
     }
 
     execute({ x }: XInstructionParams): void {

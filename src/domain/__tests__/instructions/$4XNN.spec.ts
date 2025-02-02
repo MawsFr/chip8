@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $4XNN } from "../../instructions/$4XNN.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('4XNN : Skips the next instruction if VX equals NN', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $4XNN
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $4XNN(context)
     })
 

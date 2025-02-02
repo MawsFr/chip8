@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $FX33 } from "../../instructions/$FX33.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('FX33 : Sets I to the location of the sprite for the character in VX', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $FX33
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $FX33(context)
     })
 

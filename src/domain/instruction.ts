@@ -8,46 +8,28 @@ import type { Input } from "./input.ts";
 import type { Timer } from "./timers.ts";
 
 export abstract class Instruction<T extends InstructionParams> {
-    protected readonly context: InstructionContext
+    protected readonly cpu: Cpu
+    protected readonly graphics: Graphics
+    protected readonly stack: Stack
+    protected readonly registers: Registers
+    protected readonly memory: Memory
+    protected readonly input: Input
+    protected readonly delayTimer: Timer
+    protected readonly soundTimer: Timer
     protected readonly opcode: OpcodeIdentifier
     protected readonly mask: number
 
-    protected constructor(context: InstructionContext, opcode: OpcodeIdentifier, mask: number) {
-        this.context = context
+    protected constructor(opcode: OpcodeIdentifier, mask: number, config: InstructionConfig) {
+        this.cpu = config.cpu
+        this.graphics = config.graphics
+        this.stack = config.stack
+        this.registers = config.registers
+        this.memory = config.memory
+        this.input = config.input
+        this.delayTimer = config.delayTimer
+        this.soundTimer = config.soundTimer
         this.opcode = opcode
         this.mask = mask
-    }
-
-    get cpu(): Cpu {
-        return this.context.cpu
-    }
-
-    get graphics(): Graphics {
-        return this.context.graphics
-    }
-
-    get stack(): Stack {
-        return this.context.stack
-    }
-
-    get registers(): Registers {
-        return this.context.registers
-    }
-
-    get memory(): Memory {
-        return this.context.memory
-    }
-
-    get input(): Input {
-        return this.context.input
-    }
-
-    get delayTimer(): Timer {
-        return this.context.delayTimer
-    }
-
-    get soundTimer(): Timer {
-        return this.context.soundTimer
     }
 
     matches(opcode: Opcode): boolean {
@@ -59,9 +41,9 @@ export abstract class Instruction<T extends InstructionParams> {
 
 export type OpcodeIdentifier = number;
 
-export type InstructionContext = {
-    graphics: Graphics
+export type InstructionConfig = {
     cpu: Cpu
+    graphics: Graphics
     stack: Stack
     registers: Registers
     memory: Memory
@@ -101,6 +83,4 @@ export type InstructionParams =
     | XYInstructionParams
     | XInstructionParams
     | undefined
-
-
 

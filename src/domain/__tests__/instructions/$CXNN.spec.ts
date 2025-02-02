@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $CXNN } from "../../instructions/$CXNN.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('CXNN : Jump to address NNN', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $CXNN
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $CXNN(context)
     })
 

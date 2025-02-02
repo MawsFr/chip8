@@ -1,8 +1,8 @@
-import { Instruction, type InstructionContext, type NNNInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type NNNInstructionParams } from "../instruction.ts";
 
 export class $2NNN extends Instruction<NNNInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0x2000, 0xF000)
+    constructor(context: InstructionConfig) {
+        super(0x2000, 0xF000, context)
     }
 
     execute({ nnn: address }: NNNInstructionParams): void {

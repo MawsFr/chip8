@@ -1,16 +1,16 @@
 import { afterEach, expect, vi } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $00E0 } from "../../instructions/$00E0.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('00E0 : Clear screen', () => {
-    let context: InstructionContext;
+    let instructionConfig: InstructionConfig;
     let instruction: $00E0
 
     beforeEach(() => {
-        context = useTestContext()
-        instruction = new $00E0(context)
+        instructionConfig = useTestInstructionConfig()
+        instruction = new $00E0(instructionConfig)
     })
 
     afterEach(() => {
@@ -30,16 +30,16 @@ describe('00E0 : Clear screen', () => {
 
     it('should clear the screen', () => {
         // Given
-        vi.spyOn(context.graphics, 'clearScreen').mockImplementation(() => {
+        vi.spyOn(instructionConfig.graphics, 'clearScreen').mockImplementation(() => {
         });
 
-        context.cpu.jumpToAddress(0x200)
+        instructionConfig.cpu.jumpToAddress(0x200)
 
         // When
         instruction.execute()
 
         // Then
-        expect(context.graphics.clearScreen).toHaveBeenCalledOnce()
-        expect(context.cpu.getCurrentAddress()).to.equal(0x202)
+        expect(instructionConfig.graphics.clearScreen).toHaveBeenCalledOnce()
+        expect(instructionConfig.cpu.getCurrentAddress()).to.equal(0x202)
     })
 });

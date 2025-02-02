@@ -1,32 +1,35 @@
 export class Opcode {
-    public readonly value: number;
+    private readonly _value: number;
+    get value(): number {
+        return this._value;
+    }
 
     constructor(value: number) {
-        this.value = value;
+        this._value = value;
     }
 
     extractNNN(): NNNAddress {
-        return this.value & 0x0FFF;
+        return this._value & 0x0FFF;
     }
 
     extractNN(): NN {
-        return this.value & 0x00FF;
+        return this._value & 0x00FF;
     }
 
     extractN(): N {
-        return this.value & 0x000F;
+        return this._value & 0x000F;
     }
 
     extractX(): RegisterIndex {
-        return (this.value & 0x0F00) >> 8;
+        return (this._value & 0x0F00) >> 8;
     }
 
     extractY(): RegisterIndex {
-        return (this.value & 0x00F0) >> 4;
+        return (this._value & 0x00F0) >> 4;
     }
 
     toString(): string {
-        return this.value.toString(16).padStart(4, '0').toUpperCase()
+        return this._value.toString(16).padStart(4, '0').toUpperCase()
     }
 
 }

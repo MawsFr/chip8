@@ -1,6 +1,6 @@
 export default class Stack {
-    public slots: Uint16Array = new Uint16Array(16)
-    public currentIndex: number = 0
+    private readonly slots: Uint16Array = new Uint16Array(16)
+    private currentIndex: number = 0 // TODO: move in registers
 
     push(address: number) {
         this.slots[this.currentIndex] = address

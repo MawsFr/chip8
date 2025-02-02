@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $7XNN } from "../../instructions/$7XNN.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('7XNN : Adds NN to VX', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $7XNN
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $7XNN(context)
     })
 

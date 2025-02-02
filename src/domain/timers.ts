@@ -1,5 +1,5 @@
 export class Timer {
-    public value: number = 0;
+    private value: number = 0;
 
     read() {
         return this.value & 0xFF

@@ -1,8 +1,8 @@
-import { Instruction, type InstructionContext, type XInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XInstructionParams } from "../instruction.ts";
 
 export class $EXA1 extends Instruction<XInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0xE0A1, 0xF0FF)
+    constructor(context: InstructionConfig) {
+        super(0xE0A1, 0xF0FF, context)
     }
 
     execute({ x }: XInstructionParams): void {

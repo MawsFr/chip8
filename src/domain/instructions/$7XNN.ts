@@ -1,8 +1,8 @@
-import { Instruction, type InstructionContext, type XNNInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XNNInstructionParams } from "../instruction.ts";
 
 export class $7XNN extends Instruction<XNNInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0x7000, 0xF000)
+    constructor(context: InstructionConfig) {
+        super(0x7000, 0xF000, context)
     }
 
     execute({ x, nn: value }: XNNInstructionParams): void {

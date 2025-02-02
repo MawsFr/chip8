@@ -1,13 +1,13 @@
-import { Instruction, type InstructionContext, type XInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XInstructionParams } from "../instruction.ts";
 
 export class $FX18 extends Instruction<XInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0xF018, 0xF0FF)
+    constructor(context: InstructionConfig) {
+        super(0xF018, 0xF0FF, context)
     }
 
     execute({ x }: XInstructionParams): void {
         const value = this.registers.getV(x)
-        
+
         this.soundTimer.write(value)
 
         this.cpu.goToNextInstruction()

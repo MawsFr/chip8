@@ -1,8 +1,8 @@
 import type Registers from "./registers.ts";
 
 export default class Memory {
-    public registers: Registers;
-    public addresses: Uint8Array = new Uint8Array(4096);
+    private readonly registers: Registers;
+    private readonly addresses: Uint8Array = new Uint8Array(4096);
 
     constructor(registers: Registers) {
         this.registers = registers
@@ -29,7 +29,7 @@ export default class Memory {
             0xF0, 0x80, 0xF0, 0x80, 0x80  // F
         ]), 0x0)
     }
-    
+
     getDataAt(index: number) {
         return this.addresses[index]
     }

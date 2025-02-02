@@ -1,9 +1,9 @@
-import { Instruction, type InstructionContext, type XYNInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XYNInstructionParams } from "../instruction.ts";
 import { type Position, Sprite } from "../sprite.ts";
 
 export class $DXYN extends Instruction<XYNInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0xD000, 0xF000)
+    constructor(context: InstructionConfig) {
+        super(0xD000, 0xF000, context)
     }
 
     execute({ x, y, n: height }: XYNInstructionParams): void {

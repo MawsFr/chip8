@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $00EE } from "../../instructions/$00EE.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('00EE : Return from a subroutine', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $00EE
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $00EE(context)
     })
 

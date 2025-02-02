@@ -1,8 +1,8 @@
-import { Instruction, type InstructionContext } from "../instruction.ts";
+import { Instruction, type InstructionConfig } from "../instruction.ts";
 
 export class $00E0 extends Instruction<undefined> {
-    constructor(context: InstructionContext) {
-        super(context, 0x00E0, 0xFFFF)
+    constructor(context: InstructionConfig) {
+        super(0x00E0, 0xFFFF, context)
     }
 
     execute(): void {

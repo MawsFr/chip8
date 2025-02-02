@@ -8,6 +8,17 @@ import { Timer } from "./timers.ts";
 import { concatBytes } from "./binary-operations.ts";
 import { Opcode } from "./opcode.ts";
 
+export type EmulatorConfig = {
+    cpu: Cpu;
+    graphics: Graphics;
+    stack: Stack;
+    registers: Registers;
+    memory: Memory;
+    input: Input;
+    delayTimer: Timer;
+    soundTimer: Timer;
+}
+
 export enum State {
     OFF = 'OFF',
     ROM_LOADED = 'ROM_LOADED',
@@ -18,6 +29,7 @@ export enum State {
 export const MAX_CYCLES_PER_FRAME = 4
 
 export class Emulator {
+    public cpu: Cpu;
     public graphics: Graphics
     public stack: Stack
     public registers: Registers
@@ -25,22 +37,20 @@ export class Emulator {
     public input: Input
     public delayTimer: Timer
     public soundTimer: Timer
-    public cpu: Cpu;
 
     public lastOpcode: Opcode | null = null
     public state: State = State.OFF
     public intervalId: number | null = null
 
-
-    constructor(cpu: Cpu, graphics: Graphics, stack: Stack, registers: Registers, memory: Memory, input: Input, delayTimer: Timer, soundTimer: Timer) {
-        this.cpu = cpu
-        this.graphics = graphics
-        this.stack = stack
-        this.registers = registers
-        this.memory = memory
-        this.input = input
-        this.delayTimer = delayTimer
-        this.soundTimer = soundTimer
+    constructor(config: EmulatorConfig) {
+        this.cpu = config.cpu
+        this.graphics = config.graphics
+        this.stack = config.stack
+        this.registers = config.registers
+        this.memory = config.memory
+        this.input = config.input
+        this.delayTimer = config.delayTimer
+        this.soundTimer = config.soundTimer
         this.lastOpcode = this.readNextOpcode()
     }
 

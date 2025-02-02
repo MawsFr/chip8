@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $8XY7 } from "../../instructions/$8XY7.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('8XY7 : VY is subtracted from VX. Underflow is managed in VF', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $8XY7
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $8XY7(context)
     })
 

@@ -1,35 +1,18 @@
 import { Emulator, State } from "../emulator.ts";
 import { afterEach, beforeEach, expect, vi } from "vitest";
-import { Cpu } from "../cpu.ts";
-import { Graphics } from "../graphics.ts";
-import Stack from "../stack.ts";
-import Registers from "../registers.ts";
-import Memory from "../memory.ts";
-import { Input } from "../input.ts";
-import { Timer } from "../timers.ts";
+import { Cpu, type CpuConfig } from "../cpu.ts";
 import { Opcode } from "../opcode.ts";
+import { useTestCpuConfig } from "./helpers/useTestInstructionConfig.ts";
 
 describe('Emulator', () => {
-    let cpu: Cpu;
-    let graphics: Graphics;
-    let stack: Stack;
-    let registers: Registers;
-    let memory: Memory;
-    let input: Input
-    let delayTimer: Timer
-    let soundTimer: Timer
+    let cpu: Cpu
+    let cpuConfig: CpuConfig
     let emulator: Emulator
 
     beforeEach(() => {
-        graphics = new Graphics()
-        stack = new Stack()
-        registers = new Registers()
-        memory = new Memory(registers)
-        input = new Input()
-        delayTimer = new Timer()
-        soundTimer = new Timer()
-        cpu = new Cpu(graphics, stack, registers, memory, input, delayTimer, soundTimer)
-        emulator = new Emulator(cpu, graphics, stack, registers, memory, input, delayTimer, soundTimer)
+        cpuConfig = useTestCpuConfig()
+        cpu = new Cpu(cpuConfig)
+        emulator = new Emulator({ ...cpuConfig, cpu })
     })
 
     afterEach(() => {
@@ -41,10 +24,10 @@ describe('Emulator', () => {
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
 
-            expect(memory.getDataAt(0x200)).to.equal(0x00);
-            expect(memory.getDataAt(0x201)).to.equal(0xE0);
-            expect(memory.getDataAt(0x202)).to.equal(0xA2);
-            expect(memory.getDataAt(0x203)).to.equal(0xF0);
+            expect(cpuConfig.memory.getDataAt(0x200)).to.equal(0x00);
+            expect(cpuConfig.memory.getDataAt(0x201)).to.equal(0xE0);
+            expect(cpuConfig.memory.getDataAt(0x202)).to.equal(0xA2);
+            expect(cpuConfig.memory.getDataAt(0x203)).to.equal(0xF0);
 
         });
     });
@@ -120,45 +103,45 @@ describe('Emulator', () => {
 
     describe('updateTimers()', () => {
         it('should update delay and sound timer', () => {
-            delayTimer.write(1)
-            soundTimer.write(1)
+            cpuConfig.delayTimer.write(1)
+            cpuConfig.soundTimer.write(1)
 
             emulator.updateTimers()
             emulator.updateTimers()
 
-            expect(delayTimer.read()).to.equal(0)
-            expect(soundTimer.read()).to.equal(0)
+            expect(cpuConfig.delayTimer.read()).to.equal(0)
+            expect(cpuConfig.soundTimer.read()).to.equal(0)
 
         });
     });
 
     describe('reset()', () => {
         it('should reset the emulator', () => {
-            vi.spyOn(memory, 'reset')
-            vi.spyOn(graphics, 'clearScreen')
-            vi.spyOn(stack, 'reset')
-            vi.spyOn(registers, 'reset')
+            vi.spyOn(cpuConfig.memory, 'reset')
+            vi.spyOn(cpuConfig.graphics, 'clearScreen')
+            vi.spyOn(cpuConfig.stack, 'reset')
+            vi.spyOn(cpuConfig.registers, 'reset')
             vi.spyOn(cpu, 'reset')
-            vi.spyOn(input, 'reset')
-            vi.spyOn(delayTimer, 'reset')
-            vi.spyOn(soundTimer, 'reset')
+            vi.spyOn(cpuConfig.input, 'reset')
+            vi.spyOn(cpuConfig.delayTimer, 'reset')
+            vi.spyOn(cpuConfig.soundTimer, 'reset')
             vi.spyOn(globalThis, 'clearInterval')
 
             emulator.run()
             emulator.reset()
 
-            expect(memory.getDataAt(0x200)).to.equal(0)
-            expect(graphics.clearScreen).toHaveBeenCalledTimes(1)
-            expect(stack.reset).toHaveBeenCalledTimes(1)
-            expect(registers.reset).toHaveBeenCalledTimes(1)
             expect(cpu.reset).toHaveBeenCalledTimes(1)
-            expect(input.reset).toHaveBeenCalledTimes(1)
-            expect(delayTimer.reset).toHaveBeenCalledTimes(1)
-            expect(soundTimer.reset).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.memory.getDataAt(0x200)).to.equal(0)
+            expect(cpuConfig.graphics.clearScreen).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.stack.reset).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.registers.reset).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.input.reset).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.delayTimer.reset).toHaveBeenCalledTimes(1)
+            expect(cpuConfig.soundTimer.reset).toHaveBeenCalledTimes(1)
             expect(emulator.state).to.equal('OFF')
             expect(emulator.lastOpcode).to.equal(null)
-            expect(globalThis.clearInterval).toHaveBeenCalledTimes(1)
             expect(emulator.intervalId).to.equal(null)
+            expect(globalThis.clearInterval).toHaveBeenCalledTimes(1)
         });
 
     });

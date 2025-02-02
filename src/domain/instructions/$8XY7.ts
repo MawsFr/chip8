@@ -1,8 +1,8 @@
-import { Instruction, type InstructionContext, type XYInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XYInstructionParams } from "../instruction.ts";
 
 export class $8XY7 extends Instruction<XYInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0x8007, 0xF00F)
+    constructor(context: InstructionConfig) {
+        super(0x8007, 0xF00F, context)
     }
 
     execute({ x, y }: XYInstructionParams): void {

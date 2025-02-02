@@ -4,27 +4,35 @@ import { bitwiseAnd } from "./binary-operations.ts";
 export type AddVParams = { carryFlag: boolean };
 
 export default class Registers {
-    public vSlots: Uint8Array = new Uint8Array(16);
-    public iSlot: Uint16Array = new Uint16Array(1);
+    private readonly _vSlots: Uint8Array = new Uint8Array(16);
+    private readonly _iSlot: Uint16Array = new Uint16Array(1);
+
+    get vSlots() {
+        return this._vSlots
+    }
+
+    get iSlot() {
+        return this._iSlot
+    }
 
     getV(index: RegisterIndex) {
-        return this.vSlots[index] & 0xFF
+        return this._vSlots[index] & 0xFF
     }
 
     setV(index: RegisterIndex, newValue: number) {
-        this.vSlots[index] = newValue & 0xFF
+        this._vSlots[index] = newValue & 0xFF
     }
 
     getI() {
-        return this.iSlot[0] & 0xFFF
+        return this._iSlot[0] & 0xFFF
     }
 
     setI(newValue: number) {
-        this.iSlot[0] = newValue & 0xFFF
+        this._iSlot[0] = newValue & 0xFFF
     }
 
     entries(start: number, end: number) {
-        return this.vSlots.slice(start, end + 1)
+        return this._vSlots.slice(start, end + 1)
     }
 
     load(entries: Uint8Array | number[]) {
@@ -86,7 +94,7 @@ export default class Registers {
     }
 
     reset() {
-        this.vSlots.fill(0)
-        this.iSlot.fill(0)
+        this._vSlots.fill(0)
+        this._iSlot.fill(0)
     }
 }

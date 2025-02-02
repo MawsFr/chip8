@@ -1,15 +1,7 @@
-import { Cpu } from "../cpu.ts";
-import { Graphics } from "../graphics.ts";
-import Stack from "../stack.ts";
+import { Cpu, type CpuConfig } from "../cpu.ts";
 import { afterEach, beforeEach, expect } from "vitest";
-import Registers from "../registers.ts";
-import Memory from "../memory.ts";
-import { Input } from "../input.ts";
-import { Timer } from "../timers.ts";
 import { Opcode } from "../opcode.ts";
-import { useTestContext } from "./helpers/useTestContext.ts";
 import { $00E0 } from "../instructions/$00E0.ts";
-import { type InstructionContext } from "../instruction.ts";
 import { $00EE } from "../instructions/$00EE.ts";
 import { $1NNN } from "../instructions/$1NNN.ts";
 import { $2NNN } from "../instructions/$2NNN.ts";
@@ -43,26 +35,17 @@ import { $FX29 } from "../instructions/$FX29.ts";
 import { $FX33 } from "../instructions/$FX33.ts";
 import { $FX55 } from "../instructions/$FX55.ts";
 import { $FX65 } from "../instructions/$FX65.ts";
+import { InstructionLoader } from "../instructions/instruction-loader.ts";
+import type { InstructionConfig } from "../instruction.ts";
+import { useTestCpuConfig, useTestInstructionConfig } from "./helpers/useTestInstructionConfig.ts";
 
 describe('OpcodesInterpreter', () => {
-    let cpu: Cpu;
-    let graphics: Graphics;
-    let stack: Stack;
-    let registers: Registers;
-    let memory: Memory;
-    let input: Input
-    let delayTimer: Timer
-    let soundTimer: Timer
+    let cpu: Cpu
+    let cpuConfig: CpuConfig
 
     beforeEach(() => {
-        graphics = new Graphics()
-        stack = new Stack()
-        registers = new Registers()
-        memory = new Memory(registers)
-        input = new Input()
-        delayTimer = new Timer()
-        soundTimer = new Timer()
-        cpu = new Cpu(graphics, stack, registers, memory, input, delayTimer, soundTimer)
+        cpuConfig = useTestCpuConfig()
+        cpu = new Cpu(cpuConfig)
     })
 
     afterEach(() => {
@@ -124,14 +107,14 @@ describe('OpcodesInterpreter', () => {
 
             cpu.callSubroutine(0x400)
 
-            expect(stack.pop()).to.equal(0x200)
+            expect(cpuConfig.stack.pop()).to.equal(0x200)
             expect(cpu.getCurrentAddress()).to.equal(0x400)
         })
     });
 
     describe('returnFromSubroutine()', () => {
         it('should return from a subroutine', () => {
-            stack.push(0x200)
+            cpuConfig.stack.push(0x200)
             cpu.jumpToAddress(0x400)
 
             cpu.returnFromSubroutine()
@@ -141,14 +124,10 @@ describe('OpcodesInterpreter', () => {
     });
 
     describe('interpret()', () => {
-        let context: InstructionContext;
+        let instructionConfig: InstructionConfig;
 
         beforeEach(() => {
-            context = useTestContext()
-
-            cpu.instructions.forEach((instruction) => {
-                vi.spyOn(instruction, 'execute')
-            })
+            instructionConfig = useTestInstructionConfig()
         })
 
         it.each([
@@ -187,10 +166,10 @@ describe('OpcodesInterpreter', () => {
             [ 0xF055, $FX55 ],
             [ 0xF065, $FX65 ],
         ])("Opcode 0x%s should be interpreted by %s", (opcode, instructionClass) => {
-            const instruction = new instructionClass(context)
+            const instruction = new instructionClass(instructionConfig)
             vi.spyOn(instruction, 'execute')
-
-            cpu.instructions = [ instruction ]
+            vi.spyOn(InstructionLoader, 'loadInstructions').mockReturnValue([ instruction ])
+            let cpu = new Cpu(cpuConfig)
 
             cpu.interpret(new Opcode(opcode))
 

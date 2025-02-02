@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $FX55 } from "../../instructions/$FX55.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('FX55 : Stores from V0 to VX (including VX) in memory, starting at address I.', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $FX55
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $FX55(context)
     })
 

@@ -1,11 +1,11 @@
-import { Instruction, type InstructionContext } from "../../instruction.ts";
+import { Instruction, type InstructionConfig } from "../../instruction.ts";
 import { beforeEach, describe } from "vitest";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { Opcode } from "../../opcode.ts";
 
 class Mock$00E0 extends Instruction<undefined> {
-    constructor(context: InstructionContext) {
-        super(context, 0x00E0, 0xFFFF)
+    constructor(context: InstructionConfig) {
+        super(0x00E0, 0xFFFF, context)
     }
 
     execute(): void {
@@ -14,45 +14,13 @@ class Mock$00E0 extends Instruction<undefined> {
 }
 
 describe('Instruction', () => {
-    let context: InstructionContext
+    let context: InstructionConfig
     let instruction: Mock$00E0
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new Mock$00E0(context)
     })
-
-    it('should return cpu', () => {
-        expect(instruction.cpu).to.equal(context.cpu)
-    });
-
-    it('should return graphics', () => {
-        expect(instruction.graphics).to.equal(context.graphics)
-    });
-
-    it('should return stack', () => {
-        expect(instruction.stack).to.equal(context.stack)
-    });
-
-    it('should return registers', () => {
-        expect(instruction.registers).to.equal(context.registers)
-    });
-
-    it('should return memory', () => {
-        expect(instruction.memory).to.equal(context.memory)
-    });
-
-    it('should return input', () => {
-        expect(instruction.input).to.equal(context.input)
-    });
-
-    it('should return delayTimer', () => {
-        expect(instruction.delayTimer).to.equal(context.delayTimer)
-    });
-
-    it('should return soundTimer', () => {
-        expect(instruction.soundTimer).to.equal(context.soundTimer)
-    });
 
     describe('matches()', () => {
         it("should return true if the instruction matches the fetched opcode", () => {

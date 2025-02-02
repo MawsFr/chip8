@@ -1,10 +1,10 @@
-import { Instruction, type InstructionContext, type XInstructionParams } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type XInstructionParams } from "../instruction.ts";
 
 export const FONT_HEIGHT = 5
 
 export class $FX29 extends Instruction<XInstructionParams> {
-    constructor(context: InstructionContext) {
-        super(context, 0xF029, 0xF0FF)
+    constructor(context: InstructionConfig) {
+        super(0xF029, 0xF0FF, context)
     }
 
     execute({ x }: XInstructionParams): void {

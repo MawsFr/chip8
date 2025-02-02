@@ -1,15 +1,15 @@
 import { expect } from "vitest";
-import { type InstructionContext } from "../../instruction.ts";
-import { useTestContext } from "../helpers/useTestContext.ts";
+import { type InstructionConfig } from "../../instruction.ts";
+import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $2NNN } from "../../instructions/$2NNN.ts";
 import { Opcode } from "../../opcode.ts";
 
 describe('2NNN : Calls subroutine at NNN', () => {
-    let context: InstructionContext;
+    let context: InstructionConfig;
     let instruction: $2NNN
 
     beforeEach(() => {
-        context = useTestContext()
+        context = useTestInstructionConfig()
         instruction = new $2NNN(context)
     })
 
