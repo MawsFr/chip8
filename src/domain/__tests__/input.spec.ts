@@ -44,7 +44,7 @@ describe('Input', () => {
         it('should wait for a key', async () => {
             setTimeout(() => {
                 input.press(0x1)
-            }, 100)
+            }, 500)
 
             const key = await input.waitForPress()
 
