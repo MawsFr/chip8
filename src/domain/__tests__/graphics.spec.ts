@@ -99,6 +99,19 @@ describe(Graphics, () => {
             expect(graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
             expect(wasOverlapping).toBeTruthy()
         });
+
+        it('should draw a sprite that goes out of bounds', () => {
+            const sprite = new Sprite(Uint8Array.from([
+                0xA0,
+                0x40,
+            ]))
+
+            graphics.drawSprite(sprite, { x: 63, y: 31 })
+
+            expect(graphics.getPixelAt({ x: 63, y: 31 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 1, y: 31 })).equals(ALIVE_PIXEL)
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).equals(ALIVE_PIXEL)
+        })
     });
 
     describe(Graphics.prototype.mergePixels, () => {

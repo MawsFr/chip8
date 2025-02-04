@@ -32,8 +32,8 @@ export class Graphics {
 
         for (const { pixel, offset } of sprite) {
             const finalPosition = {
-                x: position.x + offset.x,
-                y: position.y + offset.y
+                x: (position.x + offset.x) % WIDTH,
+                y: (position.y + offset.y) % HEIGHT
             }
 
             if (finalPosition.x >= WIDTH || finalPosition.y >= HEIGHT) {
