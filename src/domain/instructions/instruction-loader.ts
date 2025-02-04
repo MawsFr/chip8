@@ -33,9 +33,11 @@ import { $FX33 } from "./$FX33.ts";
 import { $FX55 } from "./$FX55.ts";
 import { $FX65 } from "./$FX65.ts";
 import type { InstructionConfig } from "../instruction.ts";
+import { $0000 } from "./$0000.ts";
 
 export abstract class InstructionLoader {
     static loadInstructions = (context: InstructionConfig) => [
+        new $0000(context),
         new $00E0(context),
         new $00EE(context),
         new $1NNN(context),
