@@ -37,7 +37,6 @@ import { $0000 } from "./$0000.ts";
 
 export abstract class InstructionLoader {
     static loadInstructions = (context: InstructionConfig) => [
-        new $0000(context),
         new $00E0(context),
         new $00EE(context),
         new $1NNN(context),
@@ -72,5 +71,6 @@ export abstract class InstructionLoader {
         new $FX33(context),
         new $FX55(context),
         new $FX65(context),
+        new $0000(context),
     ]
 }

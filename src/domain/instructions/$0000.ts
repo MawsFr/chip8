@@ -1,8 +1,8 @@
-import { Instruction, type InstructionConfig } from "../instruction.ts";
+import { Instruction, type InstructionConfig, type NNNInstructionParams } from "../instruction.ts";
 
-export class $0000 extends Instruction<undefined> {
+export class $0000 extends Instruction<NNNInstructionParams> {
     constructor(context: InstructionConfig) {
-        super(0x0000, 0xFFFF, context)
+        super(0x0000, 0xF000, context)
     }
 
     execute(): void {
