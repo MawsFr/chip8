@@ -13,6 +13,6 @@ export class $FX65 extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Fill V0 to V" + x + " with memory values")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Fill V0 to V" + x + " with memory values", this.cpu)
     }
 }

@@ -10,6 +10,6 @@ export class $00EE extends Instruction<undefined> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Returns from a subroutine")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Returns from a subroutine", this.cpu)
     }
 }

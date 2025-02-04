@@ -10,6 +10,6 @@ export class $ANNN extends Instruction<NNNInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = " + address.toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = " + address.toString(16), this.cpu)
     }
 }

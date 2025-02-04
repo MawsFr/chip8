@@ -10,6 +10,6 @@ export class $00E0 extends Instruction<undefined> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Clear screen")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Clear screen", this.cpu)
     }
 }

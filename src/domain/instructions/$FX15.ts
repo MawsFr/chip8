@@ -12,6 +12,6 @@ export class $FX15 extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set delay timer = V" + x)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set delay timer = V" + x, this.cpu)
     }
 }

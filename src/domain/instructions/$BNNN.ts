@@ -10,6 +10,6 @@ export class $BNNN extends Instruction<NNNInstructionParams> {
 
         this.cpu.jumpToAddress(addressToJumpTo)
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address.toString(16) + " + V0")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + address.toString(16) + " + V0", this.cpu)
     }
 }

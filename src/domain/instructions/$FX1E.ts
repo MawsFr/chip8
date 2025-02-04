@@ -12,6 +12,6 @@ export class $FX1E extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = I + V" + x)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = I + V" + x, this.cpu)
     }
 }

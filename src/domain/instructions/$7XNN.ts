@@ -10,6 +10,6 @@ export class $7XNN extends Instruction<XNNInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Add " + value.toString(16) + " to V" + x.toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Add " + value.toString(16) + " to V" + x.toString(16), this.cpu)
     }
 }

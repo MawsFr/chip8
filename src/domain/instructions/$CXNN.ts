@@ -10,6 +10,6 @@ export class $CXNN extends Instruction<XNNInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x.toString(16) + " = " + nn.toString(16) + " & " + this.registers.getV(x).toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set V" + x.toString(16) + " = " + nn.toString(16) + " & " + this.registers.getV(x).toString(16), this.cpu)
     }
 }

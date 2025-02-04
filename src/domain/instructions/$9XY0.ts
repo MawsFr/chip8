@@ -10,6 +10,6 @@ export class $9XY0 extends Instruction<XYInstructionParams> {
 
         this.cpu.goToNextInstruction({ skipNextInstruction })
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x + " != V" + y)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x + " != V" + y, this.cpu)
     }
 }

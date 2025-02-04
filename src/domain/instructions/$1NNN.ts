@@ -8,6 +8,6 @@ export class $1NNN extends Instruction<NNNInstructionParams> {
     execute({ nnn: address }: NNNInstructionParams): void {
         this.cpu.jumpToAddress(address)
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (address).toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Jump to address " + (address).toString(16), this.cpu)
     }
 }

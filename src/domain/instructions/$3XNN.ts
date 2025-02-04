@@ -10,6 +10,6 @@ export class $3XNN extends Instruction<XNNInstructionParams> {
 
         this.cpu.goToNextInstruction({ skipNextInstruction })
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x.toString(16) + " = " + value.toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Skip next instruction if V" + x.toString(16) + " = " + value.toString(16), this.cpu)
     }
 }

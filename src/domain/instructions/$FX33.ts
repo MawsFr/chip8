@@ -17,6 +17,6 @@ export class $FX33 extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Store BCD representation of V" + x + " in memory")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Store BCD representation of V" + x + " in memory", this.cpu)
     }
 }

@@ -12,6 +12,6 @@ export class $FX0A extends Instruction<XInstructionParams> {
             this.cpu.goToNextInstruction()
         })
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Wait for key press and store in V" + x)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Wait for key press and store in V" + x, this.cpu)
     }
 }

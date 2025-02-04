@@ -6,8 +6,10 @@ export class $2NNN extends Instruction<NNNInstructionParams> {
     }
 
     execute({ nnn: address }: NNNInstructionParams): void {
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Calling subroutine at " + (address).toString(16) + " and saves return address " + this.cpu.getCurrentAddress().toString(16))
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Before Calling subroutine at " + (address).toString(16) + " and saves return address " + this.cpu.getCurrentAddress().toString(16), this.cpu)
 
         this.cpu.callSubroutine(address)
+
+        console.log('After calling subroutine', this.cpu)
     }
 }

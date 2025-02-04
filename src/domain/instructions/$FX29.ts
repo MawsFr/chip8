@@ -14,6 +14,6 @@ export class $FX29 extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = font sprite address for V" + x)
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Set I = font sprite address for V" + x, this.cpu)
     }
 }

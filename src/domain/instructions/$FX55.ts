@@ -12,6 +12,6 @@ export class $FX55 extends Instruction<XInstructionParams> {
 
         this.cpu.goToNextInstruction()
 
-        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Store V0 to V" + x + " in memory")
+        console.log(this.opcode.toString(16).padStart(4, '0').toUpperCase() + " Store V0 to V" + x + " in memory", this.cpu)
     }
 }
