@@ -39,6 +39,8 @@ describe('FX55 : Stores from V0 to VX (including VX) in memory, starting at addr
         expect(context.memory.getDataAt(0x302)).to.equal(0x56);
         expect(context.memory.getDataAt(0x303)).to.equal(0x78);
 
+        expect(context.registers.getI()).to.equal(0x300 + 0x3 + 1);
+
         expect(context.cpu.getCurrentAddress()).to.equal(0x202);
     });
 });

@@ -7,9 +7,10 @@ export class $FX65 extends Instruction<XInstructionParams> {
 
     execute({ x }: XInstructionParams): void {
         const start = this.registers.getI()
-        const entries = this.memory.entries(start, x)
+        const entries = this.memory.entries(start, start + x)
 
         this.registers.load(entries)
+        this.registers.addI(x + 1)
 
         this.cpu.goToNextInstruction()
 

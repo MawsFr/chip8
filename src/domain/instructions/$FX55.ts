@@ -9,6 +9,7 @@ export class $FX55 extends Instruction<XInstructionParams> {
         const registers = this.registers.entries(0, x)
 
         this.memory.load(registers)
+        this.registers.addI(x + 1)
 
         this.cpu.goToNextInstruction()
 
