@@ -27,18 +27,26 @@ describe(Graphics, () => {
     describe(Graphics.prototype.drawPixel, () => {
         it('should draw a pixel', () => {
             graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
-            const { wasAlive } = graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+            const { pixelsAreColliding } = graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
 
             expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(ALIVE_PIXEL)
-            expect(wasAlive).toBeFalsy()
+            expect(pixelsAreColliding).toBeFalsy()
         })
 
-        it('should leave alive pixel alive', () => {
+        it('should leave alive pixel alive when drawing dead pixel', () => {
             graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
-            const { wasAlive } = graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
+            const { pixelsAreColliding } = graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
 
             expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(ALIVE_PIXEL)
-            expect(wasAlive).toBeTruthy()
+            expect(pixelsAreColliding).toBeFalsy()
+        })
+
+        it('should turn dead an alive pixel when drawing alive pixel over it', () => {
+            graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+            const { pixelsAreColliding } = graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
+
+            expect(graphics.getPixelAt({ x: 0, y: 0 })).to.equal(DEAD_PIXEL)
+            expect(pixelsAreColliding).toBeTruthy()
         })
     });
 

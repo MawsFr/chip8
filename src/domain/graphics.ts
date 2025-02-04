@@ -28,7 +28,7 @@ export class Graphics {
     }
 
     drawSprite(sprite: Sprite, position: Position) {
-        let wasOverlapping = false
+        let spriteIsColliding = false
 
         for (const { pixel, offset } of sprite) {
             const finalPosition = {
@@ -40,11 +40,11 @@ export class Graphics {
                 continue
             }
 
-            const { wasAlive } = this.drawPixel(pixel, finalPosition)
-            wasOverlapping = wasOverlapping || wasAlive
+            const { pixelsAreColliding } = this.drawPixel(pixel, finalPosition)
+            spriteIsColliding = spriteIsColliding || pixelsAreColliding
         }
 
-        return { wasOverlapping }
+        return { wasOverlapping: spriteIsColliding }
     }
 
     drawPixel(pixel: Pixel, { x, y }: Position) {
@@ -52,7 +52,7 @@ export class Graphics {
 
         this._pixels[y][x] = this.mergePixels(this._pixels[y][x], pixel)
 
-        return { wasAlive: oldPixel === ALIVE_PIXEL }
+        return { pixelsAreColliding: oldPixel === ALIVE_PIXEL && pixel === ALIVE_PIXEL }
     }
 
     getPixelAt({ x, y }: Position): Pixel {

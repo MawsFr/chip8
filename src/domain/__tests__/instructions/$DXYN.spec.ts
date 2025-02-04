@@ -38,6 +38,7 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
         ]
 
         context.cpu.jumpToAddress(0x200)
+        context.graphics.drawPixel(DEAD_PIXEL, { x: 0, y: 0 })
         context.registers.setV(0, 1)
         context.registers.setV(1, 1)
 
@@ -51,7 +52,6 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
         expect(context.graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
         expect(context.graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
         expect(context.graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
-
         expect(context.registers.getV(0xF)).to.equal(0)
 
         expect(context.cpu.getCurrentAddress()).to.equal(0x202)
@@ -68,10 +68,10 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
         ]
 
         context.cpu.jumpToAddress(0x200)
-        context.graphics.drawPixel(ALIVE_PIXEL, { x: 1, y: 1 })
+        context.graphics.drawPixel(ALIVE_PIXEL, { x: 0, y: 0 })
 
-        context.registers.setV(0, 1)
-        context.registers.setV(1, 1)
+        context.registers.setV(0, 0)
+        context.registers.setV(1, 0)
 
         context.registers.setI(0x200)
 
@@ -79,10 +79,10 @@ describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
 
         instruction.execute({ x: 0, y: 1, n: 2 })
 
-        expect(context.graphics.getPixelAt({ x: 1, y: 1 })).equals(DEAD_PIXEL)
-        expect(context.graphics.getPixelAt({ x: 2, y: 1 })).equals(ALIVE_PIXEL)
-        expect(context.graphics.getPixelAt({ x: 1, y: 2 })).equals(ALIVE_PIXEL)
-        expect(context.graphics.getPixelAt({ x: 2, y: 2 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 0, y: 0 })).equals(DEAD_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 0, y: 1 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
+        expect(context.graphics.getPixelAt({ x: 1, y: 1 })).equals(ALIVE_PIXEL)
 
         expect(context.registers.getV(0xF)).to.equal(1)
 
