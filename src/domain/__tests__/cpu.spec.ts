@@ -165,7 +165,7 @@ describe(Cpu, () => {
             [ '0xF065', $FX65 ],
         ])("Opcode %s should be interpreted by %s", (opcode, instructionClass) => {
             const instruction = new instructionClass(instructionConfig)
-            vi.spyOn(instruction, 'execute')
+            vi.spyOn(instruction, 'execute').mockReturnValue(void 0)
             vi.spyOn(InstructionLoader, 'loadInstructions').mockReturnValue([ instruction ])
             let cpu = new Cpu(cpuConfig)
 
