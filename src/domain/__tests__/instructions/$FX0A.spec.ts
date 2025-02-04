@@ -1,6 +1,6 @@
 import { expect } from "vitest";
 import { type InstructionConfig } from "../../instruction.ts";
-import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
+import { useTestInstructionConfig } from "../helpers/test-configs.ts";
 import { $FX0A } from "../../instructions/$FX0A.ts";
 import { Opcode } from "../../opcode.ts";
 

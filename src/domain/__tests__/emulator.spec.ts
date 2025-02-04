@@ -2,7 +2,7 @@ import { Emulator, State } from "../emulator.ts";
 import { beforeEach, expect, vi } from "vitest";
 import { Cpu, type CpuConfig } from "../cpu.ts";
 import { Opcode } from "../opcode.ts";
-import { useTestCpuConfig } from "./helpers/useTestInstructionConfig.ts";
+import { useTestCpuConfig } from "./helpers/test-configs.ts";
 
 describe(Emulator, () => {
     let cpu: Cpu

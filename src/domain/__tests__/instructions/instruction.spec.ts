@@ -1,6 +1,6 @@
 import { Instruction, type InstructionConfig } from "../../instruction.ts";
 import { beforeEach, describe } from "vitest";
-import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
+import { useTestInstructionConfig } from "../helpers/test-configs.ts";
 import { Opcode } from "../../opcode.ts";
 
 class Mock$00E0 extends Instruction<undefined> {

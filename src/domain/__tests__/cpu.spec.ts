@@ -37,7 +37,7 @@ import { $FX55 } from "../instructions/$FX55.ts";
 import { $FX65 } from "../instructions/$FX65.ts";
 import { InstructionLoader } from "../instructions/instruction-loader.ts";
 import type { InstructionConfig } from "../instruction.ts";
-import { useTestCpuConfig, useTestInstructionConfig } from "./helpers/useTestInstructionConfig.ts";
+import { useTestCpuConfig, useTestInstructionConfig } from "./helpers/test-configs.ts";
 import { $0000 } from "../instructions/$0000.ts";
 
 describe(Cpu, () => {
