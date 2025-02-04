@@ -11,6 +11,7 @@ export default defineConfig({
             enabled: true,
             reporter: 'html'
         },
-        isolate: false
+        isolate: false,
+        setupFiles: ['./test.setup.js']
     }
 })
