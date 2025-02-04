@@ -1,6 +1,6 @@
 import { Input } from "../input.ts";
 
-describe('Input', () => {
+describe(Input, () => {
     let input: Input
 
     beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Input', () => {
             .and.has.length(16)
     })
 
-    describe('press()', () => {
+    describe(Input.prototype.press, () => {
         it('should toggle the state of a key to pressed', () => {
             input.press(0)
 
@@ -21,7 +21,7 @@ describe('Input', () => {
         })
     });
 
-    describe('release()', () => {
+    describe(Input.prototype.release, () => {
         it('should toggle the state of a key to released', () => {
             input.press(0)
             assert(input.isPressed(0))
@@ -32,7 +32,7 @@ describe('Input', () => {
         })
     });
 
-    describe('isPressed()', () => {
+    describe(Input.prototype.isPressed, () => {
         it('should return true when key is pressed', () => {
             input.press(0)
 
@@ -40,7 +40,7 @@ describe('Input', () => {
         })
     });
 
-    describe('waitForPress()', () => {
+    describe(Input.prototype.waitForPress, () => {
         it('should wait for a key', async () => {
             setTimeout(() => {
                 input.press(0x1)

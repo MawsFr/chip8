@@ -1,4 +1,4 @@
-import { afterEach, expect, vi } from "vitest";
+import { expect, vi } from "vitest";
 import { type InstructionConfig } from "../../instruction.ts";
 import { useTestInstructionConfig } from "../helpers/useTestInstructionConfig.ts";
 import { $00E0 } from "../../instructions/$00E0.ts";
@@ -11,10 +11,6 @@ describe('00E0 : Clear screen', () => {
     beforeEach(() => {
         instructionConfig = useTestInstructionConfig()
         instruction = new $00E0(instructionConfig)
-    })
-
-    afterEach(() => {
-        vi.restoreAllMocks()
     })
 
     it('should match 00E0', () => {

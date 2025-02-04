@@ -2,17 +2,18 @@ export default class Stack {
     private readonly slots: Uint16Array = new Uint16Array(16)
     private currentIndex: number = 0 // TODO: move in registers
 
-    push(address: number) {
-        this.slots[this.currentIndex] = address
+    push(returnAddress: number) {
+        this.slots[this.currentIndex] = returnAddress
         this.currentIndex++
     }
 
     pop() {
         this.currentIndex--
-        const nextReturnAddress = this.slots[this.currentIndex]
+        const returnAddress = this.slots[this.currentIndex]
+
         this.slots[this.currentIndex] = 0x0
 
-        return nextReturnAddress
+        return returnAddress
     }
 
     reset() {

@@ -26,7 +26,9 @@ export enum State {
     PAUSED = 'PAUSED'
 }
 
-export const MAX_CYCLES_PER_FRAME = 4
+export const MAX_CYCLES_PER_FRAME = 10
+export const FPS = 60
+
 
 export class Emulator {
     public cpu: Cpu;
@@ -69,8 +71,7 @@ export class Emulator {
             return
         }
 
-        const fps = 60;
-        const fpsInterval = 1000 / fps;
+        const fpsInterval = 1000 / FPS;
 
         this.intervalId = setInterval(() => {
             if (this.state !== State.RUNNING && this.intervalId) {
@@ -81,13 +82,15 @@ export class Emulator {
             for (let i = 0; i < MAX_CYCLES_PER_FRAME; i++) {
                 this.executeNextInstruction()
             }
+
+            this.updateTimers();
         }, fpsInterval);
     }
 
     public executeNextInstruction() {
         const opcode = this.readNextOpcode();
         this.cpu.interpret(opcode);
-        this.updateTimers();
+
 
         this.lastOpcode = opcode
     }

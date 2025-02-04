@@ -1,7 +1,7 @@
 import { bitwiseAnd, bitwiseOr, bitwiseXor, concatBytes } from "../binary-operations.ts";
 
 describe('BinaryOperations', () => {
-    describe('concatBytes()', () => {
+    describe(concatBytes, () => {
         it('should concat two bytes', () => {
             const byte1 = 0x10
             const byte2 = 0x20
@@ -12,7 +12,7 @@ describe('BinaryOperations', () => {
         });
     });
 
-    describe('bitwiseXor()', () => {
+    describe(bitwiseXor, () => {
         it('should xor two numbers', () => {
             const num1 = 0b1010
             const num2 = 0b1100
@@ -23,7 +23,7 @@ describe('BinaryOperations', () => {
         });
     });
 
-    describe('bitwiseAnd()', () => {
+    describe(bitwiseAnd, () => {
         it('should and two numbers', () => {
             const num1 = 0b1010
             const num2 = 0b1100
@@ -34,7 +34,7 @@ describe('BinaryOperations', () => {
         });
     });
 
-    describe('bitwiseOr()', () => {
+    describe(bitwiseOr, () => {
         it('should or two numbers', () => {
             const num1 = 0b1010
             const num2 = 0b1100

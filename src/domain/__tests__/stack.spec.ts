@@ -1,7 +1,7 @@
 import Stack from "../stack.ts";
 import { expect } from "vitest";
 
-describe('Stack', () => {
+describe(Stack, () => {
     let stack: Stack
 
     beforeEach(() => {
@@ -14,15 +14,16 @@ describe('Stack', () => {
             .and.has.length(16)
     })
 
-    describe('push()', () => {
+    describe(Stack.prototype.push, () => {
         it('should push a new return address', () => {
             stack.push(0x200)
 
             expect(stack).property('slots').to.deep.equal(Uint16Array.from([ 0x200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]))
+            expect(stack).property('currentIndex').to.equal(1)
         });
     });
 
-    describe('pop()', () => {
+    describe(Stack.prototype.pop, () => {
         it('should pop the last inserted address', () => {
             stack.push(0x200)
 
@@ -30,6 +31,7 @@ describe('Stack', () => {
 
             expect(nextReturnAddress).to.equal(0x200)
             expect(stack).property('slots').to.deep.equal(Uint16Array.from(Array(16).fill(0)))
+            expect(stack).property('currentIndex').to.equal(0)
         });
     });
 })

@@ -1,10 +1,10 @@
 import { Emulator, State } from "../emulator.ts";
-import { afterEach, beforeEach, expect, vi } from "vitest";
+import { beforeEach, expect, vi } from "vitest";
 import { Cpu, type CpuConfig } from "../cpu.ts";
 import { Opcode } from "../opcode.ts";
 import { useTestCpuConfig } from "./helpers/useTestInstructionConfig.ts";
 
-describe('Emulator', () => {
+describe(Emulator, () => {
     let cpu: Cpu
     let cpuConfig: CpuConfig
     let emulator: Emulator
@@ -15,11 +15,7 @@ describe('Emulator', () => {
         emulator = new Emulator({ ...cpuConfig, cpu })
     })
 
-    afterEach(() => {
-        vi.restoreAllMocks()
-    })
-
-    describe('loadROM()', () => {
+    describe(Emulator.prototype.loadROM, () => {
         it('should load a rom in memory', () => {
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
@@ -32,7 +28,7 @@ describe('Emulator', () => {
         });
     });
 
-    describe('run()', () => {
+    describe(Emulator.prototype.run, () => {
         it('should run manually the emulator', () => {
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
@@ -44,6 +40,8 @@ describe('Emulator', () => {
 
         it('should run automatically the emulator', async () => {
             vi.spyOn(emulator, 'executeNextInstruction')
+            vi.spyOn(emulator, 'updateTimers')
+
             vi.useFakeTimers()
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
@@ -53,12 +51,13 @@ describe('Emulator', () => {
 
             expect(emulator.state).to.equal('RUNNING')
             expect(emulator.intervalId).to.not.equal(null)
-            expect(emulator.executeNextInstruction).toHaveBeenCalledTimes(4)
+            expect(emulator.executeNextInstruction).toHaveBeenCalledTimes(10)
+            expect(emulator.updateTimers).toHaveBeenCalledTimes(1)
         });
 
         it('should clear interval when emulator is stopped', async () => {
-            vi.spyOn(globalThis, 'clearInterval')
             vi.useFakeTimers()
+            vi.spyOn(globalThis, 'clearInterval')
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
 
@@ -71,12 +70,11 @@ describe('Emulator', () => {
         })
     });
 
-    describe('executeNextInstruction()', () => {
+    describe(Emulator.prototype.executeNextInstruction, () => {
         it('should execute next instruction', () => {
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
 
-            vi.spyOn(emulator, 'updateTimers')
             vi.spyOn(cpu, 'interpret')
             vi.spyOn(emulator, 'readNextOpcode')
 
@@ -85,12 +83,11 @@ describe('Emulator', () => {
             expect(emulator.readNextOpcode).toHaveBeenCalledTimes(1)
             expect(cpu.interpret).toHaveBeenCalledTimes(1)
             expect(cpu.interpret).toHaveBeenCalledWith(new Opcode(0x00E0))
-            expect(emulator.updateTimers).toHaveBeenCalledTimes(1)
             expect(emulator.lastOpcode).to.deep.equal(new Opcode(0x00E0))
         });
     });
 
-    describe('readNextOpcode()', () => {
+    describe(Emulator.prototype.readNextOpcode, () => {
         it('should read next opcode', () => {
             const romData = new Uint8Array([ 0x10, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
             emulator.loadROM(romData);
@@ -101,7 +98,7 @@ describe('Emulator', () => {
         });
     });
 
-    describe('updateTimers()', () => {
+    describe(Emulator.prototype.updateTimers, () => {
         it('should update delay and sound timer', () => {
             cpuConfig.delayTimer.write(1)
             cpuConfig.soundTimer.write(1)
@@ -115,7 +112,7 @@ describe('Emulator', () => {
         });
     });
 
-    describe('reset()', () => {
+    describe(Emulator.prototype.reset, () => {
         it('should reset the emulator', () => {
             vi.spyOn(cpuConfig.memory, 'reset')
             vi.spyOn(cpuConfig.graphics, 'clearScreen')

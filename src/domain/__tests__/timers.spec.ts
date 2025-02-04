@@ -1,7 +1,7 @@
 import { Timer } from "../timers.ts";
-import { afterEach, expect, vi } from "vitest";
+import { expect } from "vitest";
 
-describe('Timer', () => {
+describe(Timer, () => {
     let timer: Timer
 
     beforeEach(() => {
@@ -9,22 +9,19 @@ describe('Timer', () => {
         timer.write(30)
     })
 
-    afterEach(() => {
-        vi.restoreAllMocks()
-        vi.clearAllTimers()
-    })
-
-    describe('value', () => {
-        it('should be readable ', () => {
+    describe(Timer.prototype.read, () => {
+        it('should return the current value', () => {
             expect(timer.read()).to.equal(30)
         })
-
-        it('should be writable', () => {
-            expect(timer).property('value').to.equal(30)
-        })
     })
 
-    describe('tick()', () => {
+    describe(Timer.prototype.write, () => {
+        it('should write a new value', () => {
+            expect(timer).property('value').to.equal(30)
+        })
+    });
+
+    describe(Timer.prototype.tick, () => {
         it('should decrease at each tick', () => {
             timer.tick()
             expect(timer).property('value').to.equal(29)
@@ -41,7 +38,7 @@ describe('Timer', () => {
         })
     });
 
-    describe('reset()', () => {
+    describe(Timer.prototype.reset, () => {
         it('should reset the timer', () => {
             timer.tick()
             timer.reset()

@@ -1,7 +1,7 @@
 import Registers from "../registers.ts";
 import { expect } from "vitest";
 
-describe('Registers', () => {
+describe(Registers, () => {
     let registers: Registers
 
     beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Registers', () => {
             .and.has.length(1)
     })
 
-    describe('getV()', () => {
+    describe(Registers.prototype.getV, () => {
         it('should get the register value', () => {
             registers.setV(0, 0x20)
 
@@ -28,7 +28,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('setV()', () => {
+    describe(Registers.prototype.setV, () => {
         it('should set a V slot to new value', () => {
             registers.setV(0, 0x20)
 
@@ -36,7 +36,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('addV()', () => {
+    describe(Registers.prototype.addV, () => {
         it('should add a value to a V slot without carry flag', () => {
             registers.setV(0, 0x20)
             registers.addV(0, 0x10)
@@ -53,7 +53,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('setI()', () => {
+    describe(Registers.prototype.setI, () => {
         it('should set I slot value', () => {
             registers.setI(0x20)
 
@@ -61,7 +61,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('getI()', () => {
+    describe(Registers.prototype.getI, () => {
         it('should return I slot value', () => {
             registers.setI(0x20)
 
@@ -69,7 +69,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('addI()', () => {
+    describe(Registers.prototype.addI, () => {
         it('should add a value to I slot', () => {
             registers.setI(0x20)
             registers.addI(0x10)
@@ -78,7 +78,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('subtract()', () => {
+    describe(Registers.prototype.subtract, () => {
         it('should subtract a V slot value from another', () => {
             registers.setV(0, 0x20)
             registers.setV(1, 0x10)
@@ -93,7 +93,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('randomize()', () => {
+    describe(Registers.prototype.randomize, () => {
         it('should randomize a V slot value', () => {
             vi.spyOn(Math, 'random').mockReturnValue(0.1)
 
@@ -103,7 +103,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('shiftRight()', () => {
+    describe(Registers.prototype.shiftRight, () => {
         it('should shift a V slot value to the right', () => {
             registers.setV(0, 0b1011)
 
@@ -114,7 +114,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('shiftLeft()', () => {
+    describe(Registers.prototype.shiftLeft, () => {
         it('should shift a V slot value to the left', () => {
             registers.setV(0, 0xFF)
 
@@ -125,7 +125,7 @@ describe('Registers', () => {
         });
     });
 
-    describe('getRange()', () => {
+    describe(Registers.prototype.entries, () => {
         it('should return values between VX and VY (included)', () => {
             registers.setV(0, 0x123)
             registers.setV(1, 0x456)
@@ -138,7 +138,7 @@ describe('Registers', () => {
 
     });
 
-    describe('load()', () => {
+    describe(Registers.prototype.load, () => {
         it('should load values into registers', () => {
             registers.load([ 0x20, 0x30, 0x40 ])
 

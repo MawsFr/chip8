@@ -1,5 +1,5 @@
 import { Cpu, type CpuConfig } from "../cpu.ts";
-import { afterEach, beforeEach, expect } from "vitest";
+import { beforeEach, expect } from "vitest";
 import { Opcode } from "../opcode.ts";
 import { $00E0 } from "../instructions/$00E0.ts";
 import { $00EE } from "../instructions/$00EE.ts";
@@ -38,8 +38,9 @@ import { $FX65 } from "../instructions/$FX65.ts";
 import { InstructionLoader } from "../instructions/instruction-loader.ts";
 import type { InstructionConfig } from "../instruction.ts";
 import { useTestCpuConfig, useTestInstructionConfig } from "./helpers/useTestInstructionConfig.ts";
+import { $0000 } from "../instructions/$0000.ts";
 
-describe('OpcodesInterpreter', () => {
+describe(Cpu, () => {
     let cpu: Cpu
     let cpuConfig: CpuConfig
 
@@ -48,11 +49,7 @@ describe('OpcodesInterpreter', () => {
         cpu = new Cpu(cpuConfig)
     })
 
-    afterEach(() => {
-        vi.restoreAllMocks()
-    })
-
-    describe('getCurrentAddress()', () => {
+    describe(Cpu.prototype.getCurrentAddress, () => {
         it('should return program counter current value', () => {
             cpu.jumpToAddress(0x400)
 
@@ -60,7 +57,7 @@ describe('OpcodesInterpreter', () => {
         });
     });
 
-    describe('jumpToAddress()', () => {
+    describe(Cpu.prototype.jumpToAddress, () => {
         it('should set program counter to new address', () => {
             cpu.jumpToAddress(0x200)
 
@@ -68,7 +65,7 @@ describe('OpcodesInterpreter', () => {
         });
     });
 
-    describe('goToNextInstruction()', () => {
+    describe(Cpu.prototype.goToNextInstruction, () => {
         it('should go to next instruction', () => {
             cpu.jumpToAddress(0x200)
 
@@ -101,7 +98,7 @@ describe('OpcodesInterpreter', () => {
 
     });
 
-    describe('callSubroutine()', () => {
+    describe(Cpu.prototype.callSubroutine, () => {
         it('should call a subroutine', () => {
             cpu.jumpToAddress(0x200)
 
@@ -112,7 +109,7 @@ describe('OpcodesInterpreter', () => {
         })
     });
 
-    describe('returnFromSubroutine()', () => {
+    describe(Cpu.prototype.returnFromSubroutine, () => {
         it('should return from a subroutine', () => {
             cpuConfig.stack.push(0x200)
             cpu.jumpToAddress(0x400)
@@ -123,7 +120,7 @@ describe('OpcodesInterpreter', () => {
         })
     });
 
-    describe('interpret()', () => {
+    describe(Cpu.prototype.interpret, () => {
         let instructionConfig: InstructionConfig;
 
         beforeEach(() => {
@@ -172,7 +169,7 @@ describe('OpcodesInterpreter', () => {
             vi.spyOn(InstructionLoader, 'loadInstructions').mockReturnValue([ instruction ])
             let cpu = new Cpu(cpuConfig)
 
-            cpu.interpret(new Opcode(opcode))
+            cpu.interpret(new Opcode(parseInt(opcode, 16)))
 
             expect(instruction.execute).toHaveBeenCalledTimes(1)
 

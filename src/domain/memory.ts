@@ -6,7 +6,11 @@ export const MEMORY_SIZE = 4096;
 
 export default class Memory {
     private readonly registers: Registers;
-    private readonly addresses: Uint8Array = new Uint8Array(4096);
+    private readonly _addresses: Uint8Array = new Uint8Array(MEMORY_SIZE);
+
+    get addresses() {
+        return this._addresses
+    }
 
     constructor(registers: Registers) {
         this.registers = registers
@@ -35,17 +39,17 @@ export default class Memory {
     }
 
     getDataAt(index: number) {
-        return this.addresses[index]
+        return this._addresses[index]
     }
 
     load(data: Uint8Array | number[], start: number = this.registers.getI()) {
         for (const [ i, value ] of Array.from(data).entries()) {
-            this.addresses[start + i] = value
+            this._addresses[start + i] = value
         }
     }
 
-    getSpriteData(height: number) {
-        return this.addresses.slice(this.registers.getI(), this.registers.getI() + height)
+    getSprite(height: number) {
+        return new Sprite(this._addresses.slice(this.registers.getI(), this.registers.getI() + height))
     }
 
     entries(start: number, end: number) {
@@ -53,12 +57,12 @@ export default class Memory {
     }
 
     reset() {
-        this.addresses.fill(0)
+        this._addresses.fill(0)
         this.loadFontSet()
     }
 
     * [Symbol.iterator]() {
-        for (const address of this.addresses) {
+        for (const address of this._addresses) {
             yield address
         }
     }

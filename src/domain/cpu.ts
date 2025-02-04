@@ -61,7 +61,7 @@ export class Cpu {
     }
 
     getCurrentAddress() {
-        return this.programCounter
+        return this.programCounter & 0x0FFF
     }
 
     jumpToAddress(address: number) {
@@ -69,9 +69,9 @@ export class Cpu {
     }
 
     goToNextInstruction({ skipNextInstruction }: GoToNextInstructionParams = { skipNextInstruction: false }) {
-        const skip = Number(skipNextInstruction) * NB_OPCODE_BYTES
+        const skip = skipNextInstruction ? NB_OPCODE_BYTES : 0
 
-        this.programCounter += NB_OPCODE_BYTES + skip
+        this.jumpToAddress(this.getCurrentAddress() + NB_OPCODE_BYTES + skip)
     }
 
     callSubroutine(address: NNNAddress) {
@@ -80,16 +80,18 @@ export class Cpu {
     }
 
     returnFromSubroutine() {
-        this.programCounter = this.stack.pop()
+        this.jumpToAddress(this.stack.pop())
     }
 
     interpret(opcode: Opcode) {
-        const instruction = this.instructions.find((instruction) => instruction.matches(opcode))
+        console.log(opcode.toString())
+        const instruction = this.findMatchingInstruction(opcode)
 
         if (!instruction) {
             console.warn(opcode.toString() + " Unhandled opcode. Please verify.");
             return
         }
+
 
         instruction.execute({
             x: opcode.extractX(),
@@ -100,7 +102,11 @@ export class Cpu {
         })
     }
 
+    private findMatchingInstruction(opcode: Opcode) {
+        return this.instructions.find((instruction) => instruction.matches(opcode));
+    }
+
     reset() {
-        this.programCounter = 0x0
+        this.jumpToAddress(0x0)
     }
 }

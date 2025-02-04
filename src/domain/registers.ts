@@ -17,19 +17,19 @@ export default class Registers {
     }
 
     getV(index: RegisterIndex) {
-        return this._vSlots[index] & 0xFF
+        return bitwiseAnd(this._vSlots[index], 0xFF)
     }
 
     setV(index: RegisterIndex, newValue: number) {
-        this._vSlots[index] = newValue & 0xFF
+        this._vSlots[index] = bitwiseAnd(newValue, 0xFF)
     }
 
     getI() {
-        return this._iSlot[0] & 0xFFF
+        return bitwiseAnd(this._iSlot[0], 0xFFF)
     }
 
     setI(newValue: number) {
-        this._iSlot[0] = newValue & 0xFFF
+        this._iSlot[0] = bitwiseAnd(newValue, 0xFFF)
     }
 
     entries(start: number, end: number) {
@@ -70,11 +70,11 @@ export default class Registers {
         const subtractResult = minuend - subtrahend
 
         this.setV(resultDestinationIndex, subtractResult)
-        this.setV(0xF, minuend > subtrahend ? 1 : 0)
+        this.setV(0xF, minuend >= subtrahend ? 1 : 0)
     }
 
     randomize(x: RegisterIndex, nn: number) {
-        const randomNumber = Math.floor(Math.random() * 256)
+        const randomNumber = Math.floor(Math.random() * (0xFF + 1))
         const value = bitwiseAnd(nn, randomNumber)
 
         this.setV(x, value)
@@ -84,7 +84,7 @@ export default class Registers {
         const value = this.getV(x)
 
         this.setV(x, value >> 1)
-        this.setV(0xF, value & 0x1)
+        this.setV(0xF, value & 0x01)
     }
 
     shiftLeft(x: RegisterIndex) {

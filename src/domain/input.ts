@@ -1,5 +1,7 @@
+export const NB_KEYS = 16;
+
 export class Input {
-    private _keys: boolean[] = Array(16).fill(false)
+    private _keys: boolean[] = Array(NB_KEYS).fill(false)
     private _resolveKey: Function | null = null
 
     get keys() {

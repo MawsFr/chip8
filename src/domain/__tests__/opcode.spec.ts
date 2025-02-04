@@ -1,7 +1,7 @@
-import { type N, type NN, type NNNAddress, Opcode, type RegisterIndex, type Y } from "../opcode.ts";
+import { type N, type NN, type NNNAddress, Opcode, type RegisterIndex } from "../opcode.ts";
 
-describe('Opcode', () => {
-    describe('extractX()', () => {
+describe(Opcode, () => {
+    describe(Opcode.prototype.extractX, () => {
         it('should extract X from opcode', () => {
             const opcode = new Opcode(0x0C00)
 
@@ -11,17 +11,17 @@ describe('Opcode', () => {
         });
     });
 
-    describe('extractY()', () => {
+    describe(Opcode.prototype.extractY, () => {
         it('should extract Y from opcode', () => {
             const opcode = new Opcode(0x00C0)
 
-            const y: Y = opcode.extractY()
+            const y: RegisterIndex = opcode.extractY()
 
             expect(y).toBe(0x0C)
         });
     });
 
-    describe('extractNNN()', () => {
+    describe(Opcode.prototype.extractNNN, () => {
         it('should extract NNN from opcode', () => {
             const opcode = new Opcode(0x0FFF)
 
@@ -31,7 +31,7 @@ describe('Opcode', () => {
         });
     });
 
-    describe('extractNN()', () => {
+    describe(Opcode.prototype.extractNN, () => {
         it('should extract NN from opcode', () => {
             const opcode = new Opcode(0x00FF)
 
@@ -41,7 +41,7 @@ describe('Opcode', () => {
         });
     });
 
-    describe('extractN()', () => {
+    describe(Opcode.prototype.extractN, () => {
         it('should extract N from opcode', () => {
             const opcode = new Opcode(0x000F)
 

@@ -1,8 +1,9 @@
 import Memory from "../memory.ts";
 import Registers from "../registers.ts";
 import { expect } from "vitest";
+import { Sprite } from "../sprite.ts";
 
-describe('Memory', () => {
+describe(Memory, () => {
     let memory: Memory
     let registers: Registers
 
@@ -37,7 +38,7 @@ describe('Memory', () => {
         ])
     })
 
-    describe('getDataAt()', () => {
+    describe(Memory.prototype.getDataAt, () => {
         it('should return data at provided index', () => {
             registers.setI(0x200)
             memory.load([
@@ -50,20 +51,22 @@ describe('Memory', () => {
         });
     });
 
-    describe('load()', () => {
+    describe(Memory.prototype.load, () => {
         it('should load data into memory at I position', () => {
             registers.setI(0x200)
             memory.load([
                 0xC0,
                 0x20,
+                0x52
             ])
 
             expect(memory.getDataAt(0x200)).to.equal(0xC0)
             expect(memory.getDataAt(0x201)).to.equal(0x20)
+            expect(memory.getDataAt(0x202)).to.equal(0x52)
         });
     });
 
-    describe('getSpriteData()', () => {
+    describe(Memory.prototype.getSprite, () => {
         it('should return the sprite data at I position', () => {
             registers.setI(0x200)
             memory.load([
@@ -71,16 +74,16 @@ describe('Memory', () => {
                 0x20,
             ])
 
-            const sprite = memory.getSpriteData(2)
+            const sprite = memory.getSprite(2)
 
-            expect(sprite).to.deep.equal(Uint8Array.from([
+            expect(sprite).to.deep.equal(new Sprite(Uint8Array.from([
                 0xC0,
                 0x20,
-            ]))
+            ])))
         });
     });
 
-    describe('entries()', () => {
+    describe(Memory.prototype.entries, () => {
         it('should return range of entries', () => {
             registers.setI(0)
             memory.load([
@@ -98,7 +101,7 @@ describe('Memory', () => {
         });
     });
 
-    describe('Iterator()', () => {
+    describe(Memory.prototype[Symbol.iterator], () => {
         it('should iterate over memory addresses', () => {
             registers.setI(0)
             memory.addresses.fill(0)
