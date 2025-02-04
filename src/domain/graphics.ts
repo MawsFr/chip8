@@ -5,6 +5,9 @@ export const DEAD_PIXEL = 0
 export const ALIVE_PIXEL = 1
 export type Pixel = 0 | 1
 
+export const WIDTH = 64
+export const HEIGHT = 32
+
 export class Graphics {
     private readonly _pixels: Pixel[][]
 
@@ -13,23 +16,7 @@ export class Graphics {
     }
 
     constructor() {
-        this._pixels = Array.from({ length: 32 }, () => Array.from({ length: 64 }, () => DEAD_PIXEL))
-    }
-
-    getPixelAt({ x, y }: Position): Pixel {
-        return this._pixels[y][x]
-    }
-
-    drawPixel(pixel: Pixel, { x, y }: Position) {
-        const oldPixel = this.getPixelAt({ x, y })
-
-        this._pixels[y][x] = this.mergePixels(this._pixels[y][x], pixel)
-
-        return { wasAlive: oldPixel === ALIVE_PIXEL }
-    }
-
-    mergePixels(oldPixel: Pixel, pixel: Pixel) {
-        return bitwiseXor(oldPixel, pixel) as Pixel;
+        this._pixels = Array.from({ length: HEIGHT }, () => Array.from({ length: WIDTH }, () => DEAD_PIXEL))
     }
 
     clearScreen() {
@@ -40,14 +27,39 @@ export class Graphics {
         this._pixels.forEach(line => line.fill(pixel))
     }
 
-    drawSprite(sprite: Sprite) {
+    drawSprite(sprite: Sprite, position: Position) {
         let wasOverlapping = false
 
-        for (const { position, pixel } of sprite) {
-            const { wasAlive } = this.drawPixel(pixel, position)
+        for (const { pixel, offset } of sprite) {
+            const finalPosition = {
+                x: position.x + offset.x,
+                y: position.y + offset.y
+            }
+
+            if (finalPosition.x >= WIDTH || finalPosition.y >= HEIGHT) {
+                continue
+            }
+
+            const { wasAlive } = this.drawPixel(pixel, finalPosition)
             wasOverlapping = wasOverlapping || wasAlive
         }
 
         return { wasOverlapping }
+    }
+
+    drawPixel(pixel: Pixel, { x, y }: Position) {
+        const oldPixel = this.getPixelAt({ x, y })
+
+        this._pixels[y][x] = this.mergePixels(this._pixels[y][x], pixel)
+
+        return { wasAlive: oldPixel === ALIVE_PIXEL }
+    }
+
+    getPixelAt({ x, y }: Position): Pixel {
+        return this._pixels[y][x]
+    }
+
+    mergePixels(oldPixel: Pixel, pixel: Pixel) {
+        return bitwiseXor(oldPixel, pixel) as Pixel;
     }
 }

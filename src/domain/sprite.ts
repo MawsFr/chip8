@@ -6,14 +6,12 @@ export type Position = { x: number, y: number }
 
 export class Sprite {
     private readonly data: Uint8Array
-    private readonly position: Position
 
-    constructor(spriteData: Uint8Array, position: Position) {
+    constructor(spriteData: Uint8Array) {
         this.data = spriteData
-        this.position = position
     }
 
-    * [Symbol.iterator](): Generator<{ pixel: Pixel, position: Position }> {
+    * [Symbol.iterator](): Generator<{ pixel: Pixel, offset: Position }> {
         // iterate over each pixel with its position
         for (let line = 0; line < this.data.length; ++line) {
             for (let col = 0; col < SPRITE_WIDTH; ++col) {
@@ -21,9 +19,9 @@ export class Sprite {
 
                 yield {
                     pixel,
-                    position: {
-                        x: (this.position.x + col) % 64,
-                        y: (this.position.y + line) % 32
+                    offset: {
+                        x: col,
+                        y: line
                     },
                 }
             }
@@ -31,7 +29,7 @@ export class Sprite {
     }
 
     // TODO: make more readable
-    private extractPixel(line: number, col: number): Pixel {
-        return this.data[line] & (0x80 >> col) ? 1 : 0
+    public extractPixel(line: number, col: number): Pixel {
+        return (this.data[line] & (0x80 >> col)) ? 1 : 0
     }
 }
