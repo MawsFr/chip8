@@ -9,3 +9,5 @@ export const extractTens = (number: number): number => {
 export const extractOnes = (number: number): number => {
     return number % 10
 }
+
+export const inclusive = (n: number) => n + 1

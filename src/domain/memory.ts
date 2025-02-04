@@ -1,4 +1,8 @@
 import type Registers from "./registers.ts";
+import { Sprite } from "./sprite.ts";
+import { inclusive } from "./math.helper.ts";
+
+export const MEMORY_SIZE = 4096;
 
 export default class Memory {
     private readonly registers: Registers;
@@ -45,7 +49,7 @@ export default class Memory {
     }
 
     entries(start: number, end: number) {
-        return this.addresses.slice(start, end + 1)
+        return this._addresses.slice(start, inclusive(end))
     }
 
     reset() {

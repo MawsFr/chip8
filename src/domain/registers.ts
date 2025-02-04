@@ -1,5 +1,6 @@
 import type { RegisterIndex } from "./opcode.ts";
 import { bitwiseAnd } from "./binary-operations.ts";
+import { inclusive } from "./math.helper.ts";
 
 export type AddVParams = { carryFlag: boolean };
 
@@ -32,7 +33,7 @@ export default class Registers {
     }
 
     entries(start: number, end: number) {
-        return this._vSlots.slice(start, end + 1)
+        return this._vSlots.slice(start, inclusive(end))
     }
 
     load(entries: Uint8Array | number[]) {
