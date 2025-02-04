@@ -279,7 +279,7 @@ const toHexa = (n: number, pad: number = 2) => {
   | DelayTimer: {{ emulator.delayTimer.read() }}
   | SoundTimer: {{ emulator.soundTimer.read() }}
   | Input: {{ emulator.input.keys }}
-  | AwaitingKey: {{ !!emulator.input.resolveKey }}
+  | AwaitingKey: {{ !!emulator.input.isAwaitingForKey }}
 
   <br>
   <span v-for="(line, index) in emulator.graphics.pixels" :key="index">

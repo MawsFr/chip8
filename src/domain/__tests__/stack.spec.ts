@@ -9,9 +9,9 @@ describe(Stack, () => {
     })
 
     it('should have 16 slots', () => {
-        expect(stack).to.have.property('slots').which
-            .is.instanceof(Uint16Array)
-            .and.has.length(16)
+        expect(stack.slots)
+            .to.be.instanceof(Uint16Array)
+            .and.have.length(16)
     })
 
     describe(Stack.prototype.push, () => {

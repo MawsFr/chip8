@@ -1,8 +1,8 @@
-// a sprite always has a width of 8 pixels
 import type { Pixel } from "./graphics.ts";
 
 export const SPRITE_WIDTH = 8
 export type Position = { x: number, y: number }
+export type LineData = number
 
 export class Sprite {
     private readonly data: Uint8Array
@@ -12,10 +12,9 @@ export class Sprite {
     }
 
     * [Symbol.iterator](): Generator<{ pixel: Pixel, offset: Position }> {
-        // iterate over each pixel with its position
-        for (let line = 0; line < this.data.length; ++line) {
+        for (const [ line, lineData ] of this.data.entries()) {
             for (let col = 0; col < SPRITE_WIDTH; ++col) {
-                const pixel = this.extractPixel(line, col)
+                const pixel = this.extractPixel(lineData, col)
 
                 yield {
                     pixel,
@@ -29,7 +28,7 @@ export class Sprite {
     }
 
     // TODO: make more readable
-    public extractPixel(line: number, col: number): Pixel {
-        return (this.data[line] & (0x80 >> col)) ? 1 : 0
+    public extractPixel(line: LineData, col: number): Pixel {
+        return (line & (0x80 >> col)) ? 1 : 0
     }
 }

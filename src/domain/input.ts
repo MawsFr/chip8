@@ -1,22 +1,22 @@
 export const NB_KEYS = 16;
 
 export class Input {
-    private _keys: boolean[] = Array(NB_KEYS).fill(false)
-    private _resolveKey: Function | null = null
+    private readonly _keys: boolean[] = Array(NB_KEYS).fill(false)
+    private resolveKey: Function | null = null
 
     get keys() {
         return this._keys
     }
 
-    get resolveKey() {
-        return this._resolveKey
+    get isAwaitingForKey() {
+        return !!this.resolveKey
     }
 
     press(key: number) {
         this._keys[key] = true
-        if (this._resolveKey) {
-            this._resolveKey(key)
-            this._resolveKey = null
+        if (this.resolveKey) {
+            this.resolveKey(key)
+            this.resolveKey = null
         }
     }
 
@@ -30,12 +30,12 @@ export class Input {
 
     waitForPress() {
         return new Promise<number>((resolve: Function) => {
-            this._resolveKey = resolve
+            this.resolveKey = resolve
         })
     }
 
     reset() {
         this._keys.fill(false)
-        this._resolveKey = null
+        this.resolveKey = null
     }
 }

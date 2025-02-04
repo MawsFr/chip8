@@ -37,7 +37,7 @@ describe(Sprite, () => {
         it('should extract pixel correctly', () => {
             const sprite = new Sprite(Uint8Array.from([ 0xA0, 0x40 ]))
 
-            const pixel = sprite.extractPixel(0, 0)
+            const pixel = sprite.extractPixel(0xA0, 0)
 
             expect(pixel).to.equal(1)
         })

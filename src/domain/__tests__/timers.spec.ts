@@ -17,24 +17,25 @@ describe(Timer, () => {
 
     describe(Timer.prototype.write, () => {
         it('should write a new value', () => {
-            expect(timer).property('value').to.equal(30)
+            timer.write(60)
+            expect(timer.read()).to.equal(60)
         })
     });
 
     describe(Timer.prototype.tick, () => {
         it('should decrease at each tick', () => {
             timer.tick()
-            expect(timer).property('value').to.equal(29)
+            expect(timer.read()).to.equal(29)
 
             timer.tick()
-            expect(timer).property('value').to.equal(28)
+            expect(timer.read()).to.equal(28)
         })
 
         it('should not decrease when 0', () => {
             timer.write(0)
 
             timer.tick()
-            expect(timer).property('value').to.equal(0)
+            expect(timer.read()).to.equal(0)
         })
     });
 
@@ -43,7 +44,7 @@ describe(Timer, () => {
             timer.tick()
             timer.reset()
 
-            expect(timer).property('value').to.equal(0)
+            expect(timer.read()).to.equal(0)
         });
     });
 })

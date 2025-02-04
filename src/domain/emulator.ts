@@ -8,24 +8,6 @@ import { Timer } from "./timers.ts";
 import { concatBytes } from "./binary-operations.ts";
 import { Opcode } from "./opcode.ts";
 
-export type EmulatorConfig = {
-    cpu: Cpu;
-    graphics: Graphics;
-    stack: Stack;
-    registers: Registers;
-    memory: Memory;
-    input: Input;
-    delayTimer: Timer;
-    soundTimer: Timer;
-}
-
-export enum State {
-    OFF = 'OFF',
-    ROM_LOADED = 'ROM_LOADED',
-    RUNNING = 'RUNNING',
-    PAUSED = 'PAUSED'
-}
-
 export const MAX_CYCLES_PER_FRAME = 10
 export const FPS = 60
 
@@ -123,4 +105,23 @@ export class Emulator {
             this.intervalId = null;
         }
     }
+}
+
+
+export type EmulatorConfig = {
+    cpu: Cpu;
+    graphics: Graphics;
+    stack: Stack;
+    registers: Registers;
+    memory: Memory;
+    input: Input;
+    delayTimer: Timer;
+    soundTimer: Timer;
+}
+
+export enum State {
+    OFF = 'OFF',
+    ROM_LOADED = 'ROM_LOADED',
+    RUNNING = 'RUNNING',
+    PAUSED = 'PAUSED'
 }

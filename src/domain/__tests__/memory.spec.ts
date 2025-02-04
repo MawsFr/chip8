@@ -14,11 +14,11 @@ describe(Memory, () => {
 
     it('should have 4096 octet addresses', () => {
 
-        expect(memory).to.have.property('addresses').which
-            .is.instanceof(Uint8Array)
-            .and.has.length(4096)
+        expect(memory.addresses)
+            .to.be.an.instanceof(Uint8Array)
+            .and.have.length(4096)
 
-        expect(memory).property('addresses').contains([
+        expect(memory.addresses).contains([
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
             0x20, 0x60, 0x20, 0x20, 0x70, // 1
             0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2

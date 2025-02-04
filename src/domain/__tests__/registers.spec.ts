@@ -9,15 +9,15 @@ describe(Registers, () => {
     })
 
     it('should have 16 V slots', () => {
-        expect(registers).to.have.property("vSlots").which
-            .is.instanceof(Uint8Array)
-            .and.has.length(16)
+        expect(registers.vSlots)
+            .to.be.instanceof(Uint8Array)
+            .and.have.length(16)
     })
 
     it('should have an I slot', () => {
-        expect(registers).to.have.property("iSlot").which
-            .is.a("number")
-            .and.equals(0)
+        expect(registers.iSlot)
+            .to.be.a("number")
+            .and.to.equal(0)
     })
 
     describe(Registers.prototype.getV, () => {

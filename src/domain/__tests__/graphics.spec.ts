@@ -1,4 +1,4 @@
-import { Graphics } from "../graphics.ts";
+import { Graphics, type Pixel } from "../graphics.ts";
 import { expect } from "vitest";
 import { Sprite } from "../sprite.ts";
 
@@ -13,8 +13,10 @@ describe(Graphics, () => {
     })
 
     it('should have a size of 64 x 32', () => {
-        expect(graphics).to.have.property('pixels').which
-            .is.instanceof(Array)
+        expect(graphics.pixels)
+            .to.be.an('array')
+            .and.have.length(32)
+            .and.satisfy((lines: Pixel[][]) => lines.every((line) => line.length === 64))
     });
 
     describe(Graphics.prototype.getPixelAt, () => {

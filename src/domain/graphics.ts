@@ -3,7 +3,7 @@ import type { Position, Sprite } from "./sprite.ts";
 
 export const DEAD_PIXEL = 0
 export const ALIVE_PIXEL = 1
-export type Pixel = 0 | 1
+export type Pixel = typeof ALIVE_PIXEL | typeof DEAD_PIXEL
 
 export const WIDTH = 64
 export const HEIGHT = 32
@@ -34,10 +34,6 @@ export class Graphics {
             const finalPosition = {
                 x: (position.x + offset.x) % WIDTH,
                 y: (position.y + offset.y) % HEIGHT
-            }
-
-            if (finalPosition.x >= WIDTH || finalPosition.y >= HEIGHT) {
-                continue
             }
 
             const { pixelsAreColliding } = this.drawPixel(pixel, finalPosition)

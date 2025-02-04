@@ -17,7 +17,7 @@ describe(Emulator, () => {
 
     describe(Emulator.prototype.loadROM, () => {
         it('should load a rom in memory', () => {
-            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             expect(cpuConfig.memory.getDataAt(0x200)).to.equal(0x00);
@@ -30,7 +30,7 @@ describe(Emulator, () => {
 
     describe(Emulator.prototype.run, () => {
         it('should run manually the emulator', () => {
-            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             emulator.run(true)
@@ -43,7 +43,7 @@ describe(Emulator, () => {
             vi.spyOn(emulator, 'updateTimers')
 
             vi.useFakeTimers()
-            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             emulator.run(false)
@@ -58,7 +58,7 @@ describe(Emulator, () => {
         it('should clear interval when emulator is stopped', async () => {
             vi.useFakeTimers()
             vi.spyOn(globalThis, 'clearInterval')
-            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             emulator.run(false)
@@ -72,7 +72,7 @@ describe(Emulator, () => {
 
     describe(Emulator.prototype.executeNextInstruction, () => {
         it('should execute next instruction', () => {
-            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             vi.spyOn(cpu, 'interpret')
@@ -89,7 +89,7 @@ describe(Emulator, () => {
 
     describe(Emulator.prototype.readNextOpcode, () => {
         it('should read next opcode', () => {
-            const romData = new Uint8Array([ 0x10, 0xE0, 0xA2, 0xF0 ]); // Exemple d'instructions
+            const romData = new Uint8Array([ 0x10, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
             const opcode = emulator.readNextOpcode()

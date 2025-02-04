@@ -174,5 +174,13 @@ describe(Cpu, () => {
             expect(instruction.execute).toHaveBeenCalledTimes(1)
 
         });
+
+        it('should execute nothing if opcode is not recognized', () => {
+            cpu.jumpToAddress(0x200)
+            
+            cpu.interpret(new Opcode(0xFFFF))
+
+            expect(cpu.getCurrentAddress()).to.equal(0x200)
+        })
     });
 });

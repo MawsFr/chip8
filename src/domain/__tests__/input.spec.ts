@@ -8,9 +8,9 @@ describe(Input, () => {
     })
 
     it('should have 16 keys', () => {
-        expect(input).to.have.property('keys').which
-            .is.instanceof(Array)
-            .and.has.length(16)
+        expect(input.keys)
+            .to.be.an('array')
+            .and.have.length(16)
     })
 
     describe(Input.prototype.press, () => {
@@ -43,7 +43,11 @@ describe(Input, () => {
     describe(Input.prototype.waitForPress, () => {
         it('should wait for a key', async () => {
             setTimeout(() => {
+                expect(input.isAwaitingForKey).toBeTruthy()
+
                 input.press(0x1)
+
+                expect(input.isAwaitingForKey).toBeFalsy()
             }, 500)
 
             const key = await input.waitForPress()
