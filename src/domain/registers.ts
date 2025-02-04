@@ -46,12 +46,12 @@ export default class Registers {
         const addResult = this.getV(x) + addValue
 
         this.setV(x, addResult)
-        this.setV(0xF,
-            carryFlag
-            && addResult > 0xFF
-                ? 1
-                : 0
-        )
+
+        if (!carryFlag) {
+            return
+        }
+
+        this.setV(0xF, addResult > 0xFF ? 1 : 0)
     }
 
     addI(addValue: number) {
