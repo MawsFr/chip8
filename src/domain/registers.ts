@@ -4,6 +4,8 @@ import { inclusive } from "./math.helper.ts";
 
 export type AddVParams = { carryFlag: boolean };
 
+export const NB_V_SLOTS = 16;
+
 export default class Registers {
     private readonly _vSlots: Uint8Array = new Uint8Array(NB_V_SLOTS);
     private _iSlot: number = 0
