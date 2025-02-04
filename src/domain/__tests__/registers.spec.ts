@@ -16,8 +16,8 @@ describe(Registers, () => {
 
     it('should have an I slot', () => {
         expect(registers).to.have.property("iSlot").which
-            .is.instanceof(Uint16Array)
-            .and.has.length(1)
+            .is.a("number")
+            .and.equals(0)
     })
 
     describe(Registers.prototype.getV, () => {

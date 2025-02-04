@@ -5,8 +5,8 @@ import { inclusive } from "./math.helper.ts";
 export type AddVParams = { carryFlag: boolean };
 
 export default class Registers {
-    private readonly _vSlots: Uint8Array = new Uint8Array(16);
-    private readonly _iSlot: Uint16Array = new Uint16Array(1);
+    private readonly _vSlots: Uint8Array = new Uint8Array(NB_V_SLOTS);
+    private _iSlot: number = 0
 
     get vSlots() {
         return this._vSlots
@@ -17,19 +17,19 @@ export default class Registers {
     }
 
     getV(index: RegisterIndex) {
-        return bitwiseAnd(this._vSlots[index], 0xFF)
+        return this._vSlots[index]
     }
 
     setV(index: RegisterIndex, newValue: number) {
-        this._vSlots[index] = bitwiseAnd(newValue, 0xFF)
+        this._vSlots[index] = newValue
     }
 
     getI() {
-        return bitwiseAnd(this._iSlot[0], 0xFFF)
+        return bitwiseAnd(this._iSlot, 0xFFF)
     }
 
     setI(newValue: number) {
-        this._iSlot[0] = bitwiseAnd(newValue, 0xFFF)
+        this._iSlot = bitwiseAnd(newValue, 0xFFF)
     }
 
     entries(start: number, end: number) {
@@ -51,7 +51,7 @@ export default class Registers {
             return
         }
 
-        this.setV(0xF, addResult > 0xFF ? 1 : 0)
+        this.setV(0x0F, addResult > 0xFF ? 1 : 0)
     }
 
     addI(addValue: number) {
@@ -96,6 +96,6 @@ export default class Registers {
 
     reset() {
         this._vSlots.fill(0)
-        this._iSlot.fill(0)
+        this._iSlot = 0
     }
 }
