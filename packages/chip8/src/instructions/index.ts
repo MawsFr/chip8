@@ -1,6 +1,6 @@
 export * from './$00E0.ts'
 export * from './$00EE.ts'
-export * from './$0000.ts'
+export * from './$0NNN.ts'
 export * from './$1NNN.ts'
 export * from './$2NNN.ts'
 export * from './$3XNN.ts'

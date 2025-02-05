@@ -14,7 +14,7 @@ describe(InstructionLoader, () => {
             expect(result).toHaveLength(35)
         });
 
-        it('should load 0000 instruction last', () => {
+        it('should load 0NNN instruction last', () => {
             // Then
             expect(result).toHaveLength(35)
         })

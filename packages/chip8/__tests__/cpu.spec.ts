@@ -92,7 +92,7 @@ describe(Cpu, () => {
         })
 
         it.each([
-            [ '0x0000', instructions.$0000 ],
+            [ '0x0000', instructions.$0NNN ],
             [ '0x00E0', instructions.$00E0 ],
             [ '0x00EE', instructions.$00EE ],
             [ '0x1000', instructions.$1NNN ],

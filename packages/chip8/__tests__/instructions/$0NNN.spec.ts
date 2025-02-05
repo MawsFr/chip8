@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $0000, type InstructionConfig } from "../../src/instructions";
+import { $0NNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('00E0 : Call machine code routine (IGNORED)', () => {
+describe('0NNN : Call machine code routine (IGNORED)', () => {
     let instructionConfig: InstructionConfig;
-    let instruction: $0000
+    let instruction: $0NNN
 
     beforeEach(() => {
         instructionConfig = useTestInstructionConfig()
-        instruction = new $0000(instructionConfig)
+        instruction = new $0NNN(instructionConfig)
     })
 
-    it('should match 0000', () => {
+    it('should match 0NNN', () => {
         // Given
         const fetchedOpcode = 0x0000
 
