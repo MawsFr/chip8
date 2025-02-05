@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { $00E0, InstructionConfig, Opcode } from "../../src";
+import { $00E0, InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('00E0 : Clear screen', () => {

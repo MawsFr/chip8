@@ -1,5 +1,5 @@
 import { Instruction, type InstructionConfig, type XYInstructionParams } from "./instruction.ts";
-import { bitwiseXor } from "../binary-operations.ts";
+import { bitwiseXor } from "@mawsfr/binary-operations";
 
 export class $8XY3 extends Instruction<XYInstructionParams> {
     constructor(context: InstructionConfig) {

@@ -1,4 +1,5 @@
-import { Instruction, type InstructionConfig, Opcode } from "../src";
+import { Instruction, type InstructionConfig } from "../src/instructions";
+import { Opcode } from "../src";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useTestInstructionConfig } from "./helpers/test-configs";
 

@@ -1,4 +1,4 @@
-import { InstructionLoader } from "../../src";
+import { InstructionLoader } from "../../src/instructions";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 import { describe, expect, it } from "vitest";
 

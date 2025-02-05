@@ -1,4 +1,4 @@
-import { bitwiseXor } from "./binary-operations.ts";
+import { bitwiseXor } from "@mawsfr/binary-operations";
 import type { Position, Sprite } from "./sprite.ts";
 
 export const DEAD_PIXEL = 0

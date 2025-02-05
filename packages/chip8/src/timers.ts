@@ -1,4 +1,4 @@
-import { bitwiseAnd } from "./binary-operations.ts";
+import { bitwiseAnd } from "@mawsfr/binary-operations";
 
 export class Timer {
     private value: number = 0;

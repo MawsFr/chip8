@@ -6,7 +6,7 @@ import type { Registers } from "../registers.ts";
 import type { Memory } from "../memory.ts";
 import type { Input } from "../input.ts";
 import type { Timer } from "../timers.ts";
-import { bitwiseAnd } from "../binary-operations.ts";
+import { bitwiseAnd } from "@mawsfr/binary-operations";
 
 export abstract class Instruction<T extends InstructionParams> {
     protected readonly cpu: Cpu

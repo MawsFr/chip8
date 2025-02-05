@@ -5,7 +5,7 @@ import { Registers } from "./registers.ts";
 import { Memory } from "./memory.ts";
 import { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import { concatBytes } from "./binary-operations.ts";
+import { concatBytes } from "@mawsfr/binary-operations";
 import { Opcode } from "./opcode.ts";
 
 export const MAX_CYCLES_PER_FRAME = 10

@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $0000, type InstructionConfig, Opcode } from "../../src";
+import { $0000, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('00E0 : Call machine code routine (IGNORED)', () => {

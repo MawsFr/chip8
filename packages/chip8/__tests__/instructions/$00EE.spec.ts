@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { $00EE, InstructionConfig, Opcode } from "../../src";
+import { $00EE, InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('00EE : Return from a subroutine', () => {

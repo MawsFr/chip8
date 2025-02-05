@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $FX15, type InstructionConfig, Opcode } from "../../src";
+import { $FX15, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('FX15 : VY is subtracted from VX. Underflow is managed in VF', () => {

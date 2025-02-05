@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { $2NNN, type InstructionConfig, Opcode } from "../../src";
+import { $2NNN, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('2NNN : Calls subroutine at NNN', () => {

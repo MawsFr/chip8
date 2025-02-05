@@ -5,7 +5,7 @@ import {
     isolateMostSignificantBit,
     shiftLeftBy1,
     shiftRightBy1
-} from "./binary-operations.ts";
+} from "@mawsfr/binary-operations";
 import { inclusive } from "./math.helper.ts";
 
 export type AddVParams = { carryFlag: boolean };

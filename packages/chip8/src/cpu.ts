@@ -7,7 +7,7 @@ import { Timer } from "./timers.ts";
 import { Instruction, type InstructionConfig, type InstructionParams } from "./instructions";
 import { type NNNAddress, Opcode } from "./opcode.ts";
 import { InstructionLoader } from "./instructions/";
-import { bitwiseAnd } from "./binary-operations.ts";
+import { bitwiseAnd } from "@mawsfr/binary-operations";
 
 export const NB_OPCODE_BYTES = 2
 

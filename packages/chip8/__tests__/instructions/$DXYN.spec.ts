@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $DXYN, type InstructionConfig, Opcode } from "../../src";
+import { Opcode } from "../../src";
+import { $DXYN, InstructionConfig } from "../../src/instructions";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 const ALIVE_PIXEL = 1

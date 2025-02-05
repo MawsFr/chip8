@@ -4,7 +4,7 @@ import {
     isolate3LastDigits,
     isolate3rdDigit,
     isolate4thDigit
-} from "./binary-operations.ts";
+} from "@mawsfr/binary-operations";
 
 export class Opcode {
     private readonly _value: number;

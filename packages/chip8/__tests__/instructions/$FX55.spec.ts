@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $FX55, type InstructionConfig, Opcode } from "../../src";
+import { $FX55, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('FX55 : Stores from V0 to VX (including VX) in memory, starting at address I.', () => {

@@ -1,5 +1,5 @@
 import type { Pixel } from "./graphics.ts";
-import { isBitSet } from "./binary-operations.ts";
+import { isBitSet } from "@mawsfr/binary-operations";
 
 export const SPRITE_WIDTH = 8
 export type Position = { x: number, y: number }

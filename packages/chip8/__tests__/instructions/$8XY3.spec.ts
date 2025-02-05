@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $8XY3, type InstructionConfig, Opcode } from "../../src";
+import { $8XY3, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('8XY3 : Sets VX to VX "xor" VY', () => {

@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { $FX29, type InstructionConfig, Opcode } from "../../src";
+import { $FX29, type InstructionConfig } from "../../src/instructions";
+import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
 describe('FX29 : Sets I to the location of the sprite for the character in VX', () => {
