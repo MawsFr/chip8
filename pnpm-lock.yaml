@@ -66,6 +66,30 @@ importers:
       '@mawsfr/binary-operations':
         specifier: workspace:^
         version: link:../binary-operations
+      '@mawsfr/math-operations':
+        specifier: workspace:^
+        version: link:../math-operations
+    devDependencies:
+      '@types/node':
+        specifier: ^22.13.1
+        version: 22.13.1
+      '@vitest/coverage-v8':
+        specifier: 3.0.5
+        version: 3.0.5(vitest@3.0.5)
+      typescript:
+        specifier: 5.6.2
+        version: 5.6.2
+      vite:
+        specifier: 6.0.5
+        version: 6.0.5(@types/node@22.13.1)
+      vite-plugin-dts:
+        specifier: 4.5.0
+        version: 4.5.0(@types/node@22.13.1)(rollup@4.34.2)(typescript@5.6.2)(vite@6.0.5(@types/node@22.13.1))
+      vitest:
+        specifier: 3.0.5
+        version: 3.0.5(@types/node@22.13.1)(@vitest/ui@3.0.5)
+
+  packages/math-operations:
     devDependencies:
       '@types/node':
         specifier: ^22.13.1

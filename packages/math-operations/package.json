@@ -1,13 +1,13 @@
 {
-  "name": "@mawsfr/chip8",
+  "name": "@mawsfr/math-operations",
   "version": "0.0.1",
   "private": true,
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "dist/chip8.umd.js",
-  "module": "dist/chip8.es.js",
+  "main": "dist/math-operations.umd.js",
+  "module": "dist/math-operations.es.js",
   "types": "dist/types/index.d.ts",
   "typings": "dist/types/index.d.ts",
   "scripts": {
@@ -21,9 +21,5 @@
     "vite": "6.0.5",
     "vite-plugin-dts": "4.5.0",
     "vitest": "3.0.5"
-  },
-  "dependencies": {
-    "@mawsfr/binary-operations": "workspace:^",
-    "@mawsfr/math-operations": "workspace:^"
   }
 }

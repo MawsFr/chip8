@@ -6,7 +6,7 @@ import {
     shiftLeftBy1,
     shiftRightBy1
 } from "@mawsfr/binary-operations";
-import { inclusive } from "./math.helper.ts";
+import { inclusive } from "@mawsfr/math-operations";
 
 export type AddVParams = { carryFlag: boolean };
 

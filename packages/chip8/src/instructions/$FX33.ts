@@ -1,5 +1,5 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
-import { extractHundreds, extractOnes, extractTens } from "../math.helper.ts";
+import { extractHundreds, extractOnes, extractTens } from "@mawsfr/math-operations";
 
 export class $FX33 extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {

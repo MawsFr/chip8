@@ -1,6 +1,6 @@
 import type { Registers } from "./registers.ts";
 import { Sprite } from "./sprite.ts";
-import { inclusive } from "./math.helper.ts";
+import { inclusive } from "@mawsfr/math-operations"
 
 export const MEMORY_SIZE = 4096;
 
