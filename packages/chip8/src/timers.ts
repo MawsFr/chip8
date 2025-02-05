@@ -1,12 +1,14 @@
+import { bitwiseAnd } from "./binary-operations.ts";
+
 export class Timer {
     private value: number = 0;
 
     read() {
-        return this.value & 0xFF
+        return bitwiseAnd(this.value, 0xFF)
     }
 
     write(newValue: number) {
-        this.value = newValue & 0xFF
+        this.value = bitwiseAnd(newValue, 0xFF)
     }
 
     tick() {

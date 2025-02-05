@@ -11,7 +11,6 @@ import { Opcode } from "./opcode.ts";
 export const MAX_CYCLES_PER_FRAME = 10
 export const FPS = 60
 
-
 export class Emulator {
     public cpu: Cpu;
     public graphics: Graphics

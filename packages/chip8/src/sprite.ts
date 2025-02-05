@@ -1,4 +1,5 @@
 import type { Pixel } from "./graphics.ts";
+import { isBitSet } from "./binary-operations.ts";
 
 export const SPRITE_WIDTH = 8
 export type Position = { x: number, y: number }
@@ -27,8 +28,7 @@ export class Sprite {
         }
     }
 
-    // TODO: make more readable
     public extractPixel(line: LineData, col: number): Pixel {
-        return (line & (0x80 >> col)) ? 1 : 0
+        return isBitSet(line, col) ? 1 : 0
     }
 }

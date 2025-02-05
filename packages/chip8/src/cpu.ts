@@ -4,9 +4,10 @@ import { Registers } from "./registers.ts";
 import { Memory } from "./memory.ts";
 import { Input } from "./input.ts";
 import { Timer } from "./timers.ts";
-import { Instruction, type InstructionConfig, type InstructionParams } from "./instructions/instruction.ts";
+import { Instruction, type InstructionConfig, type InstructionParams } from "./instructions";
 import { type NNNAddress, Opcode } from "./opcode.ts";
 import { InstructionLoader } from "./instructions/";
+import { bitwiseAnd } from "./binary-operations.ts";
 
 export const NB_OPCODE_BYTES = 2
 
@@ -47,11 +48,11 @@ export class Cpu {
     }
 
     getCurrentAddress() {
-        return this.programCounter & 0x0FFF
+        return bitwiseAnd(this.programCounter, 0x0FFF)
     }
 
     jumpToAddress(address: number) {
-        this.programCounter = address & 0x0FFF
+        this.programCounter = bitwiseAnd(address, 0x0FFF)
     }
 
     goToNextInstruction({ skipNextInstruction }: GoToNextInstructionParams = { skipNextInstruction: false }) {

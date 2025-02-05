@@ -6,6 +6,7 @@ import type { Registers } from "../registers.ts";
 import type { Memory } from "../memory.ts";
 import type { Input } from "../input.ts";
 import type { Timer } from "../timers.ts";
+import { bitwiseAnd } from "../binary-operations.ts";
 
 export abstract class Instruction<T extends InstructionParams> {
     protected readonly cpu: Cpu
@@ -33,7 +34,7 @@ export abstract class Instruction<T extends InstructionParams> {
     }
 
     matches(opcode: Opcode): boolean {
-        return (opcode.value & this.mask) === this.opcode
+        return bitwiseAnd(opcode.value, this.mask) === this.opcode
     }
 
     abstract execute(params?: T): void

@@ -1,5 +1,14 @@
+import {
+    isolate2LastDigits,
+    isolate2ndDigit,
+    isolate3LastDigits,
+    isolate3rdDigit,
+    isolate4thDigit
+} from "./binary-operations.ts";
+
 export class Opcode {
     private readonly _value: number;
+
     get value(): number {
         return this._value;
     }
@@ -9,23 +18,23 @@ export class Opcode {
     }
 
     extractNNN(): NNNAddress {
-        return this._value & 0x0FFF;
+        return isolate3LastDigits(this._value);
     }
 
     extractNN(): NN {
-        return this._value & 0x00FF;
+        return isolate2LastDigits(this._value);
     }
 
     extractN(): N {
-        return this._value & 0x000F;
+        return isolate4thDigit(this._value);
     }
 
     extractX(): RegisterIndex {
-        return (this._value & 0x0F00) >> 8;
+        return isolate2ndDigit(this._value);
     }
 
     extractY(): RegisterIndex {
-        return (this._value & 0x00F0) >> 4;
+        return isolate3rdDigit(this._value);
     }
 
     toString(): string {

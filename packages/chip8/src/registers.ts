@@ -1,5 +1,11 @@
 import type { RegisterIndex } from "./opcode.ts";
-import { bitwiseAnd } from "./binary-operations.ts";
+import {
+    bitwiseAnd,
+    isolateLeastSignificantBit,
+    isolateMostSignificantBit,
+    shiftLeftBy1,
+    shiftRightBy1
+} from "./binary-operations.ts";
 import { inclusive } from "./math.helper.ts";
 
 export type AddVParams = { carryFlag: boolean };
@@ -72,7 +78,7 @@ export class Registers {
         const subtractResult = minuend - subtrahend
 
         this.setV(resultDestinationIndex, subtractResult)
-        this.setV(0xF, minuend >= subtrahend ? 1 : 0)
+        this.setV(0xF, minuend > subtrahend ? 1 : 0)
     }
 
     randomize(x: RegisterIndex, nn: number) {
@@ -85,15 +91,15 @@ export class Registers {
     shiftRight(x: RegisterIndex) {
         const value = this.getV(x)
 
-        this.setV(x, value >> 1)
-        this.setV(0xF, value & 0x01)
+        this.setV(x, shiftRightBy1(value))
+        this.setV(0xF, isolateLeastSignificantBit(value))
     }
 
     shiftLeft(x: RegisterIndex) {
         const value = this.getV(x)
 
-        this.setV(x, value << 1)
-        this.setV(0xF, (value & 0x80) >> 7)
+        this.setV(x, shiftLeftBy1(value))
+        this.setV(0xF, isolateMostSignificantBit(value))
     }
 
     reset() {
