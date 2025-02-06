@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, useTemplateRef } from "vue";
 import { State } from '@mawsfr/chip8'
-import { useEmulator } from "../composables/useEmulator.ts";
+import { useChip8Emulator } from "@mawsfr/use-chip8-emulator";
 
 const canvas = useTemplateRef('canvas')
 let ctx: CanvasRenderingContext2D;
 
-const { emulator } = useEmulator()
+const { emulator } = useChip8Emulator()
 
 const manual = ref(false)
 const showGrid = ref(false)

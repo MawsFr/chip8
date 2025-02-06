@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@mawsfr/chip8": "workspace:*",
-    "vue": "^3.5.13"
+    "@mawsfr/use-chip8-emulator": "workspace:^",
+    "vue": "3.5.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

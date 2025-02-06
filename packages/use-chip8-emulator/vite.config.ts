@@ -7,15 +7,15 @@ export default defineConfig({
         lib: {
             entry: [ resolve(__dirname, 'src/index.ts') ],
             formats: [ 'es', 'umd' ],
-            name: 'math-operations',
-            fileName: (format) => `math-operations.${ format }.js`
+            name: 'use-chip8-emulator',
+            fileName: (format) => `use-chip8-emulator.${ format }.js`
         },
     },
     resolve: {
         alias: {
             '@': resolve('/'),
             'src': resolve('src/'),
-            '@mawsfr/math-operations': resolve('packages/math-operations/src/'),
+            '@mawsfr/use-chip8-emulator': resolve('packages/use-chip8-emulator/src/'),
         }
     },
     plugins: [

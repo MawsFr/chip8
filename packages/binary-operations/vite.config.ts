@@ -7,7 +7,7 @@ export default defineConfig({
         lib: {
             entry: [ resolve(__dirname, 'src/index.ts') ],
             formats: [ 'es', 'umd' ],
-            name: 'chip8',
+            name: 'binary-operations',
             fileName: (format) => `binary-operations.${ format }.js`
         },
     },

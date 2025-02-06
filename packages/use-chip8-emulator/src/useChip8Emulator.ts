@@ -1,7 +1,7 @@
 import { Cpu, Emulator, Graphics, Input, Memory, Registers, Stack, Timer } from "@mawsfr/chip8";
 import { ref } from "vue";
 
-export const useEmulator = () => {
+export const useChip8Emulator = () => {
     const graphics = new Graphics();
     const stack = new Stack();
     const registers = new Registers();
