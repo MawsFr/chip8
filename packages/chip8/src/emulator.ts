@@ -9,7 +9,25 @@ import { concatBytes } from "@mawsfr/binary-operations";
 import { Opcode } from "./opcode.ts";
 
 export const MAX_CYCLES_PER_FRAME = 10
-export const FPS = 60
+export const FRAME_PER_SECOND = 60
+export const MS_PER_SECOND = 1000
+
+export type EmulatorConfig = {
+    cpu: Cpu;
+    graphics: Graphics;
+    stack: Stack;
+    registers: Registers;
+    memory: Memory;
+    input: Input;
+    delayTimer: Timer;
+    soundTimer: Timer;
+}
+
+export enum State {
+    OFF = 'OFF',
+    ROM_LOADED = 'ROM_LOADED',
+    RUNNING = 'RUNNING',
+}
 
 export class Emulator {
     public cpu: Cpu;
@@ -52,7 +70,7 @@ export class Emulator {
             return
         }
 
-        const fpsInterval = 1000 / FPS;
+        const fpsInterval = MS_PER_SECOND / FRAME_PER_SECOND;
 
         this.intervalId = setInterval(() => {
             if (this.state !== State.RUNNING && this.intervalId) {
@@ -107,22 +125,4 @@ export class Emulator {
         clearInterval(this.intervalId);
         this.intervalId = null;
     }
-}
-
-
-export type EmulatorConfig = {
-    cpu: Cpu;
-    graphics: Graphics;
-    stack: Stack;
-    registers: Registers;
-    memory: Memory;
-    input: Input;
-    delayTimer: Timer;
-    soundTimer: Timer;
-}
-
-export enum State {
-    OFF = 'OFF',
-    ROM_LOADED = 'ROM_LOADED',
-    RUNNING = 'RUNNING',
 }

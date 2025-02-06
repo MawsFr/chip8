@@ -11,6 +11,20 @@ import { bitwiseAnd } from "@mawsfr/binary-operations";
 
 export const NB_OPCODE_BYTES = 2
 
+export type CpuConfig = {
+    graphics: Graphics;
+    stack: Stack;
+    registers: Registers;
+    memory: Memory;
+    input: Input;
+    delayTimer: Timer;
+    soundTimer: Timer;
+};
+
+export type GoToNextInstructionParams = {
+    skipNextInstruction: boolean
+};
+
 export class Cpu {
     private readonly graphics: Graphics;
     private readonly stack: Stack;
@@ -79,7 +93,6 @@ export class Cpu {
             return
         }
 
-
         instruction.execute({
             x: opcode.extractX(),
             y: opcode.extractY(),
@@ -97,17 +110,3 @@ export class Cpu {
         this.jumpToAddress(0x0)
     }
 }
-
-export type CpuConfig = {
-    graphics: Graphics;
-    stack: Stack;
-    registers: Registers;
-    memory: Memory;
-    input: Input;
-    delayTimer: Timer;
-    soundTimer: Timer;
-};
-
-export type GoToNextInstructionParams = {
-    skipNextInstruction: boolean
-};

@@ -8,9 +8,9 @@ import {
 } from "@mawsfr/binary-operations";
 import { inclusive } from "@mawsfr/math-operations";
 
-export type AddVParams = { carryFlag: boolean };
-
 export const NB_V_SLOTS = 16;
+
+export type AddVParams = { carryFlag: boolean };
 
 export class Registers {
     private readonly _vSlots: Uint8Array = new Uint8Array(NB_V_SLOTS);

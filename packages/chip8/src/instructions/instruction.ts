@@ -8,37 +8,6 @@ import type { Input } from "../input.ts";
 import type { Timer } from "../timers.ts";
 import { bitwiseAnd } from "@mawsfr/binary-operations";
 
-export abstract class Instruction<T extends InstructionParams> {
-    protected readonly cpu: Cpu
-    protected readonly graphics: Graphics
-    protected readonly stack: Stack
-    protected readonly registers: Registers
-    protected readonly memory: Memory
-    protected readonly input: Input
-    protected readonly delayTimer: Timer
-    protected readonly soundTimer: Timer
-    protected readonly opcode: OpcodeIdentifier
-    protected readonly mask: number
-
-    protected constructor(opcode: OpcodeIdentifier, mask: number, config: InstructionConfig) {
-        this.cpu = config.cpu
-        this.graphics = config.graphics
-        this.stack = config.stack
-        this.registers = config.registers
-        this.memory = config.memory
-        this.input = config.input
-        this.delayTimer = config.delayTimer
-        this.soundTimer = config.soundTimer
-        this.opcode = opcode
-        this.mask = mask
-    }
-
-    matches(opcode: Opcode): boolean {
-        return bitwiseAnd(opcode.value, this.mask) === this.opcode
-    }
-
-    abstract execute(params?: T): void
-}
 
 export type OpcodeIdentifier = number;
 
@@ -84,4 +53,36 @@ export type InstructionParams =
     | XYInstructionParams
     | XInstructionParams
     | undefined
+
+export abstract class Instruction<T extends InstructionParams> {
+    protected readonly cpu: Cpu
+    protected readonly graphics: Graphics
+    protected readonly stack: Stack
+    protected readonly registers: Registers
+    protected readonly memory: Memory
+    protected readonly input: Input
+    protected readonly delayTimer: Timer
+    protected readonly soundTimer: Timer
+    protected readonly opcode: OpcodeIdentifier
+    protected readonly mask: number
+
+    protected constructor(opcode: OpcodeIdentifier, mask: number, config: InstructionConfig) {
+        this.cpu = config.cpu
+        this.graphics = config.graphics
+        this.stack = config.stack
+        this.registers = config.registers
+        this.memory = config.memory
+        this.input = config.input
+        this.delayTimer = config.delayTimer
+        this.soundTimer = config.soundTimer
+        this.opcode = opcode
+        this.mask = mask
+    }
+
+    matches(opcode: Opcode): boolean {
+        return bitwiseAnd(opcode.value, this.mask) === this.opcode
+    }
+
+    abstract execute(params?: T): void
+}
 

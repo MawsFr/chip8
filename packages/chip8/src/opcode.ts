@@ -6,6 +6,11 @@ import {
     isolate4thDigit
 } from "@mawsfr/binary-operations";
 
+export type NNNAddress = number;
+export type NN = number;
+export type N = number;
+export type RegisterIndex = number;
+
 export class Opcode {
     private readonly _value: number;
 
@@ -42,8 +47,3 @@ export class Opcode {
     }
 
 }
-
-export type NNNAddress = number;
-export type NN = number;
-export type N = number;
-export type RegisterIndex = number;
