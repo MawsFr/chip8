@@ -2,6 +2,9 @@
 
 This is a [CHIP-8](http://en.wikipedia.org/wiki/CHIP-8) emulator written in Typescript.
 
+<h2 align="center"><a href="https://mawsfr.github.io/chip8/">VIEW DEMO</a></h2>
+<h3 align="center"><a href="https://github.com/MawsFr/chip8/tree/main/roms">Download ROMS</a></h3>
+
 > [!WARNING]
 > Frontend is not done yet, it's just a simple Vue.js app to display the emulator state. And yes there are bugs. I'm
 > planning to make it more user-friendly and add more features.
