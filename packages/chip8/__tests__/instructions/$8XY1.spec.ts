@@ -3,7 +3,7 @@ import { $8XY1, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('8XY1 : Sets VX to VX "or" VY', () => {
+describe($8XY1, () => {
     let context: InstructionConfig;
     let instruction: $8XY1
 

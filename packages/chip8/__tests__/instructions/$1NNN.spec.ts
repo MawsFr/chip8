@@ -3,7 +3,7 @@ import { $1NNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('1NNN : Jump to address NNN', () => {
+describe($1NNN, () => {
     let context: InstructionConfig;
     let instruction: $1NNN
 

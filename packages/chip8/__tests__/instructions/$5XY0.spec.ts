@@ -3,7 +3,7 @@ import { $5XY0, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('5XY0 : Skips the next instruction if VX equals VY', () => {
+describe($5XY0, () => {
     let context: InstructionConfig;
     let instruction: $5XY0
 

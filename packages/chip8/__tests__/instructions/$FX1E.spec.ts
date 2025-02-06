@@ -3,7 +3,7 @@ import { $FX1E, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('FX1E : Adds VX to I. VF is not affected', () => {
+describe($FX1E, () => {
     let context: InstructionConfig;
     let instruction: $FX1E
 

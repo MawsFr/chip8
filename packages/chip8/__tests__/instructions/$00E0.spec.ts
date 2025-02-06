@@ -3,7 +3,7 @@ import { $00E0, InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('00E0 : Clear screen', () => {
+describe($00E0, () => {
     let instructionConfig: InstructionConfig;
     let instruction: $00E0
 

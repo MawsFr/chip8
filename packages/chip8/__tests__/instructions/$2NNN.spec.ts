@@ -3,7 +3,7 @@ import { $2NNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('2NNN : Calls subroutine at NNN', () => {
+describe($2NNN, () => {
     let context: InstructionConfig;
     let instruction: $2NNN
 

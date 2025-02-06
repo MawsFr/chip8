@@ -3,7 +3,7 @@ import { $6XNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('6XNN : Sets VX to NN', () => {
+describe($6XNN, () => {
     let context: InstructionConfig;
     let instruction: $6XNN
 

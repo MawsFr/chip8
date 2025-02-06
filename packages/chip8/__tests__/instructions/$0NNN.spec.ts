@@ -3,7 +3,7 @@ import { $0NNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('0NNN : Call machine code routine (IGNORED)', () => {
+describe($0NNN, () => {
     let instructionConfig: InstructionConfig;
     let instruction: $0NNN
 

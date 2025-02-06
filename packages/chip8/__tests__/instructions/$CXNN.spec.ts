@@ -3,7 +3,7 @@ import { $CXNN, InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('CXNN : Jump to address NNN', () => {
+describe($CXNN, () => {
     let context: InstructionConfig;
     let instruction: $CXNN
 

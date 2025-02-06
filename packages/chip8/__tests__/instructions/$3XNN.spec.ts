@@ -3,7 +3,7 @@ import { $3XNN, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('3XNN : Skips the next instruction if VX equals NN', () => {
+describe($3XNN, () => {
     let context: InstructionConfig;
     let instruction: $3XNN
 

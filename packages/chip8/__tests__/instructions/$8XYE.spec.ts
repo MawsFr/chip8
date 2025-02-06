@@ -3,7 +3,7 @@ import { $8XYE, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('8XYE : VY is subtracted from VX. Underflow is managed in VF', () => {
+describe($8XYE, () => {
     let context: InstructionConfig;
     let instruction: $8XYE
 

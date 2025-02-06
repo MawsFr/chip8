@@ -6,7 +6,7 @@ import { useTestInstructionConfig } from "../helpers/test-configs";
 const ALIVE_PIXEL = 1
 const DEAD_PIXEL = 0
 
-describe('DXYN : VY is subtracted from VX. Underflow is managed in VF', () => {
+describe($DXYN, () => {
     let context: InstructionConfig;
     let instruction: $DXYN
 

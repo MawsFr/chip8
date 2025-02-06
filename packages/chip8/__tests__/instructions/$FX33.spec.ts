@@ -3,7 +3,7 @@ import { $FX33, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
 
-describe('FX33 : Sets I to the location of the sprite for the character in VX', () => {
+describe($FX33, () => {
     let context: InstructionConfig;
     let instruction: $FX33
 
