@@ -2,6 +2,10 @@
 
 This is a [CHIP-8](http://en.wikipedia.org/wiki/CHIP-8) emulator written in Typescript.
 
+> [!WARNING]
+> Frontend is not done yet, it's just a simple Vue.js app to display the emulator state. And yes there are bugs. I'm
+> planning to make it more user-friendly and add more features.
+
 ## What I tried to achieve and how I feel after finishing it
 
 I wanted to create a CHIP-8 emulator in Typescript, using TDD and finally did it after all these years thinking about
@@ -16,11 +20,11 @@ TDD and emulators !
 ## How to run it
 
 1. Clone the repository
-2. Run `npm install`
-3. Run `npm run dev`
+2. Run `pnpm install`
+3. Run `pnpm run dev`
 4. Open your browser and go to `http://localhost:5173/`
 5. Click on "Ouvrir un fichier" and select a CHIP-8 ROM (included in this repo)
-6. Enjoy !
+6. Enjoy ! (Keys are on the Numpad)
 
 ## Features
 
