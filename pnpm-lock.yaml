@@ -6,6 +6,12 @@ settings:
 
 importers:
 
+  .:
+    devDependencies:
+      vitest:
+        specifier: 3.0.5
+        version: 3.0.5(@types/node@22.13.1)(@vitest/ui@3.0.5)
+
   app:
     dependencies:
       '@mawsfr/chip8':
