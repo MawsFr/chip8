@@ -27,6 +27,7 @@ export enum State {
     OFF = 'OFF',
     ROM_LOADED = 'ROM_LOADED',
     RUNNING = 'RUNNING',
+    PAUSED = 'PAUSED',
 }
 
 export class Emulator {
