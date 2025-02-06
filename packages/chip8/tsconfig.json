@@ -27,7 +27,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@mawsfr/binary-operations": [
+        "../packages/binary-operations/src"
+      ],
+      "@mawsfr/math-operations": [
+        "../packages/math-operations/src"
+      ]
+    }
   },
   "include": [
     "./src"

@@ -27,7 +27,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@mawsfr/chip8": [
+        "../packages/chip8/src"
+      ]
+    }
   },
   "include": [
     "./src"

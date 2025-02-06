@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test-ui": "vitest --ui",
     "coverage": "vitest --coverage",
-    "serve": "http-server dist"
+    "serve": "http-server dist",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@mawsfr/chip8": "workspace:*",
@@ -22,6 +23,7 @@
     "@vitest/coverage-v8": "^3.0.4",
     "@vitest/ui": "^3.0.4",
     "@vue/tsconfig": "^0.7.0",
+    "gh-pages": "5.0.0",
     "http-server": "^14.1.1",
     "typescript": "~5.6.2",
     "vite": "^6.0.5",

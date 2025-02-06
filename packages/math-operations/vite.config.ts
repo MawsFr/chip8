@@ -15,7 +15,6 @@ export default defineConfig({
         alias: {
             '@': resolve('/'),
             'src': resolve('src/'),
-            '@mawsfr/math-operations': resolve('packages/math-operations/src/'),
         }
     },
     plugins: [

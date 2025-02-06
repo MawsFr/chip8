@@ -15,7 +15,6 @@ export default defineConfig({
         alias: {
             '@': resolve('/'),
             'src': resolve('src/'),
-            '@mawsfr/binary-operations': resolve('packages/binary-operations/src/'),
         }
     },
     plugins: [

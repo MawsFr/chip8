@@ -11,7 +11,21 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@mawsfr/chip8": [
+        "../packages/chip8/src"
+      ],
+      "@mawsfr/use-chip8-emulator": [
+        "../packages/use-chip8-emulator/src"
+      ],
+      "@mawsfr/binary-operations": [
+        "../packages/binary-operations/src"
+      ],
+      "@mawsfr/math-operations": [
+        "../packages/math-operations/src"
+      ]
+    }
   },
   "include": [
     "./src"

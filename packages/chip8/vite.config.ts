@@ -15,7 +15,6 @@ export default defineConfig({
         alias: {
             '@': resolve('/'),
             'src': resolve('src/'),
-            '@mawsfr/chip8': resolve('packages/chip8/src/'),
         }
     },
     plugins: [

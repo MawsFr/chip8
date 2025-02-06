@@ -15,7 +15,6 @@ export default defineConfig({
         alias: {
             '@': resolve('/'),
             'src': resolve('src/'),
-            '@mawsfr/use-chip8-emulator': resolve('packages/use-chip8-emulator/src/'),
         }
     },
     plugins: [
