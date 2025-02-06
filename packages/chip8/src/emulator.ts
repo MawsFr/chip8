@@ -70,8 +70,8 @@ export class Emulator {
 
     public executeNextInstruction() {
         const opcode = this.readNextOpcode();
-        this.cpu.interpret(opcode);
 
+        this.cpu.interpret(opcode);
 
         this.lastOpcode = opcode
     }
