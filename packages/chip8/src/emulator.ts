@@ -99,10 +99,13 @@ export class Emulator {
         this.soundTimer.reset()
         this.state = State.OFF
         this.lastOpcode = null
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
+
+        if (!this.intervalId) {
+            return
         }
+
+        clearInterval(this.intervalId);
+        this.intervalId = null;
     }
 }
 
