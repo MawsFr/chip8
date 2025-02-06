@@ -1,6 +1,9 @@
 import { Instruction, type InstructionConfig, type XYInstructionParams } from "./instruction.ts";
 import { bitwiseOr } from "@mawsfr/binary-operations";
 
+/**
+ * Set VX = VX OR VY
+ */
 export class $8XY1 extends Instruction<XYInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x8001, 0xF00F, context)

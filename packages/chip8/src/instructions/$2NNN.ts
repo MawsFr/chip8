@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type NNNInstructionParams } from "./instruction.ts";
 
+/**
+ * Calls subroutine at NNN
+ */
 export class $2NNN extends Instruction<NNNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x2000, 0xF000, context)

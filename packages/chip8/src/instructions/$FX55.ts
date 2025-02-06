@@ -1,5 +1,9 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Store from V0 to VX in memory starting at address I
+ * I is set to I + X + 1 after operation
+ */
 export class $FX55 extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF055, 0xF0FF, context)

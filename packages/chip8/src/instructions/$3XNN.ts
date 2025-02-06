@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XNNInstructionParams } from "./instruction.ts";
 
+/**
+ * Skip next instruction if VX = NN.
+ */
 export class $3XNN extends Instruction<XNNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x3000, 0xF000, context)

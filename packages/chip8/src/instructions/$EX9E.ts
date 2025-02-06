@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Skip next instruction if key in VX is pressed
+ */
 export class $EX9E extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xE09E, 0xF0FF, context)

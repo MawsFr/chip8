@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig } from "./instruction.ts";
 
+/**
+ * Return from a subroutine
+ */
 export class $00EE extends Instruction<undefined> {
     constructor(context: InstructionConfig) {
         super(0x00EE, 0xFFFF, context)

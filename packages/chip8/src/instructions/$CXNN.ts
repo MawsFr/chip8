@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XNNInstructionParams } from "./instruction.ts";
 
+/**
+ * Set VX = random byte AND NN.
+ */
 export class $CXNN extends Instruction<XNNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xC000, 0xF000, context)

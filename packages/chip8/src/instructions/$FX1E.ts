@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Set I = I + VX
+ */
 export class $FX1E extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF01E, 0xF0FF, context)

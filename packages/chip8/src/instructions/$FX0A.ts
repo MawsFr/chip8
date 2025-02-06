@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Wait for a key press and store the result in register VX
+ */
 export class $FX0A extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF00A, 0xF0FF, context)

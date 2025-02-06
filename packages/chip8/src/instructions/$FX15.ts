@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Set delay timer = VX
+ */
 export class $FX15 extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF015, 0xF0FF, context)

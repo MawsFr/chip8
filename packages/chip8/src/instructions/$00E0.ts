@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig } from "./instruction.ts";
 
+/**
+ * Clear the screen
+ */
 export class $00E0 extends Instruction<undefined> {
     constructor(context: InstructionConfig) {
         super(0x00E0, 0xFFFF, context)

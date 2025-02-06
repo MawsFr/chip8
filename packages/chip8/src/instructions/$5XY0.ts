@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XYInstructionParams } from "./instruction.ts";
 
+/**
+ * Skip next instruction if VX = VY.
+ */
 export class $5XY0 extends Instruction<XYInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x5000, 0xF00F, context)

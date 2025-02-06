@@ -76,9 +76,10 @@ export class Registers {
         const minuend = this.getV(minuendIndex)
         const subtrahend = this.getV(subtrahendIndex)
         const subtractResult = minuend - subtrahend
+        const borrow = minuend < subtrahend
 
         this.setV(resultDestinationIndex, subtractResult)
-        this.setV(0xF, minuend > subtrahend ? 1 : 0)
+        this.setV(0xF, borrow ? 0 : 1)
     }
 
     randomize(x: RegisterIndex, nn: number) {

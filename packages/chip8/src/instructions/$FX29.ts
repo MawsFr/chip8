@@ -2,6 +2,9 @@ import { Instruction, type InstructionConfig, type XInstructionParams } from "./
 
 export const FONT_HEIGHT = 5
 
+/**
+ * Set I = font sprite address for the hexadecimal digit stored in VX
+ */
 export class $FX29 extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF029, 0xF0FF, context)

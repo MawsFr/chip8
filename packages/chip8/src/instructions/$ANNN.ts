@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type NNNInstructionParams } from "./instruction.ts";
 
+/**
+ * Set I = NNN
+ */
 export class $ANNN extends Instruction<NNNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xA000, 0xF000, context)

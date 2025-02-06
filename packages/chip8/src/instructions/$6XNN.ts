@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XNNInstructionParams } from "./instruction.ts";
 
+/**
+ * Set VX = NN
+ */
 export class $6XNN extends Instruction<XNNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x6000, 0xF000, context)

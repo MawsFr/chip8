@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XInstructionParams } from "./instruction.ts";
 
+/**
+ * Set sound timer = VX
+ */
 export class $FX18 extends Instruction<XInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xF018, 0xF0FF, context)

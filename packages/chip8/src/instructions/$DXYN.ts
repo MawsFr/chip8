@@ -1,6 +1,9 @@
 import { Instruction, type InstructionConfig, type XYNInstructionParams } from "./instruction.ts";
 import { type Position } from "../sprite.ts";
 
+/**
+ * Draw a sprite at position (VX, VY) with height N
+ */
 export class $DXYN extends Instruction<XYNInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0xD000, 0xF000, context)

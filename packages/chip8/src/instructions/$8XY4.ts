@@ -1,5 +1,8 @@
 import { Instruction, type InstructionConfig, type XYInstructionParams } from "./instruction.ts";
 
+/**
+ * Set VX = VX + VY, set VF = carry.
+ */
 export class $8XY4 extends Instruction<XYInstructionParams> {
     constructor(context: InstructionConfig) {
         super(0x8004, 0xF00F, context)
