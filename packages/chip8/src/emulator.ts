@@ -76,6 +76,7 @@ export class Emulator {
         this.intervalId = setInterval(() => {
             if (this.state !== State.RUNNING && this.intervalId) {
                 clearInterval(this.intervalId);
+                this.intervalId = null;
                 return;
             }
 
@@ -118,12 +119,5 @@ export class Emulator {
         this.soundTimer.reset()
         this.state = State.OFF
         this.lastOpcode = null
-
-        if (!this.intervalId) {
-            return
-        }
-
-        clearInterval(this.intervalId);
-        this.intervalId = null;
     }
 }

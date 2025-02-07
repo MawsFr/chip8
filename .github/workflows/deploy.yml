@@ -19,11 +19,34 @@ jobs:
         with:
           version: 10
 
-      - name: Install and Build
+      - name: Install and Build binary-operations package
+        working-directory: packages/binary-operations
+        run: |
+          pnpm install --ignore-scripts=false
+          pnpm run build
+
+      - name: Install and Build math-operations package
+        working-directory: packages/math-operations
+        run: |
+          pnpm install --ignore-scripts=false
+          pnpm run build
+
+      - name: Install and Build chip8 package
+        working-directory: packages/chip8
+        run: |
+          pnpm install --ignore-scripts=false
+          pnpm run build
+
+      - name: Install and Build app
         working-directory: app
         run: |
           pnpm install --ignore-scripts=false
           pnpm run build
+
+      - name: Run test coverage
+        run: |
+          pnpm run coverage
+          mv coverage app/dist/coverage
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4

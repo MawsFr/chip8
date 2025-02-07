@@ -40,7 +40,6 @@ describe(Emulator, () => {
             vi.spyOn(emulator, 'executeNextInstruction')
             vi.spyOn(emulator, 'updateTimers')
 
-            vi.useFakeTimers()
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
@@ -54,16 +53,18 @@ describe(Emulator, () => {
         });
 
         it('should clear interval when emulator is stopped', async () => {
-            vi.useFakeTimers()
+            // Given
             vi.spyOn(globalThis, 'clearInterval')
             const romData = new Uint8Array([ 0x00, 0xE0, 0xA2, 0xF0 ]);
             emulator.loadROM(romData);
 
+            // When
             emulator.run(false)
             vi.advanceTimersByTime(1000 / 60)
             emulator.state = State.OFF
             vi.advanceTimersByTime(1000 / 60)
 
+            // Then
             expect(globalThis.clearInterval).toHaveBeenCalledTimes(1)
         })
     });
@@ -125,6 +126,8 @@ describe(Emulator, () => {
             emulator.run()
             emulator.reset()
 
+            vi.advanceTimersByTime(1000 / 60)
+
             expect(cpu.reset).toHaveBeenCalledTimes(1)
             expect(cpuConfig.memory.getDataAt(0x200)).to.equal(0)
             expect(cpuConfig.graphics.clearScreen).toHaveBeenCalledTimes(1)
@@ -138,6 +141,5 @@ describe(Emulator, () => {
             expect(emulator.intervalId).to.equal(null)
             expect(globalThis.clearInterval).toHaveBeenCalledTimes(1)
         });
-
     });
 });

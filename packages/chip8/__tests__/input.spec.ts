@@ -1,5 +1,5 @@
 import { Input } from "../src";
-import { assert, beforeEach, describe, expect, it } from "vitest";
+import { assert, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe(Input, () => {
     let input: Input
@@ -43,6 +43,7 @@ describe(Input, () => {
 
     describe(Input.prototype.waitForPress, () => {
         it('should wait for a key', async () => {
+            vi.useRealTimers()
             setTimeout(() => {
                 expect(input.isAwaitingForKey).toBeTruthy()
 

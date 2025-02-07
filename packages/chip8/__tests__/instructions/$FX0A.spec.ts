@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { $FX0A, type InstructionConfig } from "../../src/instructions";
 import { Opcode } from "../../src";
 import { useTestInstructionConfig } from "../helpers/test-configs";
@@ -25,13 +25,14 @@ describe($FX0A, () => {
 
     it('"FX0A" should await for a key press', async () => {
         context.cpu.jumpToAddress(0x200)
+        vi.useRealTimers()
         setTimeout(() => {
             context.input.press(0x1)
-        }, 100)
+        }, 200)
 
         instruction.execute({ x: 0 })
 
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 400));
 
         expect(context.registers.getV(0)).to.equal(0x1)
         expect(context.cpu.getCurrentAddress()).to.equal(0x202)

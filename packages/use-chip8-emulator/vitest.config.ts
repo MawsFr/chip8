@@ -6,9 +6,8 @@ export default defineConfig({
             enabled: true,
             reporter: 'html',
             provider: 'v8',
-            exclude: [ '*.config.*', '*.d.ts' ],
         },
         isolate: false,
-        setupFiles: [ './test.setup.js' ],
+        setupFiles: [ '../test.setup.js' ],
     },
 })

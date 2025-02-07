@@ -11,7 +11,8 @@
   "typings": "dist/types/index.d.ts",
   "scripts": {
     "test": "vitest",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@mawsfr/chip8": "workspace:^",

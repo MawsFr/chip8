@@ -9,7 +9,7 @@
     "build": "vue-tsc --build tsconfig.app.json && vite build",
     "preview": "vite preview",
     "test-ui": "vitest --ui",
-    "coverage": "vitest --coverage",
+    "coverage": "vitest run --coverage",
     "serve": "http-server dist",
     "deploy": "gh-pages -d dist"
   },
